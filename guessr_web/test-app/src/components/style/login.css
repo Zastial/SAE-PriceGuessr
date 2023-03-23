@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'NunitoSans';
+    src: url('../fonts/NunitoSans-Regular.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/NunitoSans-Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+body {
+    color: #909090;
+    font-family: Merriweather, serif;
+}
+
+h1 {
+    padding-top: 8rem;
+    padding-bottom: 2rem;
+    font-weight: bold;
+}
+
+.app-form-login {
+    font-family: NunitoSans, serif;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: fit-content;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.app-form-login .content {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-form-login .content label {
+    text-align: left;
+    margin-bottom: 0.5rem;
+}
+
+.app-form-login .content input {
+    font-size: 15px;
+    margin-bottom: 1rem;
+    border: none;
+    border-bottom: 2px solid #bebebe;
+}
+
+.app-form-login .content input:focus {
+    outline: none;
+}
+
+.app-form-login .content .passwd {
+    position: relative;
+}
+
+.app-form-login .content .passwd input {
+    width: 85%;
+    float: left;
+}
+
+.app-form-login .content .passwd img {
+    width: 30px;
+    min-width: fit-content;
+    height: 30px;
+    cursor: pointer;
+    float: right;
+}
+
+.app-form-login .content a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.app-form-login .content .accounts {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-form-login .content .accounts input {
+    text-decoration: none;
+    color: white;
+    background-color: #242424;
+    height: 3rem;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+.app-form-login .content .accounts input:hover {
+    background-color: #6e6e6e;
+    cursor: pointer;
+    transition: 0.2s;
+}
