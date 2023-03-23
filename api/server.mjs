@@ -294,9 +294,12 @@ const routes = [
                 }
             }
         },
-        handler: async () => {
+        handler: async (request, h) => {
             try {
-                
+                const productId = request.params.productId
+                const login = request.auth.credentials.login
+                const price = request.params.priceGuess
+                return await productController.guessPrice(productId, login, price)
             } catch (e) {
                 return h.response(e).code(400)
             }

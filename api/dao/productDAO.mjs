@@ -5,6 +5,52 @@ let prisma = new PrismaClient()
 
 export const productDAO = {
 
+    incGuess: async (productId, login) => {
+        try {
+            await prisma.guess.upsert({
+                where: {
+                    user: {
+                        login: login
+                    },
+                    product: {
+                        id: productId
+                    }
+                },
+                update: {
+                    guess: {
+                        increment: 1
+                    }
+                },
+                create: {
+                    userLogin: login,
+                    productId: productId,
+                    guess: 1
+                }
+            })
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+
+    numberOfGuesses: async (productId, login) => {
+        try {
+            const guess = await prisma.guess.findUnique({
+                where: {
+                    user: {
+                        login: login
+                    },
+                    product: {
+                        id: productId
+                    }
+                }
+            })
+            console.log(guess)
+            return 0
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+
     findByDate: async (date) => {
         try {
             let nextDay = new Date()
@@ -19,7 +65,11 @@ export const productDAO = {
                     }
                 }
             })
-            return objs.map(obj=>new Product(obj))
+            return objs.map(obj => {
+                const product = new Product(obj)
+                delete product["price"]
+                return product
+            })
             
         } catch (e) {
             return Promise.reject(e)
@@ -38,7 +88,11 @@ export const productDAO = {
     findAll: async () => {
         try {
             return (await prisma.product.findMany({}))
-                .map(obj => new Product(obj))
+                .map(obj => {
+                    const product = new Product(obj)
+                    delete product["price"]
+                    return product
+                })
         } catch (e) {
             return Promise.reject(e)
         }
@@ -53,7 +107,9 @@ export const productDAO = {
             }))
             if (res == null)
                 return null
-            return new Product(res)
+            const product = new Product(res)
+            delete product["price"]
+            return product
         } catch (e) {
             return Promise.reject(e)
         }

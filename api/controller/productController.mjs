@@ -3,23 +3,33 @@
 import { productDAO } from "../dao/productDAO.mjs"
 
 export const productController = {
-    guessPrice: async (id, priceGuess) => {
+    guessPrice: async (productId, login, priceGuess) => {
         try {
-            const product = productDAO.findById(id)
+            const product = productDAO.findById(productId)
             if (!product) {
                 return Promise.reject({message: "product not found"})
             }
             
-            const guessRemaining = 0
             const maxGuessReached = false
-            let correct = false
+            let correct = null
             let correctPriceLess = null
+            const guesses = productDAO.numberOfGuesses(productId, login)
+            const guessRemaining = process.env.MAX_GUESS - guesses
 
-            if (priceGuess == product.price) {
-                correct = true
-            } else {
-                correctPriceLess = produce.price < priceGuess
+            if (guessRemaining < 0) {
+                guessRemaining = 0
             }
+            if (guesses >= process.env.MAX_GUESS) {
+                maxGuessReached = true
+            } else {
+                productDAO.incGuess(productId, login)
+                if (priceGuess == product.price) {
+                    correct = true
+                } else {
+                    correctPriceLess = produce.price < priceGuess
+                }
+            }
+            
             return {
                 maxGuessReached: maxGuessReached, 
                 guessRemaining: guessRemaining,
