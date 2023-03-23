@@ -4,14 +4,19 @@ import Joi from 'joi'
 import HapiSwagger from 'hapi-swagger'
 import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
-import * as dotenv from 'dotenv'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
+import jwt from 'jsonwebtoken'
+import * as dotenv from 'dotenv'
+import { joiJWT, joiUser, joiUserRegistered } from './joiSchema.mjs'
+dotenv.config()
+
+const ONE_DAY = 24*60*60
 
 // valide function for authentification
 const validate = async function (decoded, request, h) {
-    const user = userController.findByLogin(decoded.login)
-    if (user == null || !user.isPasswordValid(decoded.pass)) {
+    const user = await userController.findByLogin(decoded.login)
+    if (user == null) {
         return {isValid: false, credentials: null}
     }
     return {isValid: true, credentials: user.login}
@@ -21,25 +26,87 @@ const routes = [
     {
         method: '*',
         path: '/{any*}',
-        config: {auth: false},
+        options: {auth: false},
         handler: (request, h) => {
             return h.response({message: 'not found'}).code(400)
         }
     },
 
     {
-        method: 'GET',
-        path: '/test',
-        config: {auth: 'jwt'},
-        handler: (request, h) => {
-            return h.response({message: 'bien joué'}).code(200)
+        method: 'POST',
+        path: '/auth',
+        options: {
+            auth: false,
+            description: 'Authentificate',
+            notes: 'Authentificate user with login and password',
+            tags: ['api'],
+            validate: {
+                payload: joiUser
+            },
+            response: {
+                status: {
+                    201: joiJWT,
+                    400: Joi.object({message: 'authentification failed'})
+                }
+            }
+        },
+        handler: async (request, h) => {
+            const {login, password} = request.payload;
+            const user = await userController.findByLogin(login);
+            const validUser = user && (user.isPasswordValid(password))
+
+            if (!validUser) {
+                return h.response({message: 'authentification failed'}).code(400)
+            }
+            
+            // token expires after one day
+            const expiration = Math.floor(new Date().getTime()/1000) + ONE_DAY
+            const token = jwt.sign({login: user.login, exp: expiration}, process.env.JWT_SECRET_KEY)
+            return h.response({token}).code(200)
         }
-    }
+    },
+
+    {
+        method: 'POST',
+        path: '/register',
+        options: {
+            auth: false,
+            description: 'Register new user',
+            notes: 'Register a new user with login and password',
+            tags: ['api'],
+            validate: {
+                payload: joiUser
+            },
+            response: {
+                status: {
+                    201: joiUserRegistered,
+                    409: Joi.object({message: "user already exists"})
+                }
+            }
+        },
+        handler: async (request, h) => {
+            const user = await userController.save(request.payload)
+            if (!user) {
+                return h.response({message: "user already exists"}).code(409)
+            }
+            return h.response(user).code(201)
+        }
+    },
+
+    {
+        method: 'GET',
+        path: '/restricted',
+        handler: async (request, h) => {
+            const response = h.response({text: 'You used a Token!'});
+            response.header("Authorization", request.headers.authorization);
+            return response;
+        }
+    },
 ]
 
 const server = Hapi.server({
     port: 3000,
-    host: 'localhost'
+    host: '127.0.0.1'
 })
 
 const swaggerOptions = {

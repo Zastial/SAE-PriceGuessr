@@ -1,0 +1,12 @@
+POST http://127.0.0.1:3000/auth HTTP/1.1
+content-type: application/json
+
+{
+    "login": "louis",
+    "password": "hi"
+}
+
+###
+
+GET http://127.0.0.1:3000/restricted HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NjU5MzI1LCJpYXQiOjE2Nzk1NzI5MjV9.8HLryCrLlxgLt94-FDQJjrmZmLzuS5_6iJleakWbR6o
