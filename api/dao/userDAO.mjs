@@ -44,7 +44,7 @@ export const userDAO = {
         } catch (e) {
             // Promise reject not working because of : Error: Cannot throw non-error object
             // Promise.reject(e)
-            console.log(e)
+            // console.log(e)
             return null
         }
     },

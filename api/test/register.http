@@ -2,15 +2,14 @@ POST http://127.0.0.1:3000/user/register HTTP/1.1
 content-type: application/json
 
 {
-    "login": "louis",
+    "login": "kyo",
     "password": "hi"
 }
 
 ###
 
 DELETE http://127.0.0.1:3000/user HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NjczMzU1LCJpYXQiOjE2Nzk1ODY5NTV9.YDSSW5ioquxlA_PVLMQJQEBB2COMaJTfD-5aGhtK6go
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6Imt5byIsImV4cCI6MTY3OTY4ODQ5NCwiaWF0IjoxNjc5NjAyMDk0fQ.SAKHDDCVQ6kwk8SIUFb7Jdl9HuXpZfygUcxXs9yielk
 ###
 
 PUT http://127.0.0.1:3000/user HTTP/1.1

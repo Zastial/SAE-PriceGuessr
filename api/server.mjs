@@ -278,8 +278,28 @@ const routes = [
     {
         method: 'GET',
         path: '/product/{productId}/{priceGuess}',
+        options: {
+            description: 'Guess the price',
+            notes: 'Guess the price of the product with id productId, using priceGuess and the user stored with the jwt in Authorization Header',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    productId: Joi.number().required().description("id of the product"),
+                    priceGuess: Joi.number().required().description("guess of the price")
+                })
+            },
+            response: {
+                status: {
+                    
+                }
+            }
+        },
         handler: async () => {
-            
+            try {
+                
+            } catch (e) {
+                return h.response(e).code(400)
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import Product from "../model/Product.mjs"
 let prisma = new PrismaClient()
 
 export const productDAO = {
+
     findByDate: async (date) => {
         try {
             let nextDay = new Date()
