@@ -1,9 +1,29 @@
 'use strict'
 import { PrismaClient } from '@prisma/client'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/index.js'
 import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
 
 export const userDAO = {
+    update: async (user) => {
+        console.log(user)
+        try {
+            const newPassword = await hashPassword(user.password)
+            const obj = await prisma.user.update({
+                where: {
+                    login: user.login
+                },
+                data: {
+                    password: newPassword
+                }
+            })
+            return new User(obj)
+        } catch (e) {
+            console.log(e)
+            return Promise.reject(e)
+        }
+    },
+
     delete: async (login) => {
         try {
             const obj = await prisma.user.delete({where: {login: login}})

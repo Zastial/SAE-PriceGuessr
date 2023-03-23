@@ -9,4 +9,4 @@ content-type: application/json
 ###
 
 GET http://127.0.0.1:3000/restricted HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NjU5MzI1LCJpYXQiOjE2Nzk1NzI5MjV9.8HLryCrLlxgLt94-FDQJjrmZmLzuS5_6iJleakWbR6o
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NjczMzU1LCJpYXQiOjE2Nzk1ODY5NTV9.YDSSW5ioquxlA_PVLMQJQEBB2COMaJTfD-5aGhtK6go

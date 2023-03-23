@@ -33,5 +33,13 @@ export const userController = {
         } catch (e) {
             return Promise.reject({message: "error"})
         }
+    },
+
+    update: async (user) => {
+        try {
+            return await userDAO.update(user)
+        } catch (e) {
+            return Promise.reject({message: "error"})
+        }
     }
 }

@@ -8,7 +8,8 @@ import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
-import { joiJWT, joiUser, joiUserRegistered } from './joiSchema.mjs'
+import { joiErrorMessage, joiJWT, joiUser, joiUserRegistered } from './joiSchema.mjs'
+import User from './model/User.mjs'
 dotenv.config()
 
 const ONE_DAY = 24*60*60
@@ -79,17 +80,22 @@ const routes = [
             },
             response: {
                 status: {
-                    201: joiUserRegistered,
-                    409: Joi.object({message: "user already exists"})
+                    201: joiUserRegistered.description('user registered'),
+                    409: Joi.object({message: "user already exists"}),
+                    400: joiErrorMessage
                 }
             }
         },
         handler: async (request, h) => {
-            const user = await userController.save(request.payload)
-            if (!user) {
-                return h.response({message: "user already exists"}).code(409)
+            try {
+                const user = await userController.save(request.payload)
+                if (!user) {
+                    return h.response({message: "user already exists"}).code(409)
+                }
+                return h.response(user).code(201)
+            } catch (e) {
+                return h.response(e).code(400)
             }
-            return h.response(user).code(201)
         }
     },
 
@@ -102,8 +108,8 @@ const routes = [
             tags: ['api'],
             response: {
                 status: {
-                    201: joiUserRegistered,
-                    400: Joi.any()
+                    200: joiUserRegistered,
+                    400: joiErrorMessage
                 }
             }
         },
@@ -121,9 +127,28 @@ const routes = [
     {
         method: 'PUT',
         path: '/user',
+        options: {
+            description: 'Modify user',
+            notes: 'modify user password currently logged in with jwt from Authorization header',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    password: Joi.string().required().description('new password of the user')
+                })
+            },
+            response: {
+                status: {
+                    200: joiUser.description('modified user'),
+                    400: joiErrorMessage
+                }
+            }
+        },
         handler: async (request, h) => {
             try {
-                
+                const login = request.auth.credentials.login
+                const user = {login: login, password: request.payload.password}
+                const updatedUser = await userController.update(user)
+                return h.response(updatedUser).code(200)
             } catch (e) {
                 return h.response(e).code(400)
             }

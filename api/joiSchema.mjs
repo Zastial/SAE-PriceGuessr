@@ -13,3 +13,7 @@ export const joiUserRegistered = Joi.object({
 export const joiJWT = Joi.object({
     token: Joi.string().description("generated JWT token valid for 24 hours")
 })
+
+export const joiErrorMessage = Joi.object({
+    message: Joi.string().description("error")
+})
