@@ -6,11 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./sae.db"
+  provider = "sqlite" 
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  login String @id
+  login String @id @unique
   password String
 }

@@ -1,9 +1,25 @@
 'use strict'
 import { PrismaClient } from '@prisma/client'
+import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
-import User from '../model/User.mjs'
 
 export const userDAO = {
+    save: async (user) => {
+        try {
+            // clone to hash password before saving it
+            const obj = {...user}
+            obj.password = await hashPassword(obj.password)
+            
+            await prisma.user.create({data: obj})
+            const userAdded = await userDAO.findByLogin(user.login)
+            return userAdded
+        } catch (e) {
+            // Promise reject not working because of : Error: Cannot throw non-error object
+            // Promise.reject(e)
+            console.log(e)
+            return null
+        }
+    },
 
     findAll: async () => {
         try {

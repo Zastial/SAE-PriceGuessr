@@ -6,6 +6,7 @@ export const userController = {
         try {
             return await userDAO.findAll()
         } catch (e) {
+            console.log("heeee")
             return Promise.reject({message: "error"})
         }
     },
@@ -17,4 +18,12 @@ export const userController = {
             return Promise.reject({message: "error"})
         }
     },
+
+    save: async (user) => {
+        try {
+            return await userDAO.save(user)
+        } catch (e) {
+            return Promise.reject({message: "error"})
+        }
+    }
 }

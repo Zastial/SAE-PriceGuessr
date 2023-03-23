@@ -2,6 +2,8 @@
 import bcrypt from 'bcryptjs'
 import * as dotenv from 'dotenv'
 
+const PASSWORD_SALT = parseInt(process.env.PASSWORD_SALT, 10)
+
 export default class User {
     login
     password
@@ -11,12 +13,12 @@ export default class User {
     }
 
     isPasswordValid(pass) {
-        const result = bcrypt.compareSync(pass, hash)
-        return result
+        const verify = pass || ""
+        return bcrypt.compareSync(verify, this.password)
     }
 }
 
-const hashPassword = (pass) => {
-    const hash = bcrypt.hashSync(pass, process.env.PASSWORD_SALT);
+export const hashPassword = async (pass) => {
+    const hash = bcrypt.hashSync(pass, PASSWORD_SALT)
     return hash
 }
