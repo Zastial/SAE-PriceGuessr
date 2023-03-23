@@ -14,3 +14,11 @@ model User {
   login String @id @unique
   password String
 }
+
+model Product {
+  id Int @id @default(autoincrement())
+  date DateTime @default(now())
+  title String
+  price Float
+  imgSrc String
+}

@@ -1,6 +1,6 @@
 'use strict'
 import Hapi from '@hapi/hapi'
-import Joi from 'joi'
+import BaseJoi from 'joi'
 import HapiSwagger from 'hapi-swagger'
 import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
@@ -8,9 +8,11 @@ import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
-import { joiErrorMessage, joiJWT, joiUser, joiUserRegistered } from './joiSchema.mjs'
-import User from './model/User.mjs'
+import { joiErrorMessage, joiJWT, joiProduct, joiUser, joiUserRegistered } from './joiSchema.mjs'
+import { productController } from './controller/productController.mjs'
+import JoiDate from '@joi/date'
 dotenv.config()
+const Joi = BaseJoi.extend(JoiDate)
 
 const ONE_DAY = 24*60*60
 
@@ -153,7 +155,100 @@ const routes = [
                 return h.response(e).code(400)
             }
         }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/{productId}',
+        options: {
+            auth: false,
+            description: 'Get product',
+            notes: 'Get product with id',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    productId: Joi.number().required().description("id of the product")
+                })
+            },
+            response: {
+                status: {
+                    200: joiProduct,
+                    400: joiErrorMessage,
+                    404: Joi.object({
+                        message: "product not found"
+                    })
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const product = await productController.findById(request.params.productId)
+                if (!product) {
+                    return h.response({message: "product not found"}).code(404)
+                }
+                return h.response(product).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/daily',
+        options: {
+            auth: false,
+
+        },
+        handler: async (request, h) => {
+            try {
+                const recentProducts = await productController.findDailyProducts()
+                return h.response(recentProducts).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/daily/{date}',
+        options: {
+            auth: false,
+            description: 'Get products by date',
+            notes: 'Get products which have been added on a specific date',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    date: Joi.date()
+                    .format('YYYY-MM-DD')
+                    .required().description("id of the product")
+                })
+            },
+            response: {
+                status: {
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const products = await productController.findByDate(request.params.date)
+                return h.response(products).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/{productId}/{priceGuess}',
+        handler: async () => {
+
+        }
     }
+
+   
 ]
 
 const server = Hapi.server({

@@ -1,6 +1,5 @@
 'use strict'
 import { PrismaClient } from '@prisma/client'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/index.js'
 import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
 
