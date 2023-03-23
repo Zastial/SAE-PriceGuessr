@@ -6,23 +6,41 @@ import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
 import * as dotenv from 'dotenv'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
+import { userController } from './controller/userController.mjs'
 
 // valide function for authentification
 const validate = async function (decoded, request, h) {
-    
-    return {isValid: false, credentials: null}
+    const user = userController.findByLogin(decoded.login)
+    if (user == null || !user.isPasswordValid(decoded.pass)) {
+        return {isValid: false, credentials: null}
+    }
+    return {isValid: true, credentials: user.login}
 }
 
 const routes = [
+    {
+        method: '*',
+        path: '/{any*}',
+        config: {auth: false},
+        handler: (request, h) => {
+            return h.response({message: 'not found'}).code(400)
+        }
+    },
 
+    {
+        method: 'GET',
+        path: '/test',
+        config: {auth: 'jwt'},
+        handler: (request, h) => {
+            return h.response({message: 'bien joué'}).code(200)
+        }
+    }
 ]
 
 const server = Hapi.server({
     port: 3000,
     host: 'localhost'
 })
-
-server.route(routes)
 
 const swaggerOptions = {
     info: {
@@ -43,7 +61,8 @@ export const start = async () => {
         {
             plugin: HapiSwagger,
             options: swaggerOptions
-        }
+        },
+        hapiAuthJwt2
     ])
 
     server.auth.strategy('jwt', 'jwt',
@@ -51,6 +70,8 @@ export const start = async () => {
         validate
     })
     server.auth.default('jwt')
+
+    server.route(routes)
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

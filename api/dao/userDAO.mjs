@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 let prisma = new PrismaClient()
 import User from '../model/User.mjs'
 
-export const userBDDao = {
+export const userDAO = {
 
     findAll: async () => {
         try {

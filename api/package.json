@@ -13,10 +13,12 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.1",
     "@prisma/client": "^4.11.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "hapi-auth-jwt2": "^10.4.0",
     "hapi-swagger": "^16.0.1",
-    "joi": "^17.9.1"
+    "joi": "^17.9.1",
+    "nodemon": "^2.0.22"
   },
   "devDependencies": {
     "prisma": "^4.11.0"
