@@ -8,7 +8,7 @@ import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
-import { joiErrorMessage, joiJWT, joiProduct, joiUser, joiUserRegistered } from './joiSchema.mjs'
+import { joiErrorMessage, joiJWT, joiProduct, joiProductArray, joiUser, joiUserRegistered } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
 dotenv.config()
@@ -159,11 +159,36 @@ const routes = [
 
     {
         method: 'GET',
+        path: '/product',
+        options: {
+            auth: false,
+            description: 'Get products',
+            notes: 'Get all stored products',
+            tags: ['api'],
+            response: {
+                status: {
+                    200: joiProductArray,
+                    400: joiErrorMessage
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const products = await productController.findAll()
+                return h.response(products).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
         path: '/product/{productId}',
         options: {
             auth: false,
             description: 'Get product',
-            notes: 'Get product with id',
+            notes: 'Get product with a specific id',
             tags: ['api'],
             validate: {
                 params: Joi.object({
@@ -198,7 +223,15 @@ const routes = [
         path: '/product/daily',
         options: {
             auth: false,
-
+            description: 'Get daily products',
+            notes: 'Get products which have been added today',
+            tags: ['api'],
+            response: {
+                status: {
+                    200: joiProductArray,
+                    400: joiErrorMessage
+                }
+            }
         },
         handler: async (request, h) => {
             try {
@@ -222,11 +255,13 @@ const routes = [
                 params: Joi.object({
                     date: Joi.date()
                     .format('YYYY-MM-DD')
-                    .required().description("id of the product")
+                    .required().description("date of when the products have been added, YYY-MM-DD format")
                 })
             },
             response: {
                 status: {
+                    200: joiProductArray,
+                    400: joiErrorMessage,
                 }
             }
         },
@@ -244,7 +279,7 @@ const routes = [
         method: 'GET',
         path: '/product/{productId}/{priceGuess}',
         handler: async () => {
-
+            
         }
     }
 
