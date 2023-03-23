@@ -1,7 +1,12 @@
-POST http://127.0.0.1:3000/register HTTP/1.1
+POST http://127.0.0.1:3000/user/register HTTP/1.1
 content-type: application/json
 
 {
     "login": "louis",
     "password": "hi"
 }
+
+###
+
+DELETE http://127.0.0.1:3000/user HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NjcxMDA3LCJpYXQiOjE2Nzk1ODQ2MDd9.KPJx46sX6iYMy_7qUkrWHldhNPTZ5rbWwNa1p339EFI

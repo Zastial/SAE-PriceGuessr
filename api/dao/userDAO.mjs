@@ -4,6 +4,15 @@ import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
 
 export const userDAO = {
+    delete: async (login) => {
+        try {
+            const obj = await prisma.user.delete({where: {login: login}})
+            return new User(obj)
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+
     save: async (user) => {
         try {
             // clone to hash password before saving it

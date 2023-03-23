@@ -34,7 +34,7 @@ const routes = [
 
     {
         method: 'POST',
-        path: '/auth',
+        path: '/user/auth',
         options: {
             auth: false,
             description: 'Authentificate',
@@ -68,7 +68,7 @@ const routes = [
 
     {
         method: 'POST',
-        path: '/register',
+        path: '/user/register',
         options: {
             auth: false,
             description: 'Register new user',
@@ -94,14 +94,41 @@ const routes = [
     },
 
     {
-        method: 'GET',
-        path: '/restricted',
+        method: 'DELETE',
+        path: '/user',
+        options: {
+            description: 'Delete user',
+            notes: 'Delete user currently logged in with JWT in Authorization Header',
+            tags: ['api'],
+            response: {
+                status: {
+                    201: joiUserRegistered,
+                    400: Joi.any()
+                }
+            }
+        },
         handler: async (request, h) => {
-            const response = h.response({text: 'You used a Token!'});
-            response.header("Authorization", request.headers.authorization);
-            return response;
+            try {
+                const login = request.auth.credentials.login
+                const deletedUser = await userController.delete(login)
+                return h.response(deletedUser).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
         }
     },
+
+    {
+        method: 'PUT',
+        path: '/user',
+        handler: async (request, h) => {
+            try {
+                
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    }
 ]
 
 const server = Hapi.server({
@@ -111,7 +138,7 @@ const server = Hapi.server({
 
 const swaggerOptions = {
     info: {
-        title: "API Produits",
+        title: "API App SAE Groupe 1",
         version: '1.0.0',
     }
 };

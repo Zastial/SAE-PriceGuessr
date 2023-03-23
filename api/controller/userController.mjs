@@ -25,5 +25,13 @@ export const userController = {
         } catch (e) {
             return Promise.reject({message: "error"})
         }
+    },
+
+    delete: async (login) => {
+        try {
+            return await userDAO.delete(login)
+        } catch (e) {
+            return Promise.reject({message: "error"})
+        }
     }
 }
