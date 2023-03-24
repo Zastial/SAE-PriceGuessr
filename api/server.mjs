@@ -198,7 +198,7 @@ const routes = [
             tags: ['api'],
             validate: {
                 params: Joi.object({
-                    productId: Joi.number().required().description("id of the product")
+                    productId: Joi.string().required().description("id of the product")
                 })
             },
             response: {
@@ -290,13 +290,13 @@ const routes = [
             tags: ['api'],
             validate: {
                 params: Joi.object({
-                    productId: Joi.number().required().description("id of the product"),
+                    productId: Joi.string().required().description("id of the product"),
                     priceGuess: Joi.number().required().description("guess of the price")
                 })
             },
             response: {
                 status: {
-                    
+                    400: joiErrorMessage
                 }
             }
         },
@@ -305,7 +305,8 @@ const routes = [
                 const productId = request.params.productId
                 const login = request.auth.credentials.login
                 const price = request.params.priceGuess
-                return await productController.guessPrice(productId, login, price)
+                const answer = await productController.guessPrice(productId, login, price)
+                return h.response(answer).code(200)
             } catch (e) {
                 return h.response(e).code(400)
             }

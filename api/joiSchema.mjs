@@ -23,7 +23,7 @@ export const joiErrorMessage = Joi.object({
 })
 
 export const joiProduct = Joi.object({
-    id: Joi.number().description("id of the product"),
+    id: Joi.string().description("id of the product"),
     date: Joi.date().format('YYY-MM-DD').description('date of when the product has been added'),
     title: Joi.string().description("title of the product"),
     price: Joi.number().description("price of the product in euros"),
@@ -31,3 +31,11 @@ export const joiProduct = Joi.object({
 })
 
 export const joiProductArray = Joi.array().items(joiProduct).description("Array of stored products")
+
+export const joiGuessAnswer = Joi.object({
+    maxGuessReached: Joi.boolean().required().description("true if user has reached the max number of guesses"), 
+    guessRemaining: Joi.number().required().description("number of guesses remaining"),
+    correct: Joi.boolean().allow(null).required().description("true if the user guessed right"),
+    correctPriceLess: Joi.boolean().allow(null).required().description("true if the correct price is less than user guess")
+})
+
