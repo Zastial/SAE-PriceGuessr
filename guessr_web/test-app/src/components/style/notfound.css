@@ -1,4 +1,4 @@
-.game {
+.game-link {
     margin: 0 auto;
 
     display: flex;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.game a {
+.game-link a {
     text-align: center;
     text-decoration: none;
     color: white;

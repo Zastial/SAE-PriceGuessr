@@ -17,7 +17,7 @@ class NotFound extends React.Component {
         return (
             <div className="notfound">
                 <h1>Cette page n'existe pas</h1>
-                <div className="game">
+                <div className="game-link">
                 <Link class="link" to="/">Accueil</Link>
                 </div>
             </div>
