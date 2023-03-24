@@ -198,7 +198,7 @@ const routes = [
             tags: ['api'],
             validate: {
                 params: Joi.object({
-                    productId: Joi.number().required().description("id of the product")
+                    productId: Joi.string().required().description("id of the product")
                 })
             },
             response: {

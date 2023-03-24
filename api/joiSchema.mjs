@@ -23,7 +23,7 @@ export const joiErrorMessage = Joi.object({
 })
 
 export const joiProduct = Joi.object({
-    id: Joi.number().description("id of the product"),
+    id: Joi.string().description("id of the product"),
     date: Joi.date().format('YYY-MM-DD').description('date of when the product has been added'),
     title: Joi.string().description("title of the product"),
     price: Joi.number().description("price of the product in euros"),
