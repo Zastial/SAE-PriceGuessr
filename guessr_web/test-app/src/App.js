@@ -9,6 +9,7 @@ import {
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Game from './components/Game';
+import NotFound from './components/NotFound';
 // import NavBar from './components/NavBar';
 
 
@@ -24,6 +25,7 @@ function App() {
     <Routes>
       <Route path = "/" element={ sessionAvailable() ? <Game/> : <Login/>} />
       <Route path = "/signup" element={sessionAvailable() ? <Game/> : <SignUp/>} />
+      <Route path='*' element={<NotFound />}/>
     </Routes>
   )
 }

@@ -70,7 +70,7 @@ class Login extends React.Component {
                         <Link to="/mdpforgot" variant = "body2">
                             Mot de passe oublié ? 
                         </Link>
-                        <Link to="/" onClick={this.login} variant = "body2">
+                        <Link to="/" onClick={this.login} class="connect-button" variant = "body2">
                             Se connecter
                         </Link>
                         <Link to="/signup" variant = "body2">

@@ -1,7 +1,5 @@
 import './style/game.css'
 import React from "react";
-// import NavBar from "./NavBar.mjs"
-import { redirect } from 'react-router-dom';
   
 class Game extends React.Component {
 
