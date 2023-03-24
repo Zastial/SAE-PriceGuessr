@@ -20,14 +20,10 @@ function sessionAvailable() {
 
 function App() {
 
-  if (sessionAvailable()) {
-    return
-  }  
-  
   return (
     <Routes>
-      <Route exact path = "/" element={<Login/>} />
-      <Route path = "/signup" element={<SignUp/>} />
+      <Route path = "/" element={ sessionAvailable() ? <Game/> : <Login/>} />
+      <Route path = "/signup" element={sessionAvailable() ? <Game/> : <SignUp/>} />
     </Routes>
   )
 }

@@ -55,7 +55,7 @@ class SignUp extends React.Component {
                 document.getElementById('confirmPassword').style.borderBlockColor = "red";
                 document.getElementById('confirmPassword').setCustomValidity("Les mots de passe ne correspondent pas.");
                 document.getElementById('confirmPassword').reportValidity();
-                return;
+                return
             }
             sessionStorage.setItem("username", this.state.username);
             sessionStorage.setItem("password", this.state.password);
@@ -101,7 +101,9 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
-                        <button type="button" onClick={this.login}>Login in</button>
+                        <Link to="/" onClick={this.login} variant = "body2">
+                            Se connecter
+                        </Link>
                         <Link to="/" variant = "body2">
                             Déjà un compte ? Connectez-vous 
                         </Link>                        

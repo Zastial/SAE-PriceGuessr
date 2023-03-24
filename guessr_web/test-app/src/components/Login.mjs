@@ -39,7 +39,6 @@ class Login extends React.Component {
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
             sessionStorage.setItem("username", this.state.username);
             sessionStorage.setItem("password", this.state.password);
-
             window.location.reload()
         }
     }
@@ -68,8 +67,12 @@ class Login extends React.Component {
                     </div>
                 
                     <div className="accounts">
-                        <a href="localhost">Forgot Password</a>
-                        <button type="button" onClick={this.login}>Login in</button>
+                        <Link to="/mdpforgot" variant = "body2">
+                            Mot de passe oublié ? 
+                        </Link>
+                        <Link to="/" onClick={this.login} variant = "body2">
+                            Se connecter
+                        </Link>
                         <Link to="/signup" variant = "body2">
                             Pas de compte ? Inscrivez-vous 
                         </Link>

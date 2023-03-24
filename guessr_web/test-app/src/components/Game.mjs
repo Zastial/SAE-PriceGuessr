@@ -1,6 +1,7 @@
 import './style/game.css'
 import React from "react";
-import NavBar from "./NavBar.mjs"
+// import NavBar from "./NavBar.mjs"
+import { redirect } from 'react-router-dom';
   
 class Game extends React.Component {
 
@@ -8,11 +9,18 @@ class Game extends React.Component {
     //     super(props);
     // }
 
+    componentDidMount() {
+        if (sessionStorage.getItem("username") == null || sessionStorage.getItem("password") == null) {
+            <redirect to="/login"/>
+        }
+    } 
+
 
     render() {
         return (
             <div className="game">
-                <NavBar />
+                <h1>GAME</h1>
+                {/* <NavBar /> */}
                 {/* <GameScreen/> */}
             </div>
         );
