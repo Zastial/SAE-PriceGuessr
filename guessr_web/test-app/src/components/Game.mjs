@@ -11,9 +11,9 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <h1>PriceGuessr</h1>
+            <div className="game">
                 <NavBar />
+                {/* <GameScreen/> */}
             </div>
         );
     }

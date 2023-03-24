@@ -5,18 +5,20 @@ import hidePwdImg from './img/hidePwd.png';
 import {Link} from "react-router-dom";
 import React from "react";
 
-class Login extends React.Component {
+class SignUp extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             username: "",
             password: "",
+            confirmPassword: "",
             isRevealPwd: false,
             passwordType: "password",
         }
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
+        sessionStorage.removeItem("signup");
     }
 
     seePaswd() {
@@ -27,19 +29,36 @@ class Login extends React.Component {
     login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
+            document.getElementById('username').setCustomValidity("Veuillez entrer un nom d'utilisateur.");
+            document.getElementById('username').reportValidity();
         } else {
             document.getElementById('username').style.borderBlockColor = "";
         }
         if (!this.state.password.replace(/\s+/, '').length) {
             document.getElementById('password').style.borderBlockColor = "red";
+            document.getElementById('password').setCustomValidity("Veuillez entrer un mot de passe.");
+            document.getElementById('password').reportValidity();
         } else {
             document.getElementById('password').style.borderBlockColor = "";
         }
+        if (!this.state.confirmPassword.replace(/\s+/, '').length) {
+            document.getElementById('confirmPassword').style.borderBlockColor = "red";
+            document.getElementById('confirmPassword').setCustomValidity("Veuillez confirmer votre mot de passe.");
+            document.getElementById('confirmPassword').reportValidity();
+        } else {
+            document.getElementById('confirmPassword').style.borderBlockColor = "";
+        }
 
-        if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
+        if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length && this.state.confirmPassword.replace(/\s+/, '').length) {
+            if (this.state.password !== this.state.confirmPassword) {
+                document.getElementById('password').style.borderBlockColor = "red";
+                document.getElementById('confirmPassword').style.borderBlockColor = "red";
+                document.getElementById('confirmPassword').setCustomValidity("Les mots de passe ne correspondent pas.");
+                document.getElementById('confirmPassword').reportValidity();
+                return;
+            }
             sessionStorage.setItem("username", this.state.username);
             sessionStorage.setItem("password", this.state.password);
-
             window.location.reload()
         }
     }
@@ -47,17 +66,30 @@ class Login extends React.Component {
     render() {
         return (
         <div className="app-login">
-            <h1>LOGIN</h1>
+            <h1>SIGN UP</h1>
             <form className="app-form-login">
                 <div className="content">
 
                     <div className="content-logins">
                         <label>Username</label>
-                        <input type="text" id="username" name="username" onChange={e => this.setState({username: e.target.value})}/>
+                        <input type="text" id="username" name="username" onChange={e => this.setState({username: e.target.value})
+}/>
 
                         <label>Password</label>
                         <div className="passwd">
                             <input type={this.state.passwordType} name="password" id="password" onChange={e => this.setState({password: e.target.value})}/>
+                            <span>
+                                <img title={this.state.isRevealPwd ? "Hide password" : "Show password"}
+                                onClick={this.seePaswd}
+                                src={this.state.isRevealPwd ? hidePwdImg : showPwdImg}
+                                alt="imgShowHide"/>
+                            </span>
+                        </div>
+
+                        <label>Confirm Password</label>
+                        <div className="passwd">
+                            <input type={this.state.passwordType} name="confirmPassword" id="confirmPassword" onChange={e => this.setState({confirmPassword: e.target.value})
+}/>
                             <span>
                                 <img title={this.state.isRevealPwd ? "Hide password" : "Show password"}
                                 onClick={this.seePaswd}
@@ -70,9 +102,9 @@ class Login extends React.Component {
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
                         <button type="button" onClick={this.login}>Login in</button>
-                        <Link to="/signup" variant = "body2">
-                            Pas de compte ? Inscrivez-vous 
-                        </Link>
+                        <Link to="/" variant = "body2">
+                            Déjà un compte ? Connectez-vous 
+                        </Link>                        
                     </div>
                 </div>
             </form>
@@ -82,4 +114,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default SignUp;

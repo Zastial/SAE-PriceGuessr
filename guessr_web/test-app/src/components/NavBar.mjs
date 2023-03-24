@@ -1,4 +1,4 @@
-import './style/game.css'
+import './style/navbar.css'
 import React from "react";
 import Button from './Button.mjs'
 
@@ -21,7 +21,7 @@ class Navbar extends React.Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="navbar">
                 <Router>
                     <div>
                         <h2>PriceGuessr</h2>
@@ -51,11 +51,11 @@ class Navbar extends React.Component {
                             {/* <Users /> */}
                         </Route>
                     </Routes>
-                </Router>
-                <Button
+                    <Button
                     name={"Déconnexion"}
                     doUpdate={this.doUpdate}
-                />
+                    />
+                </Router>
             </div>
         );
     }
