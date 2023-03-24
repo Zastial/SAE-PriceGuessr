@@ -9,11 +9,9 @@ export const productDAO = {
         try {
             await prisma.guess.upsert({
                 where: {
-                    user: {
-                        login: login
-                    },
-                    product: {
-                        id: productId
+                    userLogin_productId: {
+                        userLogin: login,
+                        productId: productId
                     }
                 },
                 update: {
@@ -34,18 +32,18 @@ export const productDAO = {
 
     numberOfGuesses: async (productId, login) => {
         try {
-            const guess = await prisma.guess.findUnique({
+            const obj = await prisma.guess.findUnique({
                 where: {
-                    user: {
-                        login: login
-                    },
-                    product: {
-                        id: productId
+                    userLogin_productId: {
+                        userLogin: login,
+                        productId: productId
                     }
                 }
             })
-            console.log(guess)
-            return 0
+            if (!obj) {
+                return 0
+            }
+            return obj.guess
         } catch (e) {
             return Promise.reject(e)
         }
@@ -99,7 +97,7 @@ export const productDAO = {
             }))
             if (res == null)
                 return null
-            return Product(res)
+            return new Product(res)
         } catch (e) {
             return Promise.reject(e)
         }

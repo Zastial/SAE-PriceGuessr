@@ -10,11 +10,11 @@ export const productController = {
                 return Promise.reject({message: "product not found"})
             }
             
-            const maxGuessReached = false
+            let maxGuessReached = false
             let correct = null
             let correctPriceLess = null
-            const guesses = productDAO.numberOfGuesses(productId, login)
-            const guessRemaining = process.env.MAX_GUESS - guesses
+            const guesses = await productDAO.numberOfGuesses(productId, login)
+            let guessRemaining = process.env.MAX_GUESS - guesses - 1
 
             if (guessRemaining < 0) {
                 guessRemaining = 0
@@ -22,11 +22,12 @@ export const productController = {
             if (guesses >= process.env.MAX_GUESS) {
                 maxGuessReached = true
             } else {
-                productDAO.incGuess(productId, login)
+                await productDAO.incGuess(productId, login)
                 if (priceGuess == product.price) {
                     correct = true
                 } else {
-                    correctPriceLess = produce.price < priceGuess
+                    correct = false
+                    correctPriceLess = product.price < priceGuess
                 }
             }
             
@@ -38,6 +39,7 @@ export const productController = {
             }
             
         } catch (e) {
+            console.log(e)
             return Promise.reject({message: "error"})
         }
     },
