@@ -296,7 +296,7 @@ const routes = [
             },
             response: {
                 status: {
-                    
+                    400: joiErrorMessage
                 }
             }
         },
@@ -305,7 +305,8 @@ const routes = [
                 const productId = request.params.productId
                 const login = request.auth.credentials.login
                 const price = request.params.priceGuess
-                return await productController.guessPrice(productId, login, price)
+                const answer = await productController.guessPrice(productId, login, price)
+                return h.response(answer).code(200)
             } catch (e) {
                 return h.response(e).code(400)
             }

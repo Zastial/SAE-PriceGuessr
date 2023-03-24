@@ -18,7 +18,7 @@ model User {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
+  id String @id
   date DateTime @default(now())
   title String
   price Float
@@ -33,5 +33,4 @@ model Guess {
   productId Int
   guess Int @default(0)
   @@id([userLogin, productId])
-
 }
