@@ -30,7 +30,7 @@ model Guess {
   user User @relation(fields: [userLogin], references: [login])
   userLogin String
   product Product @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
   guess Int @default(0)
   @@id([userLogin, productId])
 }
