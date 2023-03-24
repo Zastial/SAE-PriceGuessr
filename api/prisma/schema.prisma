@@ -13,6 +13,7 @@ datasource db {
 model User {
   login String @id @unique
   password String
+  jwt String?
   products Guess[]
 }
 

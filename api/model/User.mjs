@@ -7,9 +7,11 @@ const PASSWORD_SALT = parseInt(process.env.PASSWORD_SALT, 10)
 export default class User {
     login
     password
+    jwt
     constructor(obj) {
         this.login = obj.login || ""
         this.password = obj.password || ""
+        this.jwt = obj.jwt || ""
     }
 
     isPasswordValid(pass) {

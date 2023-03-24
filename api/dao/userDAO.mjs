@@ -4,10 +4,37 @@ import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
 
 export const userDAO = {
-    update: async (user) => {
-        console.log(user)
+    findJwt: async (login) => {
+        try {
+            const user = await userDAO.findByLogin(login)
+            if (user == null) {
+                return null
+            }
+            return user.jwt
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+
+    updateJwt: async (user) => {
+        try {
+            const obj = await prisma.user.update({
+                where: {
+                    login: user.login
+                },
+                data: {
+                    jwt: user.jwt
+                }
+            })
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+
+    updatePassword: async (user) => {
         try {
             const newPassword = await hashPassword(user.password)
+            
             const obj = await prisma.user.update({
                 where: {
                     login: user.login
@@ -18,7 +45,6 @@ export const userDAO = {
             })
             return new User(obj)
         } catch (e) {
-            console.log(e)
             return Promise.reject(e)
         }
     },

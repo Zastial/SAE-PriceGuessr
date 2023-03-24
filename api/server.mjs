@@ -6,26 +6,34 @@ import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
-import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
-import { joiErrorMessage, joiJWT, joiProduct, joiProductArray, joiUser, joiUserRegistered } from './joiSchema.mjs'
+import { joiErrorMessage, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
+
 dotenv.config()
 const Joi = BaseJoi.extend(JoiDate)
-
-const ONE_DAY = 24*60*60
 
 // valide function for authentification
 const validate = async function (decoded, request, h) {
     const user = await userController.findByLogin(decoded.login)
-    if (user == null) {
+
+    if (user == null || request.headers.authorization != user.jwt) {
         return {isValid: false, credentials: null}
     }
     return {isValid: true, credentials: user.login}
 }
 
 const routes = [
+    {
+        method: 'GET',
+        path: '/restricted',
+        handler: (request, h) => {
+            const response = h.response({text: 'You used a Token!'});
+            response.header("Authorization", request.headers.authorization);
+            return response;
+        }
+    },
     {
         method: '*',
         path: '/{any*}',
@@ -62,9 +70,7 @@ const routes = [
                 return h.response({message: 'authentification failed'}).code(400)
             }
             
-            // token expires after one day
-            const expiration = Math.floor(new Date().getTime()/1000) + ONE_DAY
-            const token = jwt.sign({login: user.login, exp: expiration}, process.env.JWT_SECRET_KEY)
+            let token = await userController.findAndValidateJwt(login)
             return h.response({token}).code(200)
         }
     },
@@ -82,7 +88,7 @@ const routes = [
             },
             response: {
                 status: {
-                    201: joiUserRegistered.description('user registered'),
+                    201: joiUserWithToken.description('user registered'),
                     409: Joi.object({message: "user already exists"}),
                     400: joiErrorMessage
                 }
@@ -110,7 +116,7 @@ const routes = [
             tags: ['api'],
             response: {
                 status: {
-                    200: joiUserRegistered,
+                    200: joiUserWithToken,
                     400: joiErrorMessage
                 }
             }
@@ -140,7 +146,7 @@ const routes = [
             },
             response: {
                 status: {
-                    200: joiUser.description('modified user'),
+                    200: joiUserWithToken.description('modified user'),
                     400: joiErrorMessage
                 }
             }
@@ -149,7 +155,7 @@ const routes = [
             try {
                 const login = request.auth.credentials.login
                 const user = {login: login, password: request.payload.password}
-                const updatedUser = await userController.update(user)
+                const updatedUser = await userController.updatePassword(user)
                 return h.response(updatedUser).code(200)
             } catch (e) {
                 return h.response(e).code(400)

@@ -65,11 +65,7 @@ export const productDAO = {
                     }
                 }
             })
-            return objs.map(obj => {
-                const product = new Product(obj)
-                delete product["price"]
-                return product
-            })
+            return objs.map(obj => new Product(obj))
             
         } catch (e) {
             return Promise.reject(e)
@@ -88,11 +84,7 @@ export const productDAO = {
     findAll: async () => {
         try {
             return (await prisma.product.findMany({}))
-                .map(obj => {
-                    const product = new Product(obj)
-                    delete product["price"]
-                    return product
-                })
+                .map(obj => new Product(obj))
         } catch (e) {
             return Promise.reject(e)
         }
@@ -107,9 +99,7 @@ export const productDAO = {
             }))
             if (res == null)
                 return null
-            const product = new Product(res)
-            delete product["price"]
-            return product
+            return Product(res)
         } catch (e) {
             return Promise.reject(e)
         }
