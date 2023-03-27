@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
+
 let products = [
     {
         "id": "1",
@@ -36,6 +37,13 @@ let products = [
         "title": "IKEA5",
         "price": 100.0,
         "imgSrc": ""
+    },
+    {
+        "id": "6",
+        "date": new Date("2023-01-04"),
+        "title": "IKEA6",
+        "price": 100.0,
+        "imgSrc": ""
     }
 ];
 
@@ -44,6 +52,7 @@ export const populate = () => {
         const elt = await prisma.product.create({
             data: {
                 id: element.id,
+                date: element.date,
                 title: element.title,
                 price: element.price,
                 imgSrc: element.imgSrc

@@ -1,0 +1,14 @@
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+DATABASE_URL="file:./sae.db"
+
+# run this command in your terminal and copy the resulting base64 key here 
+# node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
+JWT_SECRET_KEY = "BEJc4YQU8JPFpGwM2q9GXEoNzuCgVEU+Ya+F9H5Vy9VEHGfyoMWqeKsZJUuOCeIAxYGZFeKjMt8ekfxxgPmQYdqFWN7KeKzKH9ktmjW8b6hEaXhB2R6K3gfxffFkcnXgB8IrCZRoVn8Qe193hm7jAt7CgnZOWJk/P/TN4xCOsJAKsuay3kEWIgeet3txMk5QbKScqoLAiQpfObccLo9sggNqx5KCfH4TIkYjYIZVWpUKkQOZ1JF7DpfQgG+6oFZGgF8vsJ8UyRGO6h+RUKIP8jiE6xW35lf+AU0EejSYkTgSAF75+2wgXFCcRehXTTd95huX9rA4TZVg25+2rOsy6g=="
+
+PASSWORD_SALT = 10
+MAX_GUESS = 5
