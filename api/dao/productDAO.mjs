@@ -51,15 +51,14 @@ export const productDAO = {
 
     findByDate: async (date) => {
         try {
-            let nextDay = new Date()
-            nextDay.setDate(date.getDate()+1)
-            nextDay = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate())
-
+            let nextDay = new Date(date)
+            nextDay.setDate(nextDay.getDate()+1)
+            nextDay = new Date(nextDay.toDateString()) // remove time from string
             const objs = await prisma.product.findMany({
                 where: {
                     date: {
                         gte: date,
-                        lt: nextDay
+                        lte: nextDay
                     }
                 }
             })
