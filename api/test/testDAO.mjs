@@ -4,7 +4,8 @@ import { productDAO } from '../dao/productDAO.mjs';
 import { userDAO } from '../dao/userDAO.mjs';
 import { populateProducts } from "../dao/data/test/populateTestProducts.mjs";
 import { populateUsers } from "../dao/data/test/populateTestUsers.mjs";
-import { assert } from 'chai';
+import { assert, AssertionError } from 'chai';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/index.js';
 //import chai from 'chai';
 //import chaiHttp from 'chai-http'
 //chai.use(chaiHttp)
@@ -95,9 +96,7 @@ describe('ProductDAO test', function() {
     });
 
     it('Try to increment the guesses of a product with a nonexistent user', async function() {
-        try {
-            await pDAO.incGuess("2", "ksdlf");
-        } catch (e) {}
+        assert. await pDAO.incGuess("2", "ksdlf") });
     });
 });
 

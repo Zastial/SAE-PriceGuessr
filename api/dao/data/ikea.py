@@ -5,17 +5,10 @@ import random
 import time
 
 constants = ikea_api.Constants(country="fr", language="fr")
-ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=50_000))['searchResultPage']['products']['main']['items']
-random.seed()
-ret = []
+ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=100))['searchResultPage']['products']['main']['items']
 
-for i in range(10):
-    product = ikeaProducts[random.randrange(0, len(ikeaProducts))]['product']
-    productDict = {}
-    productDict['id'] = product['id']
-    productDict['title'] = product['name']
-    productDict['price'] = product['salesPrice']['numeral']
-    productDict['imgSrc'] = product['mainImageUrl']
-    ret.append(productDict)
+product = ikeaProducts[0]['product']
+print(product.keys())
+print(product['mainImageAlt'])
 
-print(json.dumps(ret, indent=4), flush=True)
+## print(json.dumps(ikeaProducts, indent=4), flush=True)
