@@ -1,14 +1,19 @@
 import ikea_api
 import json
-import sys
-import random
-import time
 
-constants = ikea_api.Constants(country="fr", language="fr")
-ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=100))['searchResultPage']['products']['main']['items']
+path = "./ikea_cache.json"
 
-product = ikeaProducts[0]['product']
-print(product.keys())
-print(product['mainImageAlt'])
-
-## print(json.dumps(ikeaProducts, indent=4), flush=True)
+with open(path, "w") as f:
+    ret = []
+    constants = ikea_api.Constants(country="fr", language="fr")
+    ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=40_000))['searchResultPage']['products']['main']['items']
+    for p in ikeaProducts:
+        product = {}
+        product['id'] = p['product']['name']
+        product['title'] = p['product']['name']
+        product['price'] = p['product']['salesPrice']['numeral']
+        product['imgSrc'] = p['product']['mainImageUrl']
+        product['desc'] = p['product']['mainImageAlt']
+        ret.append(product)
+    f.write(json.dumps(ret, indent=4))
+    f.close()
