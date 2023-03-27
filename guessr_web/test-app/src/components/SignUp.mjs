@@ -56,7 +56,8 @@ class SignUp extends React.Component {
                 document.getElementById('confirmPassword').reportValidity();
                 return
             }
-            //logins BDD
+            
+            
 
             sessionStorage.setItem("signedUp", true)
             redirect("/")
