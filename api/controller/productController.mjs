@@ -62,9 +62,8 @@ export const productController = {
     },
     findDailyProducts: async () => {
         try {
-            return await productDAO.findDailyProducts()
+            return await productDAO.findByDate()
         } catch (e) {
-            console.log(e)
             return Promise.reject({message: "error"})
         }
     },

@@ -4,6 +4,7 @@ import hidePwdImg from './img/hidePwd.png';
 
 import {Link} from "react-router-dom";
 import React from "react";
+import { Store } from 'react-notifications-component';
 
 class Login extends React.Component {
 
@@ -17,6 +18,24 @@ class Login extends React.Component {
         }
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
+
+        if (sessionStorage.getItem("signedUp")) {
+            this.notificationDOMRef = React.createRef()
+            Store.addNotification({
+                title: "Vous êtes inscrit !",
+                message: "Vous pouvez désormais vous connecter pour accéder au site",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              });
+            sessionStorage.clear()
+        }
     }
 
     seePaswd() {

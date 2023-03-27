@@ -258,7 +258,7 @@ const routes = [
                 params: Joi.object({
                     date: Joi.date()
                     .format('YYYY-MM-DD')
-                    .required().description("date of when the products have been added, YYY-MM-DD format")
+                    .required().description("date of when the products have been added, YYYY-MM-DD format")
                 })
             },
             response: {
