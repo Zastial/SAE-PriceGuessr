@@ -6,16 +6,18 @@ export const populate = async () => {
     for (var i = 0; i < 10; i++) {
         let product = data[Math.floor(Math.random() * data.length)]
 
-        const ret = await prisma.product.create({
-            data: {
-                id: product['id'],
-                title: product['title'],
-                price: product['price'],
-                imgSrc: product['imgSrc'],
-                desc: product['desc']
-            }
-        });
-        if (!ret) {
+        try {
+            await prisma.product.create({
+                data: {
+                    id: product['id'],
+                    title: product['title'],
+                    price: product['price'],
+                    imgSrc: product['imgSrc'],
+                    desc: product['desc']
+                }
+            });
+        } catch (e) {
+            console.log("Trying again...");
             i--
         }
     } 
