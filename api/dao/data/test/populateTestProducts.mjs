@@ -47,7 +47,7 @@ let products = [
     }
 ];
 
-export const populate = async () => {
+export const populateProducts = async () => {
 
     for (var i = 0; i < products.length; i++) {
         const element = products[i]

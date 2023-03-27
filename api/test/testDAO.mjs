@@ -1,41 +1,42 @@
 import Product from '../model/Product.mjs';
+import User, { hashPassword } from '../model/User.mjs';
 import { productDAO } from '../dao/productDAO.mjs';
-import { populate } from "../dao/data/testPopulate.mjs";
+import { userDAO } from '../dao/userDAO.mjs';
+import { populateProducts } from "../dao/data/test/populateTestProducts.mjs";
+import { populateUsers } from "../dao/data/test/populateTestUsers.mjs";
 import { assert } from 'chai';
-import chai from 'chai';
-import chaiHttp from 'chai-http'
+//import chai from 'chai';
+//import chaiHttp from 'chai-http'
+//chai.use(chaiHttp)
+await populateProducts()
+await populateUsers()
 
-chai.use(chaiHttp)
-await populate()
+const checkByID = new Product({
+    "id": "1",
+    "date": new Date("2023-01-01"),
+    "title": "IKEA1",
+    "price": 100.0,
+    "imgSrc": ""
+});
 
-describe('ProductDAO test', function() {
-    
-
-    const checkByID = new Product({
-        "id": "1",
-        "date": new Date("2023-01-01"),
-        "title": "IKEA1",
+const checkByDate = [
+    new Product({
+        "id": "3",
+        "date": new Date("2023-01-02"),
+        "title": "IKEA3",
         "price": 100.0,
         "imgSrc": ""
-    });
-    
-    const checkByDate = [
-        new Product({
-            "id": "3",
-            "date": new Date("2023-01-02"),
-            "title": "IKEA3",
-            "price": 100.0,
-            "imgSrc": ""
-        }),
-        new Product({
-            "id": "4",
-            "date": new Date("2023-01-02"),
-            "title": "IKEA4",
-            "price": 100.0,
-            "imgSrc": ""
-        })
-    ];
+    }),
+    new Product({
+        "id": "4",
+        "date": new Date("2023-01-02"),
+        "title": "IKEA4",
+        "price": 100.0,
+        "imgSrc": ""
+    })
+];
 
+describe('ProductDAO test', function() {
     const pDAO = productDAO;
 
     it('Try to get all the products', async function() {
@@ -55,7 +56,7 @@ describe('ProductDAO test', function() {
 
     it('Check all products from a certain date', async function() { // findDailyProducts uses the same method
         const products = await pDAO.findByDate(new Date("2023-01-02"));
-        assert.equal(products, checkByDate);
+        assert.deepEqual(products, checkByDate);
     });
 
     it('Check the number of guesses for an existing product', async function() {
@@ -79,4 +80,23 @@ describe('ProductDAO test', function() {
         const guesses = await pDAO.numberOfGuesses("0");
         assert.equal(guesses, 0);
     });
-})
+});
+
+describe('UserDAO test', function() {
+    const uDAO = userDAO;
+    
+    it('Try to get all users', async function() {
+        const users = await uDAO.findAll();
+        assert.isArray(users);
+    });
+
+    it('Check a user by login', async function() {
+        const user = await uDAO.findByLogin("Emerik");
+        assert(user.isPasswordValid("A1"));
+    });
+
+    it('Check that getting a nonexistant user by login returns null', async function() {
+        const user = await uDAO.findByLogin("hksdhf");
+        assert.equal(user, null);
+    });
+});
