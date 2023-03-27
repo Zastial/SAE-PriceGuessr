@@ -48,7 +48,7 @@ class Login extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    login() {
+    async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
         } else {
@@ -62,27 +62,28 @@ class Login extends React.Component {
 
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
 
-            // axios.get(`http://127.0.0.1:3000/product/s29399565`)
-            // .then(res => {
-            //   const test = res.data;
-            //   console.log(test)});
+            try {
+                const response = await axios.post('http://127.0.0.1:3000/user/auth', {
+                  username: this.state.username,
+                  password: this.state.password
+                });
+            
+                if (response.status === 200) {
+                  // Login successful, allow the connection
+                  console.log("true");
+                } else {
+                  // Login unsuccessful, do not allow the connection
+                  console.log("false");
+                }
+            } catch (error) {
+                // Handle error
+                console.error(error);
+            }
 
-            // axios.post(`http://127.0.0.1:3000/user/register`, {
-            //     login : this.state.username,
-            //     password : this.state.password
-            // })
-            // .then(res => {
-            // console.log(res.data);
-            // })
-                        
-            // this.createPost()
+            // sessionStorage.setItem("username", this.state.username);
+            // sessionStorage.setItem("password", this.state.password);
 
-            // console.log(this.post)
-
-            sessionStorage.setItem("username", this.state.username);
-            sessionStorage.setItem("password", this.state.password);
-
-            window.location.reload()
+            // window.location.reload()
         }
     }
 

@@ -1,12 +1,16 @@
 import '../style/game.css'
 import React from "react";
 import Button from '../Button.mjs'
+import {getProducts, getProductById, getDailyProducts, guessThePrice, getProductsByDate, register, login, deleteUser, modifyUser} from '../API.mjs';
   
 class GameInterface extends React.Component {
 
     constructor(props) {
         super(props)
         this.doUpdate = this.doUpdate.bind(this)
+        this.state = {
+            products: []
+        }
     }
 
     doUpdate() {
@@ -18,7 +22,7 @@ class GameInterface extends React.Component {
             <div className="gameInterface">
                 <div className="game-info">
                     <p> Quel est le prix de cet objet ? </p>
-                    <p> Nom de l'objet </p>
+                    <p> {this.state.products} </p>
                 </div>
                 <div className="game-guess">
                     <img className="product-picture" src="./ikea.png" alt="description produit ikea"/>

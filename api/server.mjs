@@ -318,14 +318,7 @@ const server = Hapi.server({
     port: 3000,
     host: '127.0.0.1',
     routes: {
-        cors: {
-            origin: ['*'],
-            headers: ['Authorization'],
-            exposedHeaders: ['Accept'],
-            additionalExposedHeaders: ['Accept'],
-            maxAge: 60,
-            credentials: true
-        }
+        cors: true
     }
 
 })
