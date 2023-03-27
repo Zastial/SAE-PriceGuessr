@@ -47,8 +47,10 @@ let products = [
     }
 ];
 
-export const populate = () => {
-    products.forEach(async element => {
+export const populate = async () => {
+
+    for (var i = 0; i < products.length; i++) {
+        const element = products[i]
         const elt = await prisma.product.create({
             data: {
                 id: element.id,
@@ -61,5 +63,5 @@ export const populate = () => {
         if (!elt) {
             console.log(`product ${elt} couldn't be added to the database`)
         }
-    });
+    }
 }

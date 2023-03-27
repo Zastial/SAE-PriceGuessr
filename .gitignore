@@ -1,2 +1,3 @@
 api/node_modules/
 api/prisma/sae.db
+api/dao/data/testPopulate.mjs
