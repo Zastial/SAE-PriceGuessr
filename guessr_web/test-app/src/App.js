@@ -3,15 +3,13 @@ import React from 'react';
 
 import {
   Routes,
-  Route,
-  createBrowserRouter,
-  RouterProvider, } from "react-router-dom";
+  Route, } from "react-router-dom";
 
 
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Game from './components/Game';
-import GameInterface from './components/GameInterface';
+import GameInterface from './components/page/GameInterface';
 import Historique from './components/page/Historique';
 import Compte from './components/page/Compte';
 import NotFound from './components/NotFound';
@@ -23,40 +21,14 @@ function sessionAvailable() {
   return username != null && password != null
 }
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (sessionAvailable) ? <Game/> : <Login/>,
-    children: [
-      {
-        path: "game",
-        element: <GameInterface />,
-      },
-      {
-        path: "historique",
-        element: <Historique />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: (sessionAvailable) ? <Game/> : <SignUp/>,
-  },
-  {
-    path: "*",
-    element: <NotFound/>,
-  },
-]);
-
 function App() {
 
   return (
-    // <RouterProvider router={router} />
     <Routes>
       <Route path="/" element={ sessionAvailable() ? <Game/> : <Login/>}>
-        <Route path="/game" element={<GameInterface/>}/>
+        <Route path="/" element={<GameInterface/>}/>
         <Route path="/historique" element={<Historique/>}/>
-        <Route path="/compte" element={<Compte/>}/>
+        <Route path="/compte" element={<Compte/>}/> 
       </Route>
       <Route path = "/signup" element={sessionAvailable() ? <Game/> : <SignUp/>} />
       <Route path='*' element={<NotFound />}/>

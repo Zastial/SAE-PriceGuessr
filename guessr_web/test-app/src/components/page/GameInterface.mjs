@@ -1,4 +1,4 @@
-import './style/game.css'
+import '../style/game.css'
 import React from "react";
   
 class GameInterface extends React.Component {

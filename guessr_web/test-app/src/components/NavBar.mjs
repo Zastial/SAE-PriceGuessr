@@ -1,11 +1,7 @@
 import React from "react";
 import Button from './Button.mjs'
 
-import {
-    Routes,
-    Route,
-    Link
-  } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 class Navbar extends React.Component {
 
@@ -17,6 +13,7 @@ class Navbar extends React.Component {
     doUpdate() {
         sessionStorage.clear()
         window.location.reload()
+        window.location="/"
     }
 
 
@@ -28,7 +25,7 @@ class Navbar extends React.Component {
                     <nav>
                         <ul>
                         <li>
-                            <Link to="/game">Home</Link>
+                            <Link to="/">Home</Link>
                         </li>
                         <li>
                             <Link to="/historique">Historique</Link>
