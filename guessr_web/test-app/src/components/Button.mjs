@@ -1,4 +1,4 @@
-import './style/game.css'
+import './style/button.css'
 import React from "react";
 
 class Button extends React.Component {

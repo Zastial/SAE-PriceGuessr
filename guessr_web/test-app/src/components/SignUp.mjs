@@ -2,7 +2,7 @@ import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
 
-import {Link} from "react-router-dom";
+import {Link, redirect} from "react-router-dom";
 import React from "react";
 
 class SignUp extends React.Component {
@@ -18,7 +18,6 @@ class SignUp extends React.Component {
         }
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
-        sessionStorage.removeItem("signup");
     }
 
     seePaswd() {
@@ -57,13 +56,15 @@ class SignUp extends React.Component {
                 document.getElementById('confirmPassword').reportValidity();
                 return
             }
-            sessionStorage.setItem("username", this.state.username);
-            sessionStorage.setItem("password", this.state.password);
-            window.location.reload()
+            //logins BDD
+
+            sessionStorage.setItem("signedUp", true)
+            redirect("/")
         }
     }
 
     render() {
+
         return (
         <div className="app-login">
             <h1>SIGN UP</h1>
@@ -72,8 +73,7 @@ class SignUp extends React.Component {
 
                     <div className="content-logins">
                         <label>Username</label>
-                        <input type="text" id="username" name="username" onChange={e => this.setState({username: e.target.value})
-}/>
+                        <input type="text" id="username" name="username" onChange={e => this.setState({username: e.target.value})}/>
 
                         <label>Password</label>
                         <div className="passwd">
@@ -88,8 +88,7 @@ class SignUp extends React.Component {
 
                         <label>Confirm Password</label>
                         <div className="passwd">
-                            <input type={this.state.passwordType} name="confirmPassword" id="confirmPassword" onChange={e => this.setState({confirmPassword: e.target.value})
-}/>
+                            <input type={this.state.passwordType} name="confirmPassword" id="confirmPassword" onChange={e => this.setState({confirmPassword: e.target.value})}/>
                             <span>
                                 <img title={this.state.isRevealPwd ? "Hide password" : "Show password"}
                                 onClick={this.seePaswd}
