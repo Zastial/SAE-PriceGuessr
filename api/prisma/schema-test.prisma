@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" 
+  url      = "file:./testDB.db"
+}
+
+model User {
+  login String @id @unique
+  password String
+  jwt String?
+  products Guess[]
+}
+
+model Product {
+  id String @id
+  date DateTime
+  title String
+  price Float
+  imgSrc String
+  users Guess[]
+}
+
+model Guess {
+  user User @relation(fields: [userLogin], references: [login])
+  userLogin String
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  guess Int @default(0)
+  @@id([userLogin, productId])
+}

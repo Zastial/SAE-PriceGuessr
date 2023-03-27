@@ -1,3 +1,3 @@
-import { populate } from "./populate.mjs";
+import { populate } from "./testPopulate.mjs";
 
 populate();

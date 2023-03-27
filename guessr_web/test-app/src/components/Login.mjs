@@ -2,7 +2,7 @@ import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
 
-
+import {Link} from "react-router-dom";
 import React from "react";
 
 class Login extends React.Component {
@@ -22,14 +22,6 @@ class Login extends React.Component {
     seePaswd() {
         this.setState({isRevealPwd: !this.state.isRevealPwd})
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
-    }
-
-    updateUsername(name) {
-        this.setState({username: name})
-    }
-
-    updatePassword(pass) {
-        this.setState({password: pass})
     }
 
     login() {
@@ -60,11 +52,11 @@ class Login extends React.Component {
 
                     <div className="content-logins">
                         <label>Username</label>
-                        <input type="text" id="username" name="username" onChange={e => this.updateUsername(e.target.value)}/>
+                        <input type="text" id="username" name="username" onChange={e => this.setState({username: e.target.value})}/>
 
                         <label>Password</label>
                         <div className="passwd">
-                            <input type={this.state.passwordType} name="password" id="password" onChange={e => this.updatePassword(e.target.value)}/>
+                            <input type={this.state.passwordType} name="password" id="password" onChange={e => this.setState({password: e.target.value})}/>
                             <span>
                                 <img title={this.state.isRevealPwd ? "Hide password" : "Show password"}
                                 onClick={this.seePaswd}
@@ -75,9 +67,15 @@ class Login extends React.Component {
                     </div>
                 
                     <div className="accounts">
-                        <a href="localhost">Forgot Password</a>
-                        <button type="button" onClick={this.login}>Login in</button>
-                        <a href="localhost">SIGN UP</a>
+                        <Link to="/mdpforgot" variant = "body2">
+                            Mot de passe oublié ? 
+                        </Link>
+                        <Link to="/" onClick={this.login} class="connect-button" variant = "body2">
+                            Se connecter
+                        </Link>
+                        <Link to="/signup" variant = "body2">
+                            Pas de compte ? Inscrivez-vous 
+                        </Link>
                     </div>
                 </div>
             </form>

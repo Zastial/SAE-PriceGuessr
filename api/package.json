@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "prisma generate; prisma db push; nodemon startServer.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "rm ./prisma/testDB.db; prisma generate --schema ./prisma/schema-test.prisma; prisma db push --schema ./prisma/schema-test.prisma; c8 nyc mocha --timeout 10000 --cache off"
   },
   "author": "",
   "license": "ISC",
@@ -16,13 +16,17 @@
     "@joi/date": "^2.1.0",
     "@prisma/client": "^4.11.0",
     "bcryptjs": "^2.4.3",
+    "c8": "^7.13.0",
+    "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "hapi-auth-jwt2": "^10.4.0",
     "hapi-error-logger": "^0.3.1",
     "hapi-swagger": "^16.0.1",
     "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
-    "nodemon": "^2.0.22"
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.22",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "prisma": "^4.11.0"
