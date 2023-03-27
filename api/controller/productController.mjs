@@ -13,13 +13,13 @@ export const productController = {
             let maxGuessReached = false
             let correct = null
             let correctPriceLess = null
-            const guesses = await productDAO.numberOfGuesses(productId, login)
+            const guesses = await productDAO.numberOfGuesses(productId, login) 
             let guessRemaining = process.env.MAX_GUESS - guesses - 1
 
             if (guessRemaining < 0) {
                 guessRemaining = 0
             }
-            if (guesses >= process.env.MAX_GUESS) {
+            if (guessRemaining == 0) {
                 maxGuessReached = true
             } else {
                 await productDAO.incGuess(productId, login)
@@ -28,6 +28,9 @@ export const productController = {
                 } else {
                     correct = false
                     correctPriceLess = product.price < priceGuess
+                }
+                if (guessRemaining - 1 < 0) {
+                    maxGuessReached = true
                 }
             }
             

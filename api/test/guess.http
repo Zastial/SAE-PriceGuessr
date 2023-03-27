@@ -1,2 +1,2 @@
-GET http://127.0.0.1:3000/product/00385314/30 HTTP/1.1
+GET http://127.0.0.1:3000/product/10239280/7.99 HTTP/1.1
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvdWlzIiwiZXhwIjoxNjc5NzQxOTEwLCJpYXQiOjE2Nzk2NTU1MTB9.ApQwFR8AscrJt6agEBmqo3IKI2vh9fwKjV_zEaA2c84

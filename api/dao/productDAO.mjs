@@ -59,7 +59,7 @@ export const productDAO = {
                 where: {
                     date: {
                         gte: date,
-                        lte: nextDay
+                        lt: nextDay
                     }
                 }
             })

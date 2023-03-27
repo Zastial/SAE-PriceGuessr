@@ -7,7 +7,7 @@ import Vision from '@hapi/vision'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import * as dotenv from 'dotenv'
-import { joiErrorMessage, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
+import { joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
 
@@ -296,6 +296,7 @@ const routes = [
             },
             response: {
                 status: {
+                    200: joiGuessAnswer,
                     400: joiErrorMessage
                 }
             }
