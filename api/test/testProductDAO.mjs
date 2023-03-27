@@ -1,11 +1,9 @@
 import Product from '../model/Product.mjs';
 import { productDAO } from '../dao/productDAO.mjs';
-import { assert } from 'chai';
 import { populate } from "../dao/data/testPopulate.mjs";
+import { assert } from 'chai';
 import chai from 'chai';
 import chaiHttp from 'chai-http'
-
-let should = chai.should();
 
 chai.use(chaiHttp)
 await populate()
@@ -47,7 +45,7 @@ describe('ProductDAO test', function() {
 
     it('Check a specific product by ID', async function() {
         const product = await pDAO.findById("1");
-        chai.expect(product).to.be.eql(checkByID);
+        assert.deepEqual(product,checkByID);
     });
 
     it('Check that trying to get a product that doesnt exist return null', async function() {
