@@ -192,7 +192,6 @@ const routes = [
         method: 'GET',
         path: '/product/{productId}',
         options: {
-            auth: false,
             description: 'Get product',
             notes: 'Get product with a specific id',
             tags: ['api'],
@@ -228,7 +227,6 @@ const routes = [
         method: 'GET',
         path: '/product/daily',
         options: {
-            auth: false,
             description: 'Get daily products',
             notes: 'Get products which have been added today',
             tags: ['api'],
@@ -253,7 +251,6 @@ const routes = [
         method: 'GET',
         path: '/product/daily/{date}',
         options: {
-            auth: false,
             description: 'Get products by date',
             notes: 'Get products which have been added on a specific date',
             tags: ['api'],
