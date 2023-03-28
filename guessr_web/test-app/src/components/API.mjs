@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export async function getProducts(token) {
-    console.log(token)
     return await axios.get(`http://127.0.0.1:3000/product`,
     {
         headers: {
@@ -13,32 +12,52 @@ export async function getProducts(token) {
     return products})
 }
 
-export function getProductById(id) {
-    axios.get(`http://127.0.0.1:3000/product/${id}`)
-    .then(res => {
-    const product = res.data;
-    return product});
-}
-
-export function guessThePrice(id, price) {
-    axios.get(`http://127.0.0.1:3000/product/${id}/${price}`)
-    .then(res => {
-    const ans = res.data;
-    return ans});
-}
-
-export function getDailyProducts() {
-    axios.get(`http://127.0.0.1:3000/product/daily`)
+export async function getProductById(token, id) {
+    return await axios.get(`http://127.0.0.1:3000/product/${id}`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
     .then(res => {
     const products = res.data;
-    return products});
+    return products})
 }
 
-export function getProductsByDate(date) {
-    axios.get(`http://127.0.0.1:3000/product/daily/${date}`)
+export async function guessThePrice(token, id, price) {
+    return await axios.get(`http://127.0.0.1:3000/product/${id}/${price}`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
     .then(res => {
     const products = res.data;
-    return products});
+    return products})
+}
+
+export async function getDailyProducts(token) {
+    return await axios.get(`http://127.0.0.1:3000/product/daily`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
+    .then(res => {
+    const products = res.data;
+    return products})
+}
+
+export async function getProductsByDate(token, date) {
+    return await axios.get(`http://127.0.0.1:3000/product/daily/${date}`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
+    .then(res => {
+    const products = res.data;
+    return products})
 }
 
 export function deleteUser(username) {
