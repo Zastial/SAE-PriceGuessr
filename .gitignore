@@ -1,4 +1,6 @@
-api/node_modules/
-api/prisma/sae.db
-api/dao/data/testPopulate.mjs
+api/node_modules
 api/.env
+api/.nyc_output
+api/coverage
+api/prisma/sae.db
+api/prisma/testDB.db
