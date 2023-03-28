@@ -14,7 +14,15 @@ class GameInterface extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({products : getProducts()})
+
+        const arr = getDailyProducts()
+
+        // axios.get(`http://127.0.0.1:3000/product/`)
+        // .then(res => {
+        // const products = res.data;
+        // arr = products});
+
+        this.setState({products : arr})
         console.log(this.state.products)
     }
 

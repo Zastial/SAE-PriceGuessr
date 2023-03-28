@@ -15,6 +15,7 @@ class Login extends React.Component {
         this.state = {
             username: "",
             password: "",
+            jwt : "",
             isRevealPwd: false,
             passwordType: "password",
             baseURL:"http://127.0.0.1:3000/"
@@ -48,7 +49,7 @@ class Login extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    login() {
+    async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
         } else {
@@ -62,42 +63,41 @@ class Login extends React.Component {
 
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
 
-            try {
-                const response = axios.post('http://127.0.0.1:3000/user/auth', {
-                  username: this.state.username,
-                  password: this.state.password
+            let ok = true
+            const response = await axios.post('http://127.0.0.1:3000/user/auth', {
+                login: this.state.username,
+                password: this.state.password
+            }).catch(function (error) {
+                if (error.response.status == 400) {
+                    ok = false
+                }   
+            } );
+
+            if (ok) {
+                sessionStorage.setItem("username", this.state.username);
+                sessionStorage.setItem("password", this.state.password);
+                sessionStorage.setItem("jwt", response.data['token']);
+
+                this.state.jwt = response.data['token']
+
+                window.location.reload()
+            } else {
+                Store.addNotification({
+                    title: "Erreur : mauvais identifiants !",
+                    message: "Merci de réessayer",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
                 });
-            
-                if (response.status === 200) {
-                  // Login successful, allow the connection
-                  console.log("true");
-                } else {
-                  // Login unsuccessful, do not allow the connection
-                  console.log("false");
-                }
-            } catch (error) {
-                // Handle error
-                console.error(error);
-            }   
-
-            sessionStorage.setItem("username", this.state.username);
-            sessionStorage.setItem("password", this.state.password);
-
-            window.location.reload()
+            }
         }
     }
-
-    // createPost() {
-    //     const baseURL = "http://127.0.0.1:3000/user/auth"
-    //     axios
-    //       .post(baseURL, {
-    //         username: this.state.username,
-    //         password: this.state.password
-    //       })
-    //       .then((response) => {
-    //         setPost(response.data);
-    //       });
-    //   }
 
     render() {
         return (

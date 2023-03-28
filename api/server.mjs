@@ -56,7 +56,7 @@ const routes = [
             },
             response: {
                 status: {
-                    201: joiJWT,
+                    200: joiJWT,
                     400: Joi.object({ message: 'authentification failed' })
                 }
             }
@@ -318,9 +318,16 @@ const server = Hapi.server({
     port: 3000,
     host: '127.0.0.1',
     routes: {
-        cors: true
+        cors: true,
+        validate: {
+            failAction: async (request, h, err) => {
+                if (process.env.MODE_ENV === 'dev') {
+                    console.error(err.message)
+                    throw err;
+                }
+            }
+        }
     }
-
 })
 
 const swaggerOptions = {
