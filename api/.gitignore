@@ -3,3 +3,5 @@ node_modules
 .env
 .nyc_output
 coverage
+prisma/sae.db
+prisma/testDB.db
