@@ -3,10 +3,10 @@ content-type: application/json
 
 {
     "login": "lolo",
-    "password": "hia"
+    "password": "hi"
 }
 
 ###
 
-GET http://127.0.0.1:3000/restricted HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvbG8iLCJleHAiOjE2Nzk3NDI3MDksImlhdCI6MTY3OTY1NjMwOX0.2rzOV5ykSh4eQD-ApauMNBsakZN40o36wzgso2Za84o
+GET http://127.0.0.1:3000/product HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvbG8iLCJleHAiOjE2ODAwOTc3MDUsImlhdCI6MTY4MDAxMTMwNX0.EEiYMUI8byYuVcndlwtHlZoa-n6a62svcuwrwype6vg

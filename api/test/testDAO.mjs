@@ -4,14 +4,13 @@ import { productDAO } from '../dao/productDAO.mjs';
 import { userDAO } from '../dao/userDAO.mjs';
 import { populateProducts } from "../dao/data/test/populateTestProducts.mjs";
 import { populateUsers } from "../dao/data/test/populateTestUsers.mjs";
-import { assert, AssertionError } from 'chai';
-import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/index.js';
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised'
-//import chaiHttp from 'chai-http'
-chai.use(chaiAsPromised)
-await populateProducts()
-await populateUsers()
+import chai, { assert } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+
+chai.use(chaiAsPromised);
+
+await populateProducts();
+await populateUsers();
 
 const checkByID = new Product({
     "id": "1",
@@ -40,6 +39,17 @@ const checkByDate = [
         "desc": ""
     })
 ];
+
+const existingUser = new User({
+    "login": "Emerik",
+    "password": await hashPassword("A1")
+});
+
+const existingUserWithJwt = new User({
+    "login": "Emerik",
+    "password": await hashPassword("A1"),
+    "jwt": "HahaJonathan"
+});
 
 const checkAddUser = new User({
     "login": "Mathis",
@@ -106,12 +116,9 @@ describe('ProductDAO test', function() {
     });
 
     it('Try to increment the guesses of a product that doesnt exist', async function() {
-        try {
-            await pDAO.incGuess("0", "Emerik");
-        } catch (e) {
-            const guesses = await pDAO.numberOfGuesses("0", "Emerik");
-            assert.equal(guesses, 0);
-        }
+        assert.isRejected(pDAO.incGuess("0", "Emerik"));
+        const guesses = await pDAO.numberOfGuesses("0", "Emerik");
+        assert.equal(guesses, 0);
     });
 
     it('Try to increment the guesses of a product with a nonexistent user', async function() {
@@ -158,5 +165,25 @@ describe('UserDAO test', function() {
 
     it('Try deleting a user that doesnt exist', async function() {
         assert.isRejected(uDAO.delete(fakeUser.login));
+    });
+
+    it('Check getting the jwt of a user', async function() {
+        const jwt = await uDAO.findJwt(existingUser.login);
+        assert.equal(jwt, existingUser.jwt);
+    });
+
+    it('Check that getting the jwt of a nonexistent user returns null', async function() {
+        const jwt = await uDAO.findJwt(fakeUser.login);
+        assert.equal(jwt, null);
+    });
+
+    it('Check that updating the jwt works properly', async function() {
+        await uDAO.updateJwt(existingUserWithJwt);
+        const jwt = await uDAO.findJwt(existingUser.login);
+        assert.equal(jwt, existingUserWithJwt.jwt);
+    });
+
+    it('Try updating the jwt of a nonexistent user', async function() {
+        assert.isRejected(uDAO.updateJwt(fakeUser));
     });
 });
