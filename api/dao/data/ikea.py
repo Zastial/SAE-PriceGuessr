@@ -9,7 +9,7 @@ with open(path, "w") as f:
     ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=40_000))['searchResultPage']['products']['main']['items']
     for p in ikeaProducts:
         product = {}
-        product['id'] = p['product']['name']
+        product['id'] = p['product']['id']
         product['title'] = p['product']['name']
         product['price'] = p['product']['salesPrice']['numeral']
         product['imgSrc'] = p['product']['mainImageUrl']
