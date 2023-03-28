@@ -11,7 +11,7 @@ export const joiUser = Joi.object({
 export const joiUserWithToken = Joi.object({
     login: Joi.string().required().description("login of the user"),
     password: Joi.string().required().description("password of the user"),
-    jwt: Joi.string().required().description('jwt token of the user')
+    jwt: Joi.string().allow("").required().description('jwt token of the user')
 })
 
 export const joiJWT = Joi.object({

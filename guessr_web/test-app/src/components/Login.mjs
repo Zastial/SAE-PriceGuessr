@@ -80,10 +80,10 @@ class Login extends React.Component {
                 console.error(error);
             }   
 
-            // sessionStorage.setItem("username", this.state.username);
-            // sessionStorage.setItem("password", this.state.password);
+            sessionStorage.setItem("username", this.state.username);
+            sessionStorage.setItem("password", this.state.password);
 
-            // window.location.reload()
+            window.location.reload()
         }
     }
 
