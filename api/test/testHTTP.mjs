@@ -1,8 +1,6 @@
 import { start } from '../server.mjs'
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
-import User, { hashPassword } from '../model/User.mjs';
-import { userController } from '../controller/userController.mjs';
 
 chai.use(chaiHttp);
 
@@ -37,7 +35,6 @@ describe('Test product requests', function() {
     
     it('Try to get all products', async function() {
         const res = await requester.get('/product').set('Authorization', token);
-        console.log(res)
         assert.equal(res.status, 200);
     });
 

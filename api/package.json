@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "prisma generate && prisma db push && nodemon startServer.mjs",
+    "testStart": "prisma generate --schema ./prisma/schema-test.prisma && prisma db push --schema ./prisma/schema-test.prisma && nodemon startServer.mjs",
     "test": "rm ./prisma/testDB.db; prisma generate --schema ./prisma/schema-test.prisma; prisma db push --schema ./prisma/schema-test.prisma; c8 nyc mocha --timeout 10000 --cache off"
   },
   "author": "",

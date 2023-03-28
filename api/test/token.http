@@ -9,4 +9,4 @@ content-type: application/json
 ###
 
 GET http://127.0.0.1:3000/product HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvbG8iLCJleHAiOjE2ODAwOTc3MDUsImlhdCI6MTY4MDAxMTMwNX0.EEiYMUI8byYuVcndlwtHlZoa-n6a62svcuwrwype6vg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvbG8iLCJleHAiOjE2ODAxMzMzNTAsImlhdCI6MTY4MDA0Njk1MH0.T-qM6v87u2QcpPJYPYcDVS75WQlKDlxY0RXw4RxOH3A
