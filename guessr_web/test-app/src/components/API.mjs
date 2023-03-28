@@ -48,11 +48,16 @@ export async function getDailyProducts(token) {
     return products})
 }
 
-export function getProductsByDate(date) {
-    axios.get(`http://127.0.0.1:3000/product/daily/${date}`)
+export async function getProductsByDate(token, date) {
+    return await axios.get(`http://127.0.0.1:3000/product/daily/${date}`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
     .then(res => {
     const products = res.data;
-    return products});
+    return products})
 }
 
 export function deleteUser(username) {

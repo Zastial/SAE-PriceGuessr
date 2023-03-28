@@ -20,7 +20,7 @@ class GameInterface extends React.Component {
     }
 
     async componentDidMount() {
-        this.produits = await getProducts(sessionStorage.getItem("jwt"))
+        this.produits = await getDailyProducts(sessionStorage.getItem("jwt"))
         
         this.setState({
             produits:[this.produits],
@@ -53,8 +53,10 @@ class GameInterface extends React.Component {
     }
 
 
-    doUpdate() {
-        this.produits = guessThePrice(sessionStorage.getItem("jwt")) 
+    doUpdate(price) {
+        // const guess_price = guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
+        // console.log(guess_price)
+        console.log(this.state.produitCourant.id)
     }
 
     render() {
@@ -76,7 +78,8 @@ class GameInterface extends React.Component {
                         <p>€</p>
                     </div>
                 </div>
-                <Button name="Valider" doUpdate={this.doUpdate}/>
+                <Button name="Valider" doUpdate={e=> {this.doUpdate(e.target.value)}}/>
+                <p>Produit n°{this.state.indexProduit + 1}/10</p>
             </div>
         );
     }
