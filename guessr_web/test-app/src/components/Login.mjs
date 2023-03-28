@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 import React from "react";
 import { Store } from 'react-notifications-component';
 
+import axios from "axios";
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -15,7 +17,10 @@ class Login extends React.Component {
             password: "",
             isRevealPwd: false,
             passwordType: "password",
-        }
+            baseURL:"http://127.0.0.1:3000/"
+
+        }        
+
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
 
@@ -43,7 +48,7 @@ class Login extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    login() {
+    async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
         } else {
@@ -56,11 +61,43 @@ class Login extends React.Component {
         }
 
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
-            sessionStorage.setItem("username", this.state.username);
-            sessionStorage.setItem("password", this.state.password);
-            window.location.reload()
+
+            try {
+                const response = await axios.post('http://127.0.0.1:3000/user/auth', {
+                  username: this.state.username,
+                  password: this.state.password
+                });
+            
+                if (response.status === 200) {
+                  // Login successful, allow the connection
+                  console.log("true");
+                } else {
+                  // Login unsuccessful, do not allow the connection
+                  console.log("false");
+                }
+            } catch (error) {
+                // Handle error
+                console.error(error);
+            }
+
+            // sessionStorage.setItem("username", this.state.username);
+            // sessionStorage.setItem("password", this.state.password);
+
+            // window.location.reload()
         }
     }
+
+    // createPost() {
+    //     const baseURL = "http://127.0.0.1:3000/user/auth"
+    //     axios
+    //       .post(baseURL, {
+    //         username: this.state.username,
+    //         password: this.state.password
+    //       })
+    //       .then((response) => {
+    //         setPost(response.data);
+    //       });
+    //   }
 
     render() {
         return (
@@ -89,7 +126,7 @@ class Login extends React.Component {
                         <Link to="/mdpforgot" variant = "body2">
                             Mot de passe oublié ? 
                         </Link>
-                        <Link to="/" onClick={this.login} class="connect-button" variant = "body2">
+                        <Link to="/" onClick={this.login} className="connect-button" variant = "body2">
                             Se connecter
                         </Link>
                         <Link to="/signup" variant = "body2">

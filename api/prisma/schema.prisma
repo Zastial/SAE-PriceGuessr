@@ -23,6 +23,7 @@ model Product {
   title String
   price Float
   imgSrc String
+  desc String
   users Guess[]
 }
 

@@ -19,9 +19,9 @@ const validate = async function (decoded, request, h) {
     const user = await userController.findByLogin(decoded.login)
 
     if (user == null || request.headers.authorization != user.jwt) {
-        return {isValid: false, credentials: null}
+        return { isValid: false, credentials: null }
     }
-    return {isValid: true, credentials: user.login}
+    return { isValid: true, credentials: user.login }
 }
 
 const routes = [
@@ -29,7 +29,7 @@ const routes = [
         method: 'GET',
         path: '/restricted',
         handler: (request, h) => {
-            const response = h.response({text: 'You used a Token!'});
+            const response = h.response({ text: 'You used a Token!' });
             response.header("Authorization", request.headers.authorization);
             return response;
         }
@@ -37,9 +37,9 @@ const routes = [
     {
         method: '*',
         path: '/{any*}',
-        options: {auth: false},
+        options: { auth: false },
         handler: (request, h) => {
-            return h.response({message: 'not found'}).code(400)
+            return h.response({ message: 'not found' }).code(400)
         }
     },
 
@@ -57,21 +57,21 @@ const routes = [
             response: {
                 status: {
                     201: joiJWT,
-                    400: Joi.object({message: 'authentification failed'})
+                    400: Joi.object({ message: 'authentification failed' })
                 }
             }
         },
         handler: async (request, h) => {
-            const {login, password} = request.payload;
+            const { login, password } = request.payload;
             const user = await userController.findByLogin(login);
             const validUser = user && (user.isPasswordValid(password))
 
             if (!validUser) {
-                return h.response({message: 'authentification failed'}).code(400)
+                return h.response({ message: 'authentification failed' }).code(400)
             }
-            
+
             let token = await userController.findAndValidateJwt(login)
-            return h.response({token}).code(200)
+            return h.response({ token }).code(200)
         }
     },
 
@@ -89,7 +89,7 @@ const routes = [
             response: {
                 status: {
                     201: joiUserWithToken.description('user registered'),
-                    409: Joi.object({message: "user already exists"}),
+                    409: Joi.object({ message: "user already exists" }),
                     400: joiErrorMessage
                 }
             }
@@ -98,7 +98,7 @@ const routes = [
             try {
                 const user = await userController.save(request.payload)
                 if (!user) {
-                    return h.response({message: "user already exists"}).code(409)
+                    return h.response({ message: "user already exists" }).code(409)
                 }
                 return h.response(user).code(201)
             } catch (e) {
@@ -154,7 +154,7 @@ const routes = [
         handler: async (request, h) => {
             try {
                 const login = request.auth.credentials.login
-                const user = {login: login, password: request.payload.password}
+                const user = { login: login, password: request.payload.password }
                 const updatedUser = await userController.updatePassword(user)
                 return h.response(updatedUser).code(200)
             } catch (e) {
@@ -192,7 +192,6 @@ const routes = [
         method: 'GET',
         path: '/product/{productId}',
         options: {
-            auth: false,
             description: 'Get product',
             notes: 'Get product with a specific id',
             tags: ['api'],
@@ -215,7 +214,7 @@ const routes = [
             try {
                 const product = await productController.findById(request.params.productId)
                 if (!product) {
-                    return h.response({message: "product not found"}).code(404)
+                    return h.response({ message: "product not found" }).code(404)
                 }
                 return h.response(product).code(200)
             } catch (e) {
@@ -228,7 +227,6 @@ const routes = [
         method: 'GET',
         path: '/product/daily',
         options: {
-            auth: false,
             description: 'Get daily products',
             notes: 'Get products which have been added today',
             tags: ['api'],
@@ -253,15 +251,14 @@ const routes = [
         method: 'GET',
         path: '/product/daily/{date}',
         options: {
-            auth: false,
             description: 'Get products by date',
             notes: 'Get products which have been added on a specific date',
             tags: ['api'],
             validate: {
                 params: Joi.object({
                     date: Joi.date()
-                    .format('YYYY-MM-DD')
-                    .required().description("date of when the products have been added, YYY-MM-DD format")
+                        .format('YYYY-MM-DD')
+                        .required().description("date of when the products have been added, YYYY-MM-DD format")
                 })
             },
             response: {
@@ -314,12 +311,16 @@ const routes = [
         }
     }
 
-   
+
 ]
 
 const server = Hapi.server({
     port: 3000,
-    host: '127.0.0.1'
+    host: '127.0.0.1',
+    routes: {
+        cors: true
+    }
+
 })
 
 const swaggerOptions = {
@@ -346,9 +347,10 @@ export const start = async () => {
     ])
 
     server.auth.strategy('jwt', 'jwt',
-        { key: process.env.JWT_SECRET_KEY, 
-        validate
-    })
+        {
+            key: process.env.JWT_SECRET_KEY,
+            validate
+        })
     server.auth.default('jwt')
 
     server.route(routes)

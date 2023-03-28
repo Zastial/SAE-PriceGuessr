@@ -5,6 +5,8 @@ import hidePwdImg from './img/hidePwd.png';
 import {Link, redirect} from "react-router-dom";
 import React from "react";
 
+import axios from "axios";
+
 class SignUp extends React.Component {
 
     constructor(props) {
@@ -56,10 +58,22 @@ class SignUp extends React.Component {
                 document.getElementById('confirmPassword').reportValidity();
                 return
             }
-            //logins BDD
+            
+            axios.post(`http://127.0.0.1:3000/user/register`, {
+                login : this.state.username,
+                password : this.state.password
+            })
+            .then(res => {
+            console.log(res.data);
+            })
 
-            sessionStorage.setItem("signedUp", true)
-            redirect("/")
+            // sessionStorage.setItem("signedUp", true)
+            // redirect("/")
+
+            // axios.get(`http://127.0.0.1:3000/product`)
+            //     .then(res => {
+            //     const products = res.data;
+            //     console.log(products)});
         }
     }
 
@@ -100,8 +114,8 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
-                        <Link to="/" onClick={this.login} variant = "body2">
-                            Se connecter
+                        <Link to="/signup" onClick={this.login} variant = "body2">
+                            S'inscrire
                         </Link>
                         <Link to="/" variant = "body2">
                             Déjà un compte ? Connectez-vous 

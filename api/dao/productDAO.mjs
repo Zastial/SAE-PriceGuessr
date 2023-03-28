@@ -51,6 +51,10 @@ export const productDAO = {
 
     findByDate: async (date) => {
         try {
+            if (date == null) {
+                date = new Date()
+                date.setHours(0,0,0,0)
+            }
             let nextDay = new Date(date)
             nextDay.setDate(nextDay.getDate()+1)
             nextDay = new Date(nextDay.toDateString()) // remove time from string
@@ -69,15 +73,6 @@ export const productDAO = {
         }
     },
 
-    findDailyProducts: async () => {
-        try {
-            let today = new Date()
-            today.setHours(0,0,0,0)
-            return await productDAO.findByDate(today)
-        } catch (e) {
-            return Promise.reject(e)
-        }
-    },
     findAll: async () => {
         try {
             return (await prisma.product.findMany({}))

@@ -4,7 +4,8 @@ import { productDAO } from '../dao/productDAO.mjs';
 import { userDAO } from '../dao/userDAO.mjs';
 import { populateProducts } from "../dao/data/test/populateTestProducts.mjs";
 import { populateUsers } from "../dao/data/test/populateTestUsers.mjs";
-import { assert } from 'chai';
+import { assert, AssertionError } from 'chai';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/index.js';
 //import chai from 'chai';
 //import chaiHttp from 'chai-http'
 //chai.use(chaiHttp)
@@ -54,31 +55,48 @@ describe('ProductDAO test', function() {
         assert.equal(product, null);
     });
 
-    it('Check all products from a certain date', async function() { // findDailyProducts uses the same method
+    it('Try to get producs of the day', async function() {
+        const products = await pDAO.findByDate();
+        assert.isArray(products)
+    });
+
+    it('Check all products from a certain date', async function() {
         const products = await pDAO.findByDate(new Date("2023-01-02"));
         assert.deepEqual(products, checkByDate);
     });
 
     it('Check the number of guesses for an existing product', async function() {
-        const guesses = await pDAO.numberOfGuesses("2");
+        const guesses = await pDAO.numberOfGuesses("2", "Emerik");
         assert.equal(guesses, 0);
     });
 
     it('Try to get the guesses of a product that doesnt exist', async function() {
-        const guesses = await pDAO.numberOfGuesses("0");
+        const guesses = await pDAO.numberOfGuesses("0", "Emerik");
         assert.equal(guesses, 0);
     });
 
-    it('Try to increment the guesses for an existing product', async function() {
-        await pDAO.incGuess("2");
-        const guesses = await pDAO.numberOfGuesses("2");
+    it('Try to get the number of guesses with a nonexistent user', async function() {
+        const guesses = await pDAO.numberOfGuesses("2", "ksdlf");
+        assert.equal(guesses, 0);
+    });
+
+    it('Check if guesses are correctly incremented for an existing product', async function() {
+        await pDAO.incGuess("2", "Emerik");
+        const guesses = await pDAO.numberOfGuesses("2", "Emerik");
         assert.equal(guesses, 1);
     });
 
     it('Try to increment the guesses of a product that doesnt exist', async function() {
-        await pDAO.incGuess("0");
-        const guesses = await pDAO.numberOfGuesses("0");
-        assert.equal(guesses, 0);
+        try {
+            await pDAO.incGuess("0", "Emerik");
+        } catch (e) {
+            const guesses = await pDAO.numberOfGuesses("0", "Emerik");
+            assert.equal(guesses, 0);
+        }
+    });
+
+    it('Try to increment the guesses of a product with a nonexistent user', async function() {
+        assert. await pDAO.incGuess("2", "ksdlf") });
     });
 });
 
