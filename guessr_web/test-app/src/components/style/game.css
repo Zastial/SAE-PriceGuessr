@@ -47,7 +47,6 @@
     padding-top: 0rem;
 }
 
-
 .game .gameInterface {
     text-align: center;
     color: black;
@@ -58,9 +57,27 @@
     justify-content: space-between;
 }
 
-.game .gameInterface .game-guess .the-guess {
-    /* display: flex; */
+.game .gameInterface .game-guess .guess-info{
+    display: flex;
+    height: 40rem;
+    justify-content: center;
 }
+
+.game .gameInterface .game-guess .guess-info img{
+    object-fit: fill;
+}
+
+.game .gameInterface .game-guess .guess-info button{
+    max-width: 4rem;
+    height: auto;
+}
+
+.game .gameInterface .game-guess .the-guess {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+}
+
 
 .game .gameInterface button {
     background-color: black;
