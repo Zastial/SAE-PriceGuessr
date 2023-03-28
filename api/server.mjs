@@ -167,7 +167,6 @@ const routes = [
         method: 'GET',
         path: '/product',
         options: {
-            auth: false,
             description: 'Get products',
             notes: 'Get all stored products',
             tags: ['api'],
