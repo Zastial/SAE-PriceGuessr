@@ -48,7 +48,7 @@ class Login extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    async login() {
+    login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
         } else {
@@ -63,7 +63,7 @@ class Login extends React.Component {
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
 
             try {
-                const response = await axios.post('http://127.0.0.1:3000/user/auth', {
+                const response = axios.post('http://127.0.0.1:3000/user/auth', {
                   username: this.state.username,
                   password: this.state.password
                 });
@@ -78,7 +78,7 @@ class Login extends React.Component {
             } catch (error) {
                 // Handle error
                 console.error(error);
-            }
+            }   
 
             // sessionStorage.setItem("username", this.state.username);
             // sessionStorage.setItem("password", this.state.password);

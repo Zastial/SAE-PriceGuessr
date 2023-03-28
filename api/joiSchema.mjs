@@ -23,11 +23,12 @@ export const joiErrorMessage = Joi.object({
 })
 
 export const joiProduct = Joi.object({
-    id: Joi.string().description("id of the product"),
-    date: Joi.date().format('YYY-MM-DD').description('date of when the product has been added'),
-    title: Joi.string().description("title of the product"),
-    price: Joi.number().description("price of the product in euros"),
-    imgSrc: Joi.string().description("image source of the product")
+    id: Joi.string().required().description("id of the product"),
+    date: Joi.date().required().format('YYY-MM-DD').description('date of when the product has been added'),
+    title: Joi.string().required().description("title of the product"),
+    price: Joi.number().required().description("price of the product in euros"),
+    imgSrc: Joi.string().required().description("image source of the product"),
+    desc: Joi.string().required().description("description of the product")
 })
 
 export const joiProductArray = Joi.array().items(joiProduct).description("Array of stored products")
