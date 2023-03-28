@@ -4,10 +4,12 @@ import { productDAO } from '../dao/productDAO.mjs';
 import { userDAO } from '../dao/userDAO.mjs';
 import { populateProducts } from "../dao/data/test/populateTestProducts.mjs";
 import { populateUsers } from "../dao/data/test/populateTestUsers.mjs";
-import { assert } from 'chai';
-//import chai from 'chai';
+import { assert, AssertionError } from 'chai';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/index.js';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised'
 //import chaiHttp from 'chai-http'
-//chai.use(chaiHttp)
+chai.use(chaiAsPromised)
 await populateProducts()
 await populateUsers()
 
@@ -16,7 +18,8 @@ const checkByID = new Product({
     "date": new Date("2023-01-01"),
     "title": "IKEA1",
     "price": 100.0,
-    "imgSrc": ""
+    "imgSrc": "",
+    "desc": ""
 });
 
 const checkByDate = [
@@ -25,16 +28,33 @@ const checkByDate = [
         "date": new Date("2023-01-02"),
         "title": "IKEA3",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     }),
     new Product({
         "id": "4",
         "date": new Date("2023-01-02"),
         "title": "IKEA4",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     })
 ];
+
+const checkAddUser = new User({
+    "login": "Mathis",
+    "password": await hashPassword("C4")
+});
+
+const realUser = new User({
+    "login": "Mathis",
+    "password": await hashPassword("D4")
+});
+
+const fakeUser = new User({
+    "login": "Jean-Michel",
+    "password": await hashPassword("E5")
+});
 
 describe('ProductDAO test', function() {
     const pDAO = productDAO;
@@ -54,7 +74,7 @@ describe('ProductDAO test', function() {
         assert.equal(product, null);
     });
 
-    it('Try to get producs of the day', async function() {
+    it('Try to get products of the day', async function() {
         const products = await pDAO.findByDate();
         assert.isArray(products)
     });
@@ -95,9 +115,7 @@ describe('ProductDAO test', function() {
     });
 
     it('Try to increment the guesses of a product with a nonexistent user', async function() {
-        try {
-            await pDAO.incGuess("2", "ksdlf");
-        } catch (e) {}
+        assert.isRejected(pDAO.incGuess("2", "ksdlf"));
     });
 });
 
@@ -117,5 +135,28 @@ describe('UserDAO test', function() {
     it('Check that getting a nonexistant user by login returns null', async function() {
         const user = await uDAO.findByLogin("hksdhf");
         assert.equal(user, null);
+    });
+
+    it('Check that user creation works as expected', async function() {
+        const user = await uDAO.save(checkAddUser);
+        assert(user.isPasswordValid(checkAddUser.password));
+    });
+
+    it('Check that password change works as expected', async function() {
+        const user = await uDAO.updatePassword(realUser);
+        assert(user.isPasswordValid(realUser.password));
+    });
+
+    it('Try to change the password of a nonexistent user', async function() {
+        assert.isRejected(uDAO.updatePassword(fakeUser));
+    });
+    
+    it('Check if user deletion works properly', async function() {
+        const user = await uDAO.delete(realUser.login);
+        assert(user.isPasswordValid(realUser.password));
+    });
+
+    it('Try deleting a user that doesnt exist', async function() {
+        assert.isRejected(uDAO.delete(fakeUser.login));
     });
 });

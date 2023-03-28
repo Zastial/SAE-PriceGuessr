@@ -46,3 +46,26 @@
 .game .gameInterface h1 {
     padding-top: 0rem;
 }
+
+
+.game .gameInterface {
+    text-align: center;
+    color: black;
+}
+
+.game .gameInterface .game-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.game .gameInterface .game-guess .the-guess {
+    /* display: flex; */
+}
+
+.game .gameInterface button {
+    background-color: black;
+}
+
+.game .gameInterface button:hover {
+    background-color: grey;
+}

@@ -2,8 +2,11 @@ import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
 
-import {Link, redirect} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import React from "react";
+import { Store } from 'react-notifications-component';
+
+import axios from "axios";
 
 class SignUp extends React.Component {
 
@@ -25,7 +28,7 @@ class SignUp extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    login() {
+    async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
             document.getElementById('username').setCustomValidity("Veuillez entrer un nom d'utilisateur.");
@@ -56,10 +59,35 @@ class SignUp extends React.Component {
                 document.getElementById('confirmPassword').reportValidity();
                 return
             }
-            //logins BDD
+            
+            let ok = true
+            const response = await axios.post('http://127.0.0.1:3000/user/register', {
+                login: this.state.username,
+                password: this.state.password
+            }).catch(function (error) {
+                if (error.response.status == 400 || error.response.status == 409) {
+                    ok = false
+                }   
+            } );
 
-            sessionStorage.setItem("signedUp", true)
-            redirect("/")
+            if (ok) {
+                sessionStorage.setItem("signedUp", true)
+                return <Navigate to="/" replace={true} />
+            } else {
+                Store.addNotification({
+                    title: "Erreur : Un utilisateur avec le même nom existe déjà !",
+                    message: "Merci de réessayer",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                });
+            }
         }
     }
 
@@ -100,9 +128,9 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
-                        <Link to="/" onClick={this.login} variant = "body2">
-                            Se connecter
-                        </Link>
+                        <a onClick={this.login}>
+                            S'inscrire
+                        </a>
                         <Link to="/" variant = "body2">
                             Déjà un compte ? Connectez-vous 
                         </Link>                        

@@ -8,42 +8,48 @@ let products = [
         "date": new Date("2023-01-01"),
         "title": "IKEA1",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     },
     {
         "id": "2",
         "date": new Date("2023-01-01"),
         "title": "IKEA2",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     },
     {
         "id": "3",
         "date": new Date("2023-01-02"),
         "title": "IKEA3",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     },
     {
         "id": "4",
         "date": new Date("2023-01-02"),
         "title": "IKEA4",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     },
     {
         "id": "5",
         "date": new Date("2023-01-03"),
         "title": "IKEA5",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     },
     {
         "id": "6",
         "date": new Date("2023-01-04"),
         "title": "IKEA6",
         "price": 100.0,
-        "imgSrc": ""
+        "imgSrc": "",
+        "desc": ""
     }
 ];
 
@@ -57,7 +63,8 @@ export const populateProducts = async () => {
                 date: element.date,
                 title: element.title,
                 price: element.price,
-                imgSrc: element.imgSrc
+                imgSrc: element.imgSrc,
+                desc: element.desc
             }
         })
         if (!elt) {

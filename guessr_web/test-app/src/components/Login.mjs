@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 import React from "react";
 import { Store } from 'react-notifications-component';
 
+import axios from "axios";
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -13,9 +15,13 @@ class Login extends React.Component {
         this.state = {
             username: "",
             password: "",
+            jwt : "",
             isRevealPwd: false,
             passwordType: "password",
-        }
+            baseURL:"http://127.0.0.1:3000/"
+
+        }        
+
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
 
@@ -43,7 +49,7 @@ class Login extends React.Component {
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
-    login() {
+    async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
         } else {
@@ -56,9 +62,40 @@ class Login extends React.Component {
         }
 
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
-            sessionStorage.setItem("username", this.state.username);
-            sessionStorage.setItem("password", this.state.password);
-            window.location.reload()
+
+            let ok = true
+            const response = await axios.post('http://127.0.0.1:3000/user/auth', {
+                login: this.state.username,
+                password: this.state.password
+            }).catch(function (error) {
+                if (error.response.status == 400) {
+                    ok = false
+                }   
+            } );
+
+            if (ok) {
+                sessionStorage.setItem("username", this.state.username);
+                sessionStorage.setItem("password", this.state.password);
+                sessionStorage.setItem("jwt", response.data['token']);
+
+                this.state.jwt = response.data['token']
+
+                window.location.reload()
+            } else {
+                Store.addNotification({
+                    title: "Erreur : mauvais identifiants !",
+                    message: "Merci de réessayer",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                });
+            }
         }
     }
 
@@ -89,7 +126,7 @@ class Login extends React.Component {
                         <Link to="/mdpforgot" variant = "body2">
                             Mot de passe oublié ? 
                         </Link>
-                        <Link to="/" onClick={this.login} class="connect-button" variant = "body2">
+                        <Link to="/" onClick={this.login} className="connect-button" variant = "body2">
                             Se connecter
                         </Link>
                         <Link to="/signup" variant = "body2">
