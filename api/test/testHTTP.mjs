@@ -27,27 +27,18 @@ describe('Test product requests', function() {
             password: "hi"
         });
         assert.equal(res.status, 200);
-        token = res.body
+        token = res.body.token
     });
-    /*
+    
     it('Try to get products without auth', async function() {
         const res = await requester.get('/product');
         assert.equal(res.status, 401);
     });
-    */
+    
     it('Try to get all products', async function() {
-        /*
-        console.log(token);
-        const res = await requester.get('/product').auth(token, { type: 'auto'});
+        const res = await requester.get('/product').set('Authorization', token);
+        console.log(res)
         assert.equal(res.status, 200);
-        */
-       console.log(await userController.findByLogin("lolo"));
-        const res = await server.inject({
-            method: 'get',
-            url: '/product',
-            headers: { 'Authentication': token }
-        });
-        assert.equal(res.statusCode, 200);
     });
 
     requester.close();
