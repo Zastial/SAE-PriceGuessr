@@ -25,23 +25,6 @@ class Login extends React.Component {
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
 
-        if (sessionStorage.getItem("signedUp")) {
-            this.notificationDOMRef = React.createRef()
-            Store.addNotification({
-                title: "Vous êtes inscrit !",
-                message: "Vous pouvez désormais vous connecter pour accéder au site",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                  duration: 5000,
-                  onScreen: true
-                }
-              });
-            sessionStorage.clear()
-        }
     }
 
     seePaswd() {
@@ -68,7 +51,7 @@ class Login extends React.Component {
                 login: this.state.username,
                 password: this.state.password
             }).catch(function (error) {
-                if (error.response.status == 400) {
+                if (error.response.status === 400) {
                     ok = false
                 }   
             } );
@@ -78,7 +61,7 @@ class Login extends React.Component {
                 sessionStorage.setItem("password", this.state.password);
                 sessionStorage.setItem("jwt", response.data['token']);
 
-                this.state.jwt = response.data['token']
+                this.setState({jwt:response.data['token'] })
 
                 window.location.reload()
             } else {

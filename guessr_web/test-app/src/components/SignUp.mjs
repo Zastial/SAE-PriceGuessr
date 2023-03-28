@@ -2,7 +2,7 @@ import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
 
-import {Link, Navigate} from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from "react";
 import { Store } from 'react-notifications-component';
 
@@ -61,18 +61,18 @@ class SignUp extends React.Component {
             }
             
             let ok = true
-            const response = await axios.post('http://127.0.0.1:3000/user/register', {
+            await axios.post('http://127.0.0.1:3000/user/register', {
                 login: this.state.username,
                 password: this.state.password
             }).catch(function (error) {
-                if (error.response.status == 400 || error.response.status == 409) {
+                if (error.response) {
+                    console.log(error.response.status)
                     ok = false
-                }   
+                }
             } );
 
             if (ok) {
-                sessionStorage.setItem("signedUp", true)
-                return <Navigate to="/" replace={true} />
+                window.location.replace("/")
             } else {
                 Store.addNotification({
                     title: "Erreur : Un utilisateur avec le même nom existe déjà !",
@@ -128,9 +128,7 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
-                        <a onClick={this.login}>
-                            S'inscrire
-                        </a>
+                        <div onClick={this.login}>s'inscrire</div>
                         <Link to="/" variant = "body2">
                             Déjà un compte ? Connectez-vous 
                         </Link>                        

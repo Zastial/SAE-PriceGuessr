@@ -15,7 +15,7 @@ class GameInterface extends React.Component {
 
     componentDidMount() {
 
-        const arr = getDailyProducts()
+        const arr = getProducts()
 
         // axios.get(`http://127.0.0.1:3000/product/`)
         // .then(res => {

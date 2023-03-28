@@ -30,7 +30,7 @@ function App() {
         <Route path="/historique" element={<Historique/>}/>
         <Route path="/compte" element={<Compte/>}/> 
       </Route>
-      <Route path = "/signup" element={sessionAvailable() ? <Game/> : <SignUp/>} />
+      <Route path = "/signup" element={<SignUp/>} />
       <Route path='*' element={<NotFound />}/>
     </Routes>
   )
