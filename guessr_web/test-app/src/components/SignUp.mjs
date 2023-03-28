@@ -67,13 +67,8 @@ class SignUp extends React.Component {
             console.log(res.data);
             })
 
-            // sessionStorage.setItem("signedUp", true)
-            // redirect("/")
-
-            // axios.get(`http://127.0.0.1:3000/product`)
-            //     .then(res => {
-            //     const products = res.data;
-            //     console.log(products)});
+            sessionStorage.setItem("signedUp", true)
+            redirect("/")
         }
     }
 
@@ -114,7 +109,7 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <a href="localhost">Forgot Password</a>
-                        <Link to="/signup" onClick={this.login} variant = "body2">
+                        <Link to="/" onClick={this.login} variant = "body2">
                             S'inscrire
                         </Link>
                         <Link to="/" variant = "body2">

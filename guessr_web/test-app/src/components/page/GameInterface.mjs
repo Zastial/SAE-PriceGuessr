@@ -13,6 +13,11 @@ class GameInterface extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({products : getProducts()})
+        console.log(this.state.products)
+    }
+
     doUpdate() {
         return 
     }
