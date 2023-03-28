@@ -1,14 +1,16 @@
 import axios from 'axios';
-import Login from './Login.mjs'
 
-const log = Login
-axios.defaults.headers.get['jwt'] = log.jwt;
-
-export function getProducts() {
-    axios.get(`http://127.0.0.1:3000/product`)
+export async function getProducts(token) {
+    console.log(token)
+    return await axios.get(`http://127.0.0.1:3000/product`,
+    {
+        headers: {
+            'Authorization': `${token}` 
+        }
+    })
     .then(res => {
     const products = res.data;
-    return products});
+    return products})
 }
 
 export function getProductById(id) {
@@ -26,7 +28,6 @@ export function guessThePrice(id, price) {
 }
 
 export function getDailyProducts() {
-    console.log(log.jwt)
     axios.get(`http://127.0.0.1:3000/product/daily`)
     .then(res => {
     const products = res.data;

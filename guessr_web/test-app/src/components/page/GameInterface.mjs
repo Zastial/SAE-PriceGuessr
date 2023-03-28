@@ -13,17 +13,16 @@ class GameInterface extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const arr = await getProducts(sessionStorage.getItem("jwt"))
 
-        const arr = getProducts()
+        for (let val in arr[0]) {
+            console.log(val)
+        }
 
-        // axios.get(`http://127.0.0.1:3000/product/`)
-        // .then(res => {
-        // const products = res.data;
-        // arr = products});
-
-        this.setState({products : arr})
-        console.log(this.state.products)
+        console.log(`array : ${arr[0]['title']}`)
+        // this.setState({products : arr})
+        // console.log(this.state.products)
     }
 
     doUpdate() {
