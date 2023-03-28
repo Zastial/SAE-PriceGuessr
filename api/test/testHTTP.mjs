@@ -6,11 +6,6 @@ import { userController } from '../controller/userController.mjs';
 
 chai.use(chaiHttp);
 
-let user = new User({
-    "login": "Martin",
-    "password": await hashPassword("Schreiber")
-});
-
 let token = null
 
 const server = await start();
@@ -46,10 +41,13 @@ describe('Test product requests', function() {
         const res = await requester.get('/product').auth(token, { type: 'auto'});
         assert.equal(res.status, 200);
         */
+       console.log(await userController.findByLogin("lolo"));
         const res = await server.inject({
             method: 'get',
-            url: '/product'
+            url: '/product',
+            headers: { 'Authentication': token }
         });
+        assert.equal(res.statusCode, 200);
     });
 
     requester.close();
