@@ -43,7 +43,17 @@ const checkByDate = [
 
 const checkAddUser = new User({
     "login": "Mathis",
+    "password": await hashPassword("C4")
+});
+
+const realUser = new User({
+    "login": "Mathis",
     "password": await hashPassword("D4")
+});
+
+const fakeUser = new User({
+    "login": "Jean-Michel",
+    "password": await hashPassword("E5")
 });
 
 describe('ProductDAO test', function() {
@@ -130,5 +140,23 @@ describe('UserDAO test', function() {
     it('Check that user creation works as expected', async function() {
         const user = await uDAO.save(checkAddUser);
         assert(user.isPasswordValid(checkAddUser.password));
+    });
+
+    it('Check that password change works as expected', async function() {
+        const user = await uDAO.updatePassword(realUser);
+        assert(user.isPasswordValid(realUser.password));
+    });
+
+    it('Try to change the password of a nonexistent user', async function() {
+        assert.isRejected(uDAO.updatePassword(fakeUser));
+    });
+    
+    it('Check if user deletion works properly', async function() {
+        const user = await uDAO.delete(realUser.login);
+        assert(user.isPasswordValid(realUser.password));
+    });
+
+    it('Try deleting a user that doesnt exist', async function() {
+        assert.isRejected(uDAO.delete(fakeUser.login));
     });
 });
