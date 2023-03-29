@@ -4,14 +4,13 @@ import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
 
-let token = null
-
 const server = await start();
 
-describe('Test product requests', function() {
+describe('Given a test implementation of the server', function() {
     const requester = chai.request('http://127.0.0.1:3000').keepOpen();
+    let token = null
 
-    it('Create a user', async function() {
+    it('Requesting the creating of a user', async function() {
         const res = await requester.post('/user/register').set('content-type', 'application/json').send({
             login: "lolo",
             password: "hi"
@@ -19,7 +18,7 @@ describe('Test product requests', function() {
         assert.equal(res.status, 201);
     });
 
-    it('Get token', async function() {
+    it('Requesting the token of the user', async function() {
         const res = await requester.post('/user/auth').set('content-type', 'application/json').send({
             login: "lolo",
             password: "hi"
@@ -28,12 +27,12 @@ describe('Test product requests', function() {
         token = res.body.token
     });
     
-    it('Try to get products without auth', async function() {
+    it('Requesting all products without auth', async function() {
         const res = await requester.get('/product');
         assert.equal(res.status, 401);
     });
     
-    it('Try to get all products', async function() {
+    it('Requesting all products with auth', async function() {
         const res = await requester.get('/product').set('Authorization', token);
         assert.equal(res.status, 200);
     });
