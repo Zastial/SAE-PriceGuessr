@@ -70,7 +70,8 @@
 
 .game .gameInterface .game-guess .guess-info{
     display: flex;
-    height: 70vh;
+    height: 60vh;
+    width: 80vw;
     justify-content: center;
 }
 
@@ -145,11 +146,11 @@
 }
 
 
-.rnc__notification-container--top-right .rnc__notification-title {
+.rnc__notification-container--bottom-right .rnc__notification-title {
     font-size: 18px;
 }
 
-.rnc__notification-container--top-right .rnc__notification-message {
+.rnc__notification-container--bottom-right .rnc__notification-message {
     font-size: 17px;
 }
 

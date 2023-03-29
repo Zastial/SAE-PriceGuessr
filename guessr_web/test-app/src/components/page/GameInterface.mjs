@@ -99,11 +99,11 @@ class GameInterface extends React.Component {
                 message: "Vous n'avez plus de guess disponible. Changez de produit ou revenez demain !",
                 type: "warning",
                 insert: "top",
-                container: "top-right",
+                container: "bottom-right",
                 animationIn: ["animate__animated", "animate__fadeIn"],
                 animationOut: ["animate__animated", "animate__fadeOut"],
                 dismiss: {
-                  duration: 1000000000,
+                  duration: 6000,
                   onScreen: true
                 }
             });
@@ -117,7 +117,7 @@ class GameInterface extends React.Component {
                 message: "Vous avez trouvé le juste prix ! Essayez un autre produit ou revenez demain !",
                 type: "success",
                 insert: "top",
-                container: "top-right",
+                container: "bottom-right",
                 animationIn: ["animate__animated", "animate__fadeIn"],
                 animationOut: ["animate__animated", "animate__fadeOut"],
                 dismiss: {
