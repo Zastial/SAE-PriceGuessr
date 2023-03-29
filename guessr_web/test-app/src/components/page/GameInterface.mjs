@@ -1,7 +1,7 @@
 import '../style/game.css'
-import React, {useState} from "react";
+import React from "react";
 import Button from '../Button.mjs'
-import {getProducts, getProductById, getDailyProducts, guessThePrice, getProductsByDate, register, login, deleteUser, modifyUser} from '../API.mjs';
+import {getDailyProducts, guessThePrice} from '../API.mjs';
 import { Store } from 'react-notifications-component';
 
 import thumbup from "../img/thumbup.png";
@@ -46,37 +46,67 @@ class GameInterface extends React.Component {
 
     before() {
         if(this.state.indexProduit === 0) {
-            return
-        }
-        this.setState({
-            indexProduit : this.state.indexProduit - 1,
-            produitCourant:this.produits[this.state.indexProduit-1],
-            isPVisible: false
-        })
-        if (this.guessChance[this.produits[this.state.indexProduit-1].id] < 5) {
             this.setState({
-                isPVisible: true
+                indexProduit : 9,
+                produitCourant: this.produits[9],
+                isPVisible: false
             })
+
+            if (this.guessChance[this.produits[9].id] < 5) {
+                this.setState({
+                    isPVisible: true
+                })
+            }
+        } else {
+            this.setState({
+                indexProduit : this.state.indexProduit - 1,
+                produitCourant:this.produits[this.state.indexProduit-1],
+                isPVisible: false
+            })
+
+            if (this.guessChance[this.produits[this.state.indexProduit-1].id] < 5) {
+                this.setState({
+                    isPVisible: true
+                })
+            }
         }
+
         this.indexIMG = 4
+        document.getElementById("inputGuessPrice").disabled = false;
+        document.getElementById("buttonGuessPrice").disabled = false;
+        document.getElementById("buttonGuessPrice").style.backgroundColor = "black";
     }
 
     after() {
         if(this.state.indexProduit === 9) {
-            return
-        }
-        this.setState({
-            indexProduit: this.state.indexProduit + 1,
-            produitCourant: this.produits[this.state.indexProduit+1],
-            isPVisible: false
-        })
-
-        if (this.guessChance[this.produits[this.state.indexProduit+1].id] < 5) {
             this.setState({
-                isPVisible: true
+                indexProduit : 0,
+                produitCourant:this.produits[0],
+                isPVisible: false
             })
+
+            if (this.guessChance[this.produits[0].id] < 5) {
+                this.setState({
+                    isPVisible: true
+                })
+            }
+        } else {
+            this.setState({
+                indexProduit: this.state.indexProduit + 1,
+                produitCourant: this.produits[this.state.indexProduit+1],
+                isPVisible: false
+            })
+
+            if (this.guessChance[this.produits[this.state.indexProduit+1].id] < 5) {
+                this.setState({
+                    isPVisible: true
+                })
+            }
         }
         this.indexIMG = 4
+        document.getElementById("inputGuessPrice").disabled = false;
+        document.getElementById("buttonGuessPrice").disabled = false;
+        document.getElementById("buttonGuessPrice").style.backgroundColor = "black";
     }
 
     async doUpdate(price) {
@@ -94,6 +124,7 @@ class GameInterface extends React.Component {
 
 
         if(guess_price['guessRemaining'] === 0) {
+            Store.removeAllNotifications()
             Store.addNotification({
                 title: "Nombre de guess insuffisant",
                 message: "Vous n'avez plus de guess disponible. Changez de produit ou revenez demain !",
@@ -108,10 +139,17 @@ class GameInterface extends React.Component {
                 }
             });
             this.indexIMG = 3;
+            this.setState({
+                count: this.state.produitCourant.price
+            })
+            document.getElementById("inputGuessPrice").disabled = true;
+            document.getElementById("buttonGuessPrice").disabled = true;
+            document.getElementById("buttonGuessPrice").style.backgroundColor = "grey";
             return
         }
 
         if(guess_price['correct']) {
+            Store.removeAllNotifications()
             Store.addNotification({
                 title: "Félicitations !! ",
                 message: "Vous avez trouvé le juste prix ! Essayez un autre produit ou revenez demain !",
@@ -130,11 +168,11 @@ class GameInterface extends React.Component {
             const value = sessionStorage.getItem["correctGuess"]
             value[this.produitCourant.id] = true
             sessionStorage.setItem["correctGuess"] = value
-
+            document.getElementById("inputGuessPrice").disabled = true;
+            document.getElementById("buttonGuessPrice").disabled = true;
+            document.getElementById("buttonGuessPrice").style.backgroundColor = "grey";
             return
         }
-
-
 
     }
 
@@ -156,12 +194,12 @@ class GameInterface extends React.Component {
                         <p className={(this.state.isPVisible) ? "block" : "none" }> {this.guessChance[this.state.produitCourant.id]} chances restantes </p>
                     </div>
                     <div className="the-guess">
-                        <input type="number" min="0" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
+                        <input id="inputGuessPrice" type="number" min="0" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
                         <p>€</p>
                         <img className="rightPrice" src={this.guessPriceCorrect[this.indexIMG]} alt="itIsTheRightPrice"/>
                     </div>
                 </div>
-                <Button name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>
+                <Button id="buttonGuessPrice" name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>
                 <p>Produit n°{this.state.indexProduit + 1}/10</p>
             </div>
         );
