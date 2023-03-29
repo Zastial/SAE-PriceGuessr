@@ -4,6 +4,11 @@ import Button from '../Button.mjs'
 import {getProducts, getProductById, getDailyProducts, guessThePrice, getProductsByDate, register, login, deleteUser, modifyUser} from '../API.mjs';
 import { Store } from 'react-notifications-component';
 
+import thumbup from "../img/thumbup.png";
+import thumbdown from "../img/thumbdown.png";
+import check from "../img/check.png";
+import notCheck from "../img/notcheck.png";
+import nothing from "../img/nothing.png"
 
 class GameInterface extends React.Component {
 
@@ -18,6 +23,8 @@ class GameInterface extends React.Component {
         }
         this.produits = []
         this.guessChance={}
+        this.guessPriceCorrect=[thumbup, thumbdown, check, notCheck, nothing]
+        this.indexIMG = 4
         this.doUpdate = this.doUpdate.bind(this)
         this.before = this.before.bind(this)
         this.after = this.after.bind(this)
@@ -51,6 +58,7 @@ class GameInterface extends React.Component {
                 isPVisible: true
             })
         }
+        this.indexIMG = 4
     }
 
     after() {
@@ -68,6 +76,7 @@ class GameInterface extends React.Component {
                 isPVisible: true
             })
         }
+        this.indexIMG = 4
     }
 
     async doUpdate(price) {
@@ -81,7 +90,10 @@ class GameInterface extends React.Component {
             isPVisible:true
         })
 
-        if(guess_price['maxGuessReached']) {
+        this.indexIMG = (guess_price['correctPriceisLess']) ? 0 : 1
+
+
+        if(guess_price['guessRemaining'] === 0) {
             Store.addNotification({
                 title: "Nombre de guess insuffisant",
                 message: "Vous n'avez plus de guess disponible. Changez de produit ou revenez demain !",
@@ -95,6 +107,7 @@ class GameInterface extends React.Component {
                   onScreen: true
                 }
             });
+            this.indexIMG = 3;
             return
         }
 
@@ -112,6 +125,12 @@ class GameInterface extends React.Component {
                   onScreen: true
                 }
             });
+            this.indexIMG = 2;
+
+            const value = sessionStorage.getItem["correctGuess"]
+            value[this.produitCourant.id] = true
+            sessionStorage.setItem["correctGuess"] = value
+
             return
         }
 
@@ -137,8 +156,9 @@ class GameInterface extends React.Component {
                         <p className={(this.state.isPVisible) ? "block" : "none" }> {this.guessChance[this.state.produitCourant.id]} chances restantes </p>
                     </div>
                     <div className="the-guess">
-                        <input type="number" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
+                        <input type="number" min="0" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
                         <p>€</p>
+                        <img className="rightPrice" src={this.guessPriceCorrect[this.indexIMG]} alt="itIsTheRightPrice"/>
                     </div>
                 </div>
                 <Button name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>

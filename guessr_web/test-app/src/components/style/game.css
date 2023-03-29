@@ -102,13 +102,37 @@
     padding-bottom: 2rem;
 }
 
+.game .gameInterface .game-guess .the-guess > input, img {
+    margin: 0 1rem 0 1rem;
+}
+
 .game .gameInterface .game-guess .the-guess input {
+    height: 1.5rem;
     border: none;
     border-bottom: 2px solid #bebebe;
+    padding-top: 1.5rem;
+}
+
+.game .gameInterface .game-guess .the-guess input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.game .gameInterface .game-guess .the-guess input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .game .gameInterface .game-guess .the-guess input:focus {
     outline: none;
+}
+
+.game .gameInterface .game-guess .the-guess p {
+    padding-top: 1rem;
+}
+
+.game .gameInterface .game-guess .the-guess img{
+    width: 4rem;
+    height: 4rem;
 }
 
 .game .gameInterface button {
