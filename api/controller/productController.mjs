@@ -27,7 +27,6 @@ export const productController = {
             }
             
         } catch (e) {
-            console.log(e)
             return Promise.reject({message: "error"})
         }
     },
