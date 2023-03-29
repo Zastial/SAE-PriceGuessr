@@ -9,9 +9,18 @@ body {
     font-family: Merriweather, serif;
 }
 
+.app-login {
+    margin-top: -5%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 h1 {
     text-align: center;
-    padding-top: 8rem;
     padding-bottom: 2rem;
     font-weight: bold;
 }
@@ -76,7 +85,6 @@ h1 {
     text-decoration: none;
     color: black;
     font-weight: bold;
-    margin-bottom: 1rem;
 }
 
 .app-form-login .content .accounts {
@@ -101,6 +109,31 @@ h1 {
 
 .app-form-login .content .accounts .connect-button:hover {
     background-color: #6e6e6e;
-    cursor: pointer;
     transition: 0.2s;
+}
+
+.app-form-login .content .accounts .butSignUp {
+    text-decoration: none;
+    color: white;
+    background-color: #242424;
+    width: calc(100% - 2rem);
+    padding: 1rem 0 1rem 0;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.app-form-login .content .accounts .butSignUp:hover {
+    background-color: rgb(109, 108, 108);
+    transition: 0.2s;
+}
+
+.rnc__notification-container--top-right .rnc__notification-title {
+    font-size: 18px;
+}
+
+.rnc__notification-container--top-right .rnc__notification-message {
+    font-size: 17px;
 }

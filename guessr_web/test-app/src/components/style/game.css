@@ -29,7 +29,7 @@
 }
 
 .game .navbar ul {
-    margin-top: 15rem;
+    margin-top: 30vh;
     list-style: none;
     padding: 0;
 }
@@ -48,18 +48,30 @@
 }
 
 .game .gameInterface {
+    width: 80%;
     text-align: center;
     color: black;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .game .gameInterface .game-info {
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.game .gameInterface .game-info p {
+    margin: 0 100px 20px 100px;
 }
 
 .game .gameInterface .game-guess .guess-info{
     display: flex;
-    height: 40rem;
+    height: 60vh;
+    width: 80vw;
     justify-content: center;
 }
 
@@ -70,6 +82,19 @@
 .game .gameInterface .game-guess .guess-info button{
     max-width: 4rem;
     height: auto;
+    margin: 0 100px 0 100px;
+}
+
+.game .gameInterface .game-guess .guess-board {
+    margin: 1rem;
+}
+
+.game .gameInterface .game-guess .guess-board .block {
+    visibility: visible;
+}
+
+.game .gameInterface .game-guess .guess-board .none {
+    visibility: hidden
 }
 
 .game .gameInterface .game-guess .the-guess {
@@ -78,11 +103,54 @@
     padding-bottom: 2rem;
 }
 
+.game .gameInterface .game-guess .the-guess > input, img {
+    margin: 0 1rem 0 1rem;
+}
+
+.game .gameInterface .game-guess .the-guess input {
+    height: 1.5rem;
+    border: none;
+    border-bottom: 2px solid #bebebe;
+    padding-top: 1.5rem;
+}
+
+.game .gameInterface .game-guess .the-guess input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.game .gameInterface .game-guess .the-guess input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.game .gameInterface .game-guess .the-guess input:focus {
+    outline: none;
+}
+
+.game .gameInterface .game-guess .the-guess p {
+    padding-top: 1rem;
+}
+
+.game .gameInterface .game-guess .the-guess img{
+    width: 4rem;
+    height: 4rem;
+}
 
 .game .gameInterface button {
+    max-width: 30rem;
     background-color: black;
 }
 
 .game .gameInterface button:hover {
     background-color: grey;
 }
+
+
+.rnc__notification-container--bottom-right .rnc__notification-title {
+    font-size: 18px;
+}
+
+.rnc__notification-container--bottom-right .rnc__notification-message {
+    font-size: 17px;
+}
+
