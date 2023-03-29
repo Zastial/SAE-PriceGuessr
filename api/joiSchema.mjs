@@ -34,9 +34,8 @@ export const joiProduct = Joi.object({
 export const joiProductArray = Joi.array().items(joiProduct).description("Array of stored products")
 
 export const joiGuessAnswer = Joi.object({
-    maxGuessReached: Joi.boolean().required().description("true if user has reached the max number of guesses"), 
     guessRemaining: Joi.number().required().description("number of guesses remaining"),
     correct: Joi.boolean().allow(null).required().description("true if the user guessed right"),
-    correctPriceLess: Joi.boolean().allow(null).required().description("true if the correct price is less than user guess")
+    correctPriceIsLess: Joi.boolean().allow(null).required().description("true if the correct price is less than user guess")
 })
 

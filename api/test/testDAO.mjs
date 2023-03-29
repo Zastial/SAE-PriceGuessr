@@ -16,7 +16,7 @@ const checkByID = new Product({
     "id": "1",
     "date": new Date("2023-01-01"),
     "title": "IKEA1",
-    "price": 100.0,
+    "price": 100,
     "imgSrc": "image.jpg",
     "desc": "An item from IKEA"
 });
@@ -26,7 +26,7 @@ const checkByDate = [
         "id": "3",
         "date": new Date("2023-01-02"),
         "title": "IKEA3",
-        "price": 100.0,
+        "price": 100,
         "imgSrc": "image.jpg",
         "desc": "An item from IKEA"
     }),
@@ -34,7 +34,7 @@ const checkByDate = [
         "id": "4",
         "date": new Date("2023-01-02"),
         "title": "IKEA4",
-        "price": 100.0,
+        "price": 100,
         "imgSrc": "image.jpg",
         "desc": "An item from IKEA"
     })

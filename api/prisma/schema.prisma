@@ -21,7 +21,7 @@ model Product {
   id String @id
   date DateTime @default(now())
   title String
-  price Float
+  price Int
   imgSrc String
   desc String
   users Guess[]
