@@ -172,7 +172,7 @@ const routes = [
             tags: ['api'],
             response: {
                 status: {
-                    200: joiProductArray,
+                    200: joiProductArray, // WHY does Joi NOT TELL YOU what fails in the response??
                     400: joiErrorMessage
                 },
             }
@@ -317,11 +317,7 @@ const server = Hapi.server({
     routes: {
         cors: true,
         response: {
-            // default failAction is 'error' which returns a code 500 and throws an error.
-            // For some reason /product always returns a 500 when testing, but no error is logged;
-            // This behavior is unexpected and caught here, but it might be necessary later to find the definitive bug.
-            // TL;DR: THIS IS A TEMPORARY FIX
-            failAction: 'log'
+            failAction: 'error' // 'error' is default
         },
         validate: {
             failAction: async (request, h, err) => {
