@@ -2,6 +2,8 @@ import '../style/game.css'
 import React, {useState} from "react";
 import Button from '../Button.mjs'
 import {getProducts, getProductById, getDailyProducts, guessThePrice, getProductsByDate, register, login, deleteUser, modifyUser} from '../API.mjs';
+import { Store } from 'react-notifications-component';
+
 
 class GameInterface extends React.Component {
 
@@ -11,9 +13,11 @@ class GameInterface extends React.Component {
             indexProduit:0,
             count:0,
             produits:[],
-            produitCourant:[]
+            produitCourant:[],
+            isPVisible:false
         }
         this.produits = []
+        this.guessChance={}
         this.doUpdate = this.doUpdate.bind(this)
         this.before = this.before.bind(this)
         this.after = this.after.bind(this)
@@ -26,40 +30,97 @@ class GameInterface extends React.Component {
             produits:[this.produits],
             produitCourant:this.produits[this.state.indexProduit]
         })
+
+        const produits = this.produits
+        for (const i in this.produits){
+            this.guessChance[produits[i].id] = 5
+        }
     }
 
     before() {
-        console.log(this.state.indexProduit)
         if(this.state.indexProduit === 0) {
             return
         }
         this.setState({
             indexProduit : this.state.indexProduit - 1,
-            produitCourant:this.produits[this.state.indexProduit-1]
+            produitCourant:this.produits[this.state.indexProduit-1],
+            isPVisible: false
         })
-        console.log(this.state.indexProduit)
+        if (this.guessChance[this.produits[this.state.indexProduit-1].id] < 5) {
+            this.setState({
+                isPVisible: true
+            })
+        }
     }
 
     after() {
-        console.log(this.state.indexProduit)
         if(this.state.indexProduit === 9) {
             return
         }
         this.setState({
             indexProduit: this.state.indexProduit + 1,
-            produitCourant: this.produits[this.state.indexProduit+1]
+            produitCourant: this.produits[this.state.indexProduit+1],
+            isPVisible: false
         })
-        console.log(this.state.indexProduit)
+
+        if (this.guessChance[this.produits[this.state.indexProduit+1].id] < 5) {
+            this.setState({
+                isPVisible: true
+            })
+        }
     }
 
+    async doUpdate(price) {
+        console.log(`prix :${this.state.produitCourant.price}`)
+        console.log(`prix rentré :${price}`)
+        const guess_price = await guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
+        console.log(guess_price)
 
-    doUpdate(price) {
-        // const guess_price = guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
-        // console.log(guess_price)
-        console.log(this.state.produitCourant.id)
+        this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
+        this.setState({
+            isPVisible:true
+        })
+
+        if(guess_price['maxGuessReached']) {
+            Store.addNotification({
+                title: "Nombre de guess insuffisant",
+                message: "Vous n'avez plus de guess disponible. Changez de produit ou revenez demain !",
+                type: "warning",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 1000000000,
+                  onScreen: true
+                }
+            });
+            return
+        }
+
+        if(guess_price['correct']) {
+            Store.addNotification({
+                title: "Félicitations !! ",
+                message: "Vous avez trouvé le juste prix ! Essayez un autre produit ou revenez demain !",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 6000,
+                  onScreen: true
+                }
+            });
+            return
+        }
+
+
+
     }
 
     render() {
+
         return (
             <div className="gameInterface">
                 <div className="game-info">
@@ -72,13 +133,15 @@ class GameInterface extends React.Component {
                         <img className="product-picture" src={this.state.produitCourant.imgSrc}alt="description produit ikea"/>
                         <Button name=">" doUpdate={this.after} /> 
                     </div>
-                    <p> 1 chance sur 5 </p>
+                    <div className='guess-board'>
+                        <p className={(this.state.isPVisible) ? "block" : "none" }> {this.guessChance[this.state.produitCourant.id]} chances restantes </p>
+                    </div>
                     <div className="the-guess">
                         <input type="number" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
                         <p>€</p>
                     </div>
                 </div>
-                <Button name="Valider" doUpdate={e=> {this.doUpdate(e.target.value)}}/>
+                <Button name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>
                 <p>Produit n°{this.state.indexProduit + 1}/10</p>
             </div>
         );

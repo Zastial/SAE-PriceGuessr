@@ -106,9 +106,6 @@ class Login extends React.Component {
                     </div>
                 
                     <div className="accounts">
-                        <Link to="/mdpforgot" variant = "body2">
-                            Mot de passe oublié ? 
-                        </Link>
                         <Link to="/" onClick={this.login} className="connect-button" variant = "body2">
                             Se connecter
                         </Link>

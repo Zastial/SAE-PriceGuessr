@@ -127,8 +127,7 @@ class SignUp extends React.Component {
                     </div>
                 
                     <div className="accounts">
-                        <a href="localhost">Forgot Password</a>
-                        <div onClick={this.login}>s'inscrire</div>
+                        <div className="butSignUp" onClick={this.login}>S'inscrire</div>
                         <Link to="/" variant = "body2">
                             Déjà un compte ? Connectez-vous 
                         </Link>                        
