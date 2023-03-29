@@ -28,7 +28,7 @@ model Product {
 }
 
 model Guess {
-  user User @relation(fields: [userLogin], references: [login])
+  user User @relation(fields: [userLogin], references: [login], onDelete: Cascade)
   userLogin String
   product Product @relation(fields: [productId], references: [id])
   productId String
