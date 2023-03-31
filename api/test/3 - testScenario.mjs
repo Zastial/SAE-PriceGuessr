@@ -4,8 +4,6 @@ import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
 
-const server = await start();
-
 describe('Given a realistic scenario on the server with a user creating an account and playing the guessing game with products', () => {
     const requester = chai.request('http://127.0.0.1:3000').keepOpen();
     let token = null;
@@ -32,33 +30,37 @@ describe('Given a realistic scenario on the server with a user creating an accou
         assert.equal(res.status, 200);
     });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 1', async () => {
         const res = await requester.get('/product/1/50').set('Authorization', token);
         assert.equal(res.status, 200);
     });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 1', async () => {
         const res = await requester.get('/product/1/80').set('Authorization', token);
         assert.equal(res.status, 200);
     });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 1', async () => {
         const res = await requester.get('/product/1/150').set('Authorization', token);
         assert.equal(res.status, 200);
     });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 1', async () => {
         const res = await requester.get('/product/1/120').set('Authorization', token);
         assert.equal(res.status, 200);
     });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 1', async () => {
         const res = await requester.get('/product/1/110').set('Authorization', token);
         assert.equal(res.status, 200);
     });
     
+    it('Requesting a guess for product 2', async () => {
+        const res = await requester.get('/product/1/90').set('Authorization', token);
+        assert.equal(res.status, 200);
+    });
 
-    it('Requesting a guess for the price of a product', async () => {
+    it('Requesting a guess for product 2', async () => {
         const res = await requester.get('/product/1/100').set('Authorization', token);
         assert.equal(res.status, 200);
     });
