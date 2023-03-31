@@ -15,10 +15,8 @@ import Compte from './components/page/Compte';
 import NotFound from './components/NotFound';
 
 
-function sessionAvailable() {
-  const username = sessionStorage.getItem("username");
-  const password = sessionStorage.getItem("password");
-  return username != null && password != null
+function sessionAvailable() { 
+  return sessionStorage.getItem("jwt");
 }
 
 function App() {

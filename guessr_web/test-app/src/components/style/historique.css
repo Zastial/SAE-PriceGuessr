@@ -1,0 +1,35 @@
+.historique {
+    width: 80%;
+    overflow-x: hidden;
+}
+
+.historique h1{
+    text-align: center;
+}
+
+.historique .allproducts .content-columns {
+    display: flex;
+}
+
+.historique .allproducts .content-columns li {
+    margin-left: -2rem;
+    margin-bottom: 2rem;
+    margin-right: 4rem;
+}
+
+.historique .allproducts .prod {
+    width: 30rem;
+    list-style: none;
+    list-style-position:inside;
+    border: 1px solid black;
+}
+
+.historique .allproducts .prod a {
+    display: flex;
+    color: black;
+    text-decoration: none;
+}
+
+.historique .allproducts .prod img {
+    width: 10rem;
+}

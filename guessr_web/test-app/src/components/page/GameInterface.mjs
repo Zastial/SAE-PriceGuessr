@@ -1,8 +1,9 @@
 import '../style/game.css'
 import React from "react";
 import Button from '../Button.mjs'
-import {getDailyProducts, guessThePrice} from '../API.mjs';
+import {DAOProduct} from '../API.mjs';
 import { Store } from 'react-notifications-component';
+import JSON from 'json5'
 
 import thumbup from "../img/thumbup.png";
 import thumbdown from "../img/thumbdown.png";
@@ -31,17 +32,26 @@ class GameInterface extends React.Component {
     }
 
     async componentDidMount() {
-        this.produits = await getDailyProducts(sessionStorage.getItem("jwt"))
+        this.produits = await DAOProduct.getDailyProducts(sessionStorage.getItem("jwt"))
         
         this.setState({
             produits:[this.produits],
             produitCourant:this.produits[this.state.indexProduit]
         })
 
-        const produits = this.produits
-        for (const i in this.produits){
-            this.guessChance[produits[i].id] = 5
+        if(sessionStorage.getItem("guessChance").length === 0) {
+            const produits = this.produits
+            for (const i in this.produits){
+                this.guessChance[produits[i].id] = 5
+            }
+            sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
+        } else {
+            this.guessChance = JSON.parse(sessionStorage.getItem("guessChance"))
+            this.setState({
+                isPVisible:true 
+            })
         }
+
     }
 
     before() {
@@ -112,10 +122,12 @@ class GameInterface extends React.Component {
     async doUpdate(price) {
         console.log(`prix :${this.state.produitCourant.price}`)
         console.log(`prix rentré :${price}`)
-        const guess_price = await guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
+        const guess_price = await DAOProduct.guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
         console.log(guess_price)
 
         this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
+        sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
+
         this.setState({
             isPVisible:true
         })
@@ -177,7 +189,6 @@ class GameInterface extends React.Component {
     }
 
     render() {
-
         return (
             <div className="gameInterface">
                 <div className="game-info">

@@ -1,6 +1,7 @@
 import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
+import loginIMG from './img/LoginB.png';
 
 import {Link} from "react-router-dom";
 import React from "react";
@@ -57,8 +58,6 @@ class Login extends React.Component {
             } );
 
             if (ok) {
-                sessionStorage.setItem("username", this.state.username);
-                sessionStorage.setItem("password", this.state.password);
                 sessionStorage.setItem("jwt", response.data['token']);
 
                 this.setState({jwt:response.data['token']})   
@@ -85,7 +84,9 @@ class Login extends React.Component {
     render() {
         return (
         <div className="app-login">
-            <h1>LOGIN</h1>
+            <div className="img">
+                <img src={loginIMG} alt="signup"/>
+            </div>
             <form className="app-form-login">
                 <div className="content">
 

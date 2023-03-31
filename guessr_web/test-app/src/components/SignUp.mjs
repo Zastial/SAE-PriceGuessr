@@ -1,6 +1,7 @@
 import './style/login.css'
 import showPwdImg from './img/showPwd.png';
 import hidePwdImg from './img/hidePwd.png';
+import registerIMG from './img/RegisterB.png';
 
 import { Link } from "react-router-dom";
 import React from "react";
@@ -95,8 +96,9 @@ class SignUp extends React.Component {
 
         return (
         <div className="app-login">
-            <h1>SIGN UP</h1>
-            <form className="app-form-login">
+            <div className="img">
+                <img src={registerIMG} alt="signup"/>
+            </div>            <form className="app-form-login">
                 <div className="content">
 
                     <div className="content-logins">
