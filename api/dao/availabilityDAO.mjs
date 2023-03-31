@@ -19,9 +19,9 @@ const ikeaOptions = {
 export const availabilityDAO = {
     findById: async (id) => {
         try {
+            const productId = id.replace(/[^\d.-]/g, '')
             const stores = ikea.stores.findByCountryCode("fr");
-            const objs = await ikea.availabilities(stores, [id], ikeaOptions);
-
+            const objs = await ikea.availabilities(stores, [productId], ikeaOptions);
             const availabilities = objs.map(obj=>{
                 return new Availability({
                     buCode: obj.buCode,
@@ -33,6 +33,10 @@ export const availabilityDAO = {
             })
             return availabilities
         } catch (e) {
+            // return null if product is invalid, or no availabilities are found
+            if (!e.response.data.availabilities) {
+                return null
+            }
             return Promise.reject(e)
         }
         
