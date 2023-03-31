@@ -59,7 +59,14 @@ describe('Given a test scenario on the server with all routes in sequence', () =
         assert.equal(res.status, 200,'The status should be 200 (Success)');
     });
 
-    // TODO: DELETE and PUT on /user
-    
+    it('Requesting a password change for a user', async () => {
+        const res = await requester.put('/user').set('Authorization', token).send({password: 'hihi'})
+    });
+
+    it('Requesting the deletion of a user', async () => {
+        const res = await requester.delete('/user').set('Authorization', token);
+        assert.equal(res.status, 200, 'The status should be 200 (Success)'); 
+    });
+
     requester.close();
 });

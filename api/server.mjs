@@ -7,7 +7,7 @@ import Vision from '@hapi/vision'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import * as dotenv from 'dotenv'
-import { joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
+import { joiAvailability, joiAvailabilityArray, joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
 
@@ -308,6 +308,39 @@ const routes = [
                 return h.response(e).code(400)
             }
         }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/availability/{productId}',
+        options: {
+            auth: false,
+            description: 'Get product availability',
+            notes: 'Get the availability of a product in french IKEA stores',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    productId: Joi.string().min(8).required().description("id of the product")
+                })
+            },
+            response: {
+                status: {
+                    200: joiAvailabilityArray,
+                    400: joiErrorMessage
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const availabilities = await productController.getAvailability(request.params.productId)
+                if (!availabilities) {
+                    return h.response({message: "product not found or no availabilities"}).code(400)
+                }
+                return h.response(availabilities).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
     }
 ]
 
@@ -323,8 +356,8 @@ const server = Hapi.server({
             failAction: async (request, h, err) => {
                 if (process.env.MODE_ENV === 'dev') {
                     console.error(err.message)
-                    throw err;
                 }
+                throw err;
             }
         }
     }

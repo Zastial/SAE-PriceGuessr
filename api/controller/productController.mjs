@@ -1,8 +1,16 @@
 'use strict'
 
+import { availabilityDAO } from "../dao/availabilityDAO.mjs"
 import { productDAO } from "../dao/productDAO.mjs"
 
 export const productController = {
+    getAvailability: async (productId) => {
+        try {
+            return await availabilityDAO.findById(productId)
+        } catch (e) {
+            return Promise.reject({message: "error"})
+        }
+    },
     guessPrice: async (productId, login, priceGuess) => {
         try {
             const product = await productDAO.findById(productId)
