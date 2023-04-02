@@ -1,3 +1,4 @@
+'use strict'
 import { productController } from '../controller/productController.mjs'
 import { userController } from '../controller/userController.mjs'
 import chai, { assert } from 'chai';

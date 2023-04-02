@@ -1,25 +1,26 @@
+'use strict'
 import { start } from '../server.mjs'
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
-
+// These test cases cannot work in isolation; See testHTTP for more details.
 describe('Given a realistic scenario on the server with a user creating an account and playing the guessing game with products', () => {
     const requester = chai.request('http://127.0.0.1:3000').keepOpen();
     let token = null;
 
     it('Requesting the creation of the user', async () => {
         const res = await requester.post('/user/register').set('content-type', 'application/json').send({
-            login: "lolo",
-            password: "hi"
+            login: "Mathis",
+            password: "Michenaud"
         });
         assert.equal(res.status, 201);
     });
 
     it('Requesting the token of the user', async () => {
         const res = await requester.post('/user/auth').set('content-type', 'application/json').send({
-            login: "lolo",
-            password: "hi"
+            login: "Mathis",
+            password: "Michenaud"
         });
         assert.equal(res.status, 200);
         token = res.body.token

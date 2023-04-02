@@ -11,9 +11,13 @@ const agent = new HttpsProxyAgent({
     proxy: process.env.https_proxy
 })
 
-const ikeaOptions = {
-    proxy: false, 
-    httpsAgent: agent
+const ikeaOptions = null
+
+if (process.env.change_proxy === 'true') {
+    ikeaOptions = {
+        proxy: false, 
+        httpsAgent: agent
+    }
 }
 
 export const availabilityDAO = {
@@ -33,8 +37,7 @@ export const availabilityDAO = {
             })
             return availabilities
         } catch (e) {
-            // return null if product is invalid, or no availabilities are found
-            if (!e.response.data.availabilities) {
+            if (e.toString() == 'IngkaResponseError: Not found') {// Importing the error itself is impossible for some reason
                 return null
             }
             return Promise.reject(e)

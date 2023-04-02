@@ -1,3 +1,4 @@
+'use strict'
 import { start } from '../server.mjs'
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
@@ -5,7 +6,9 @@ import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
 const server = await start();
-
+// HTTP tests cases are the only ones that cannot work in isolation, because of how authentication works.
+// The token has to be generated and checked by JWT which is outside of the tests' control.
+// As such, the tokens obtained are used in the following requests. 401 errors mean something went wrong in that process.
 describe('Given a test scenario on the server with all routes in sequence', () => {
     const requester = chai.request('http://127.0.0.1:3000').keepOpen();
     let token = null;
@@ -59,8 +62,15 @@ describe('Given a test scenario on the server with all routes in sequence', () =
         assert.equal(res.status, 200,'The status should be 200 (Success)');
     });
 
-    it('Requesting a password change for a user', async () => {
-        const res = await requester.put('/user').set('Authorization', token).send({password: 'hihi'})
+    it('Requesting a password change for a user and checking it', async () => {
+        const res1 = await requester.put('/user').set('Authorization', token).send({password: 'hihi'});
+        assert.equal(res1.status, 200, 'The status should be 200 (Success)')
+        const res2 = await requester.post('/user/auth').set('content-type', 'application/json').send({
+            login: "lolo",
+            password: "hihi"
+        });
+        assert.equal(res2.status, 200,'The status should be 200 (Success)');
+        token = res2.body.token
     });
 
     it('Requesting the deletion of a user', async () => {

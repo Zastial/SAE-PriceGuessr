@@ -1,6 +1,9 @@
+'use strict'
 import Product from '../model/Product.mjs';
+import Availability from '../model/Availability.mjs';
 import User, { hashPassword } from '../model/User.mjs';
 import { productDAO } from '../dao/productDAO.mjs';
+import { availabilityDAO } from '../dao/availabilityDAO.mjs'
 import { userDAO } from '../dao/userDAO.mjs';
 import { testPopulate } from "../dao/data/test/testPopulate.mjs";
 import chai, { assert } from 'chai';
@@ -175,6 +178,21 @@ describe('Given ProductDAO with a set of testing products', () => {
 
     it('Incrementing the guesses with a nonexistent user', async () => {
         assert.isRejected(pDAO.incGuess("1", "ksdlf"));
+    });
+});
+
+describe('Given Availability with a set of testing products', async () => {
+    const aDAO = availabilityDAO;
+    
+    it('Finding availability by ID', async () => {
+        const availObj = await aDAO.findById("50514846"); // example ID taken from the IKEA source since the test database doesn't contain actual IDs
+        assert.isArray(availObj, 'Then an availability array should be returned');
+        assert.hasAllKeys(availObj[0], ['buCode', 'stock', 'name', 'longitude', 'latitude'], 'Then the objects should have the right fields to provide availability');
+    });
+
+    it('Finding availability with an invalid ID', async () => {
+        const availObj = await aDAO.findById("01234567");
+        assert.equal(availObj, null, 'Then null should be returned')
     });
 });
 
