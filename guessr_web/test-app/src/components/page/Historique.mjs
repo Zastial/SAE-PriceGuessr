@@ -39,7 +39,7 @@ class ProductList extends React.Component {
     const productsColumn = []
     for (let i = 0; i < products.length; i++) {
       let productsTwo = []
-      productsTwo.push(products.splice(0,6))
+      productsTwo.push(products.splice(0,4))
       productsColumn.push(<ProductColumn prod={productsTwo}/>)
       productsTwo = []
     }

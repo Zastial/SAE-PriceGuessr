@@ -39,7 +39,7 @@ class GameInterface extends React.Component {
             produitCourant:this.produits[this.state.indexProduit]
         })
 
-        if(sessionStorage.getItem("guessChance").length === 0) {
+        if(sessionStorage.getItem("guessChance") === null ||sessionStorage.getItem("guessChance").length === 0) {
             const produits = this.produits
             for (const i in this.produits){
                 this.guessChance[produits[i].id] = 5
@@ -51,7 +51,6 @@ class GameInterface extends React.Component {
                 isPVisible:true 
             })
         }
-
     }
 
     before() {
@@ -198,7 +197,7 @@ class GameInterface extends React.Component {
                 <div className="game-guess">
                     <div className="guess-info">
                         <Button name="<" doUpdate={this.before} />
-                        <img className="product-picture" src={this.state.produitCourant.imgSrc}alt="description produit ikea"/>
+                        <img className="product-picture" src={this.state.produitCourant.imgSrc} alt="description produit ikea"/>
                         <Button name=">" doUpdate={this.after} /> 
                     </div>
                     <div className='guess-board'>
