@@ -336,7 +336,6 @@ const routes = [
                 if (!availabilities) {
                     return h.response({message: "product not found or no availabilities"}).code(400)
                 }
-                console.log(availabilities)
                 return h.response(availabilities).code(200)
             } catch (e) {
                 return h.response(e).code(400)

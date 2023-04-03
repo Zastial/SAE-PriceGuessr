@@ -181,7 +181,7 @@ describe('Given ProductDAO with a set of testing products', () => {
     });
 });
 
-describe('Given Availability with a set of testing products', async () => {
+describe('Given AvailabilityDAO with a set of testing products', async () => {
     const aDAO = availabilityDAO;
     
     it('Finding availability by ID', async () => {
