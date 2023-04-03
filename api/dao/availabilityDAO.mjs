@@ -11,7 +11,7 @@ const agent = new HttpsProxyAgent({
     proxy: process.env.https_proxy
 })
 
-const ikeaOptions = null
+let ikeaOptions = null
 
 if (process.env.USE_IUT_PROXY === 'true') {
     ikeaOptions = {

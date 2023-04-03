@@ -43,7 +43,7 @@ export const joiAvailability = Joi.object({
     buCode: Joi.string().required().description("id of the store"),
     stock: Joi.number().required().description("number of a product in the store"),
     name: Joi.string().required().description("name of the store"),
-    longitude: Joi.number().description("longitude of the store"),
+    longitude: Joi.number().required().description("longitude of the store"),
     latitude: Joi.number().required().description("latitude of the store")
 })
 
