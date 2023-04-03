@@ -38,6 +38,18 @@ export const DAOProduct = {
         return products})
     },
 
+    async getProductAvailability(token, id) {
+        return await axios.get(`http://127.0.0.1:3000/product/availability/${id}`,
+        {
+            headers: {
+                'Authorization': `${token}`
+            }
+        })
+        .then(res => {
+        const products = res.data;
+        return products})
+    },
+
     async getDailyProducts(token) {
         return await axios.get(`http://127.0.0.1:3000/product/daily`,
         {
@@ -62,8 +74,8 @@ export const DAOProduct = {
         return products})
     },
 
-    deleteUser(token) {
-        axios.delete(`http://127.0.0.1:3000/user`,
+    async deleteUser(token) {
+        await axios.delete(`http://127.0.0.1:3000/user`,
         {
             headers: {
                 'Authorization': `${token}` 

@@ -1,5 +1,6 @@
 .compte {
     width: 80%;
+    height: 100%;
 }
 
 .compte h1{
@@ -88,4 +89,14 @@
 
 .compte .modal-content .confirmation #annuler {
     background-color: red;
+}
+
+
+.compte .delete button {
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: red;
+    width: 20rem;
+    height: 4rem;
 }

@@ -16,7 +16,7 @@ class Modal extends React.Component {
       return(
           <div className = {classi}>
               <div className="modal-content">
-                  <span className="close" onClick={this.props.onDisplayModal.bind(this)}>X</span>
+                  <span aria-hidden="true" className="close" onClick={this.props.onDisplayModal.bind(this)}>&times;</span>
                   <p>{this.props.textModal}</p>
                   <div className="confirmation">
                     <Button id="confirmer" name="Confirmer" doUpdate={this.props.ok.bind(this)}/>
@@ -99,8 +99,8 @@ class Compte extends React.Component {
     })
   }
 
-  okDelete() {
-    DAOProduct.deleteUser(sessionStorage.getItem("jwt"))
+  async okDelete() {
+    await DAOProduct.deleteUser(sessionStorage.getItem("jwt"))
     sessionStorage.clear()
     window.location.reload()
   }
