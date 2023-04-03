@@ -62,6 +62,12 @@ describe('Given a test scenario on the server with all routes in sequence', () =
         assert.equal(res.status, 200,'The status should be 200 (Success)');
     });
 
+    it('Requesting the availability of a product', async () => {
+        // example ID taken from the IKEA source since the test database doesn't contain actual IDs
+        const res = await requester.get('/product/availability/50514846').set('Authorization', token);
+        assert.equal(res.status, 200, 'The status should be 200 (Success)')
+    });
+
     it('Requesting a password change for a user and checking it', async () => {
         const res1 = await requester.put('/user').set('Authorization', token).send({password: 'hihi'});
         assert.equal(res1.status, 200, 'The status should be 200 (Success)')
