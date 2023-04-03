@@ -62,17 +62,26 @@ export const DAOProduct = {
         return products})
     },
 
-     deleteUser(username) {
-        axios.delete(`http://127.0.0.1:3000/user/${username}`)
+     deleteUser(token) {
+        axios.delete(`http://127.0.0.1:3000/user`,
+        {
+            headers: {
+                'Authorization': `${token}` 
+            }
+        })
         .then(res => {
         console.log(res.data);
         })
     },
 
-     modifyUser(username, password) {
-        axios.modify(`http://127.0.0.1:3000/user/${username}`, {
-            login : username,
+     modifyUser(token, password) {
+        axios.put(`http://127.0.0.1:3000/user`, {
             password : password
+        },
+        {
+            headers: {
+                'Authorization': `${token}` 
+            }
         })
         .then(res => {
         console.log(res.data);
@@ -99,3 +108,5 @@ export const DAOProduct = {
         })
     }
 }
+
+export default DAOProduct

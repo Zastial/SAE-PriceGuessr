@@ -17,6 +17,14 @@
     padding-top: 3rem;
 }
 
+.game .navbar button {
+    background-color: grey;
+}
+
+.game .navbar button:hover {
+    background-color: rgb(109, 108, 108);
+}
+
 .game .navbar a {
     color: white;
     text-decoration: none;

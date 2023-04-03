@@ -47,11 +47,8 @@ class ProductList extends React.Component {
     return (
       <div className="content-columns">
           {productsColumn}
-          {productsColumn}
-          {productsColumn}
       </div>
     )
-
   }
 }
 
