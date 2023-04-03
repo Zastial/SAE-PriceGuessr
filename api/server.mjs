@@ -314,7 +314,6 @@ const routes = [
         method: 'GET',
         path: '/product/availability/{productId}',
         options: {
-            auth: false,
             description: 'Get product availability',
             notes: 'Get the availability of a product in french IKEA stores',
             tags: ['api'],
