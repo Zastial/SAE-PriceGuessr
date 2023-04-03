@@ -28,7 +28,7 @@ describe('Given a test scenario on the server with all routes in sequence', () =
         });
         assert.equal(res.status, 200,'The status should be 200 (Success)');
         token = res.body.token
-    });
+    }); // This test has to pass for the rest of the tests to work
     
     it('Requesting on products without auth', async () => {
         const res = await requester.get('/product');
