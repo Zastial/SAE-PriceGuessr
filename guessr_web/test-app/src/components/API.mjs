@@ -62,7 +62,7 @@ export const DAOProduct = {
         return products})
     },
 
-     deleteUser(token) {
+    deleteUser(token) {
         axios.delete(`http://127.0.0.1:3000/user`,
         {
             headers: {

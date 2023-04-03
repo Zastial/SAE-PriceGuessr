@@ -66,3 +66,26 @@
 .compte .displayBlock{
     display: block;
 }
+
+.compte .modal-content .confirmation {
+    display: flex;
+    justify-content: center;
+}
+
+.compte .modal-content p {
+    text-align: center;
+    font-weight: bold;
+}
+
+.compte .modal-content .confirmation button {
+    width: 30rem;
+    margin-right: 1rem;
+}
+
+.compte .modal-content .confirmation #confirmer {
+    background-color: green;
+}
+
+.compte .modal-content .confirmation #annuler {
+    background-color: red;
+}
