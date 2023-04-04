@@ -51,10 +51,11 @@
 
 .historique .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 8% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 40%;
+    height: 60%;
 }
 
 .historique .close {
@@ -73,4 +74,39 @@
 
 .historique .displayBlock{
     display: block;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content {
+    display: flex;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content .productInfo {
+    width: 50%;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content .image {
+    width: 20rem;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content .image img {
+    width: 100%;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content {
+    width: 50%;
+    height: 65%;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content .magList .villes {
+    width: 100%;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content .magList a {
+    color: black;
+}
+
+.historique .allproducts .content-columns ul div .modal .modal-content span {
+    height: fit-content;
 }

@@ -8,25 +8,49 @@ class Modal extends React.Component {
     super(props)
     this.state = {
       product : [],
-      productAvailability : []
+      productAvailability : [0]
     }
+    this.test = []
     this.onDisplayModal = this.onDisplayModal.bind(this)
   }
 
   async componentDidMount() {
-    if (this.props.id !== 0) {
-      const product = await DAOProduct.getProducts(sessionStorage.getItem("jwt"), this.props.id)
-      const productAvailability = await DAOProduct.getProductAvailability(sessionStorage.getItem("jwt"), this.props.id)
-  
-      this.setState({
-        product:product,
-        productAvailability: productAvailability
-      })
+
+    let pA = []
+    try {
+      pA = await DAOProduct.getProductAvailability(sessionStorage.getItem("jwt"), this.props.produitModal.id)
+    } catch(error) {
+      for (const i in this.props.produitModal.length) {
+        pA.push(i)
+      }
     }
+    this.setState({
+      product : this.props.produitModal,
+      productAvailability : pA
+    })
+    this.test = pA
   }
 
   onDisplayModal() {
-    this.props.onDisplayModal()
+    this.props.displayModal()
+  }
+
+  eachMag(tab) {
+    const tabMagName = []
+    for (const mag in tab) {
+      console.log(tab[mag])
+      tabMagName.push(
+        <li>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${tab[mag].latitude}%2C${tab[mag].longitude}`} target="blank">
+            {tab[mag].name}
+          </a>
+        </li>)
+    }
+    return (
+      <ul>
+        {tabMagName}
+      </ul>
+    )
   }
 
   render() {
@@ -34,19 +58,25 @@ class Modal extends React.Component {
 
     if(this.props.modal) { 
         classi += ' displayBlock'
-    }    
-
-    console.log(this.state.product)
+    }
 
     return(
         <div className = {classi}>
             <div className="modal-content">
-                <span aria-hidden="true" className="close" onClick={this.onDisplayModal}>&times;</span>
+              <div className="productInfo">
                 <p>{this.state.product.title}</p>
-                <p>{this.state.productAvailability.stock}</p>
+                <p>{this.state.product.price} €</p>
                 <div className="image">
-                  <img src={this.state.product.src} alt={this.state.product.title}/>
+                  <img src={this.state.product.imgSrc} alt={this.state.product.title}/>
                 </div>
+              </div>
+              <div className="magList">
+                <h2>Disponibilités :</h2>
+                <div className="villes">
+                  {this.eachMag(this.state.productAvailability)}
+                </div>
+              </div>
+              <span aria-hidden="true" className="close" onClick={this.onDisplayModal}>&times;</span>
             </div>
         </div>
     )
@@ -54,7 +84,6 @@ class Modal extends React.Component {
 }
 
 class ProductColumn extends React.Component {
-    
   render() {
     return(
       <ul>
@@ -68,43 +97,49 @@ class Product extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      modal:false,
+      prodAvailable : []
+    }
     this.onDisplayModal = this.onDisplayModal.bind(this)
   }
 
-  onDisplayModal() {
-    this.props.onDisplayModal(this.props.prod.id)
+
+  async onDisplayModal() {   
+    this.setState({modal: !this.state.modal})
+    for(const obj in this.props.prodsAvailable) {
+      if (this.props.prodsAvailable[obj].length !== 0) {
+        this.setState({
+          prodAvailable : this.props.prodsAvailable[obj]
+        })
+      }
+    }
   }
 
   render() {
-      return (
-          <li key={this.props.prod.id} className="prod">
-              <div className="linkToProduct" onClick={this.onDisplayModal}>
-                  <img src={this.props.prod.imgSrc} alt={this.props.prod.title}/>
-                  <div className="product-info">
-                      <h3>{this.props.prod.title}</h3>
-                      <h3>{this.props.prod.price} €</h3>
-                  </div>
+    return (
+      <div className="fullModalContent">
+        <Modal produitModal={this.props.prod} produitAvailability={this.props.prodsAvailable} modal={this.state.modal} displayModal={this.onDisplayModal} />
+        <li key={this.props.prod.id} className="prod">
+          <div className="linkToProduct" onClick={this.onDisplayModal}>
+              <img src={this.props.prod.imgSrc} alt={this.props.prod.title}/>
+              <div className="product-info">
+                  <h3>{this.props.prod.title}</h3>
+                  <h3>{this.props.prod.price} €</h3>
               </div>
-          </li>
-      )
+          </div>
+        </li>
+      </div>
+    )
   }
 }
 
 class ProductList extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.onDisplayModal = this.onDisplayModal.bind(this)
-  }
-
-  onDisplayModal(id) {
-    this.props.onDisplayModal(id)
-  }
-
   render() {
     let products = []
     for (let i = 0; i < this.props.products.length; i++) {
-      products.push(<Product onDisplayModal={this.onDisplayModal} prod={this.props.products[i]}/>)
+      products.push(<Product prod={this.props.products[i]} prodsAvailable={this.props.prodsAvailable}/>)
     }
 
     const productsColumn = []
@@ -129,29 +164,28 @@ class Historique extends React.Component {
     super(props)
     this.state = {
       produitsHistorique : [],
-      modal : false,
-      modalID : 0
+      prodsAvailable : []
     }
-    this.onDisplayModal = this.onDisplayModal.bind(this)
   }
   
   async componentDidMount() {
     this.setState({
-      produitsHistorique : await DAOProduct.getProducts(sessionStorage.getItem("jwt"))
+      produitsHistorique : await DAOProduct.getProducts(sessionStorage.getItem("jwt")),
     })
+    for(const obj in this.state.produitsHistorique) {
+      try {
+        const prodAvailable = await DAOProduct.getProductAvailability(sessionStorage.getItem("jwt"), this.state.produitsHistorique[obj].id)
+        this.setState({ prodsAvailable: [...this.state.prodsAvailable, prodAvailable] })
+      } catch(error) {
+        break
+      }
+    }
 
-    const scrollContainer = document.querySelector(".historique");
-
-    scrollContainer.addEventListener("wheel", (evt) => {
-        evt.preventDefault();
-        scrollContainer.scrollLeft += (evt.deltaY-60);
-    });
-  }
-
-  onDisplayModal(id=0) {
-    this.setState({
-      modal: !this.state.modal, 
-      modalID:id})
+    // const scrollContainer = document.querySelector(".historique");
+    // scrollContainer.addEventListener("wheel", (evt) => {
+    //     evt.preventDefault();
+    //     scrollContainer.scrollLeft += (evt.deltaY-60);
+    // });
   }
 
   getCurrentDate(){
@@ -167,9 +201,8 @@ class Historique extends React.Component {
     return (
       <div className="historique">
         <h1>Historique</h1>
-        <Modal id={this.state.modalID} modal={this.state.modal} onDisplayModal={this.onDisplayModal} />
         <div className="allproducts">
-          <ProductList modal={this.onDisplayModal} products={this.state.produitsHistorique}/>
+          <ProductList products={this.state.produitsHistorique} prodsAvailable={this.state.prodsAvailable}/>
         </div>
       </div>
     )
