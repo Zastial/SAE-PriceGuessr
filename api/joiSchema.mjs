@@ -48,3 +48,9 @@ export const joiAvailability = Joi.object({
 })
 
 export const joiAvailabilityArray = Joi.array().items(joiAvailability).description("Array of availabilities")
+
+export const joiDailyGuesses = Joi.object({
+    productId: Joi.string().required().description("id of the product"),
+    guessRemaining: Joi.number().required().description("number of guesses remaining")
+})
+export const joiDailyGuessesArray = Joi.array().items(joiDailyGuesses).description('Array of guesses of daily products. Can be empty.')

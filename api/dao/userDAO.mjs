@@ -1,9 +1,24 @@
 'use strict'
 import { PrismaClient } from '@prisma/client'
+import Guess from '../model/Guess.mjs'
 import User, { hashPassword } from '../model/User.mjs'
 let prisma = new PrismaClient()
 
 export const userDAO = {
+    findGuesses: async (userId, productIds) => {
+        try {
+            return (await prisma.guess.findMany({
+                where: {
+                    productId: {
+                        in: productIds
+                    },
+                    userLogin: userId
+                }
+            })).map(obj=>{return new Guess(obj)})
+        } catch (e) {
+            return Promise.reject(e)
+        } 
+    },
     findJwt: async (login) => {
         try {
             const user = await userDAO.findByLogin(login)

@@ -7,7 +7,7 @@ import Vision from '@hapi/vision'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import * as dotenv from 'dotenv'
-import { joiAvailability, joiAvailabilityArray, joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
+import { joiAvailability, joiAvailabilityArray, joiDailyGuessesArray, joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
 
@@ -271,6 +271,30 @@ const routes = [
             try {
                 const products = await productController.findByDate(request.params.date)
                 return h.response(products).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
+        path: '/product/daily/guesses',
+        options: {
+            description: 'Get guesses',
+            notes: 'Get guesses of user with jwt in authorization header. Only the guesses of the daily products are returned.',
+            tags: ['api'],
+            response: {
+                status: {
+                    200: joiDailyGuessesArray,
+                    400: joiErrorMessage,
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const guesses = await userController.findDailyGuesses(request.auth.credentials.login)
+                return h.response(guesses).code(200)
             } catch (e) {
                 return h.response(e).code(400)
             }
