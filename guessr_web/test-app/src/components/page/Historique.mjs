@@ -181,11 +181,11 @@ class Historique extends React.Component {
       }
     }
 
-    // const scrollContainer = document.querySelector(".historique");
-    // scrollContainer.addEventListener("wheel", (evt) => {
-    //     evt.preventDefault();
-    //     scrollContainer.scrollLeft += (evt.deltaY-60);
-    // });
+    const scrollContainer = document.querySelector(".historique");
+    scrollContainer.addEventListener("wheel", (evt) => {
+        evt.preventDefault();
+        scrollContainer.scrollLeft += (evt.deltaY-60);
+    });
   }
 
   getCurrentDate(){
