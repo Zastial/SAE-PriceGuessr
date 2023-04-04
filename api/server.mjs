@@ -279,6 +279,29 @@ const routes = [
 
     {
         method: 'GET',
+        path: '/product/daily/guess',
+        options: {
+            description: 'Get guesses',
+            notes: 'Get guesses of user with jwt and daily products',
+            tags: ['api'],
+            response: {
+                status: {
+                    400: joiErrorMessage,
+                }
+            }
+        },
+        handler: async (request, h) => {
+            try {
+                const guesses = await userController.findDailyGuesses(request.auth.credentials.login)
+                return h.response(guesses).code(200)
+            } catch (e) {
+                return h.response(e).code(400)
+            }
+        }
+    },
+
+    {
+        method: 'GET',
         path: '/product/{productId}/{priceGuess}',
         options: {
             description: 'Guess the price',

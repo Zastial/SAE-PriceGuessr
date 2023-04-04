@@ -2,10 +2,23 @@
 import { userDAO } from "../dao/userDAO.mjs"
 import jwt from 'jsonwebtoken'
 import { signToken } from "../authentification.mjs"
+import { productController } from "./productController.mjs"
 
 const ONE_DAY = 24*60*60
 
 export const userController = {
+    findDailyGuesses: async (userId) => {
+        try {
+            const dailyProducts = (await productController.findDailyProducts())
+                                .map(obj=>{return obj.id})
+
+            return await userDAO.findGuesses(userId, dailyProducts)
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    },
+    
+
     findAndValidateJwt: async (login) => {
         try {
             let token = await userDAO.findJwt(login)
