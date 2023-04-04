@@ -1,10 +1,13 @@
 .historique {
     width: 80%;
-    overflow-x: hidden;
 }
 
 .historique h1{
     text-align: center;
+}
+
+.historique .allproducts {
+    overflow-x: hidden;
 }
 
 .historique .allproducts .content-columns {

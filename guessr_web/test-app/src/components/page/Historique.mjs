@@ -12,10 +12,10 @@ class Modal extends React.Component {
     }
     this.test = []
     this.onDisplayModal = this.onDisplayModal.bind(this)
+    this.blockScroll = this.blockScroll.bind(this)
   }
 
   async componentDidMount() {
-
     let pA = []
     try {
       pA = await DAOProduct.getProductAvailability(sessionStorage.getItem("jwt"), this.props.produitModal.id)
@@ -31,14 +31,28 @@ class Modal extends React.Component {
     this.test = pA
   }
 
+  blockScroll() {
+    console.log("here")
+    const scrollContainer2 = document.querySelector(".allproducts .villes");
+    scrollContainer2.addEventListener("wheel", (evt) => {
+      evt.preventDefault();
+      if(evt.deltaY >= 0) {
+        scrollContainer2.scrollTop += (evt.deltaY-80);
+      } else {
+        scrollContainer2.scrollTop += (evt.deltaY+80);
+      }
+    });
+  }
+
   onDisplayModal() {
+    const scrollContainer = document.querySelector(".allproducts");
+    scrollContainer.setAttribute("style", "overflow-x: hidden");
     this.props.displayModal()
   }
 
   eachMag(tab) {
     const tabMagName = []
     for (const mag in tab) {
-      console.log(tab[mag])
       tabMagName.push(
         <li>
           <a href={`https://www.google.com/maps/search/?api=1&query=${tab[mag].latitude}%2C${tab[mag].longitude}`} target="blank">
@@ -47,7 +61,7 @@ class Modal extends React.Component {
         </li>)
     }
     return (
-      <ul>
+      <ul className="product-mag-info">
         {tabMagName}
       </ul>
     )
@@ -70,9 +84,9 @@ class Modal extends React.Component {
                   <img src={this.state.product.imgSrc} alt={this.state.product.title}/>
                 </div>
               </div>
-              <div className="magList">
+              <div className="magList" onScroll={this.blockScroll}>
                 <h2>Disponibilités :</h2>
-                <div className="villes">
+                <div className="villes" onScroll={this.blockScroll}>
                   {this.eachMag(this.state.productAvailability)}
                 </div>
               </div>
@@ -86,7 +100,7 @@ class Modal extends React.Component {
 class ProductColumn extends React.Component {
   render() {
     return(
-      <ul>
+      <ul className="product-column">
         {this.props.prod}
       </ul>
     )
@@ -102,10 +116,18 @@ class Product extends React.Component {
       prodAvailable : []
     }
     this.onDisplayModal = this.onDisplayModal.bind(this)
+    this.onProductClick = this.onProductClick.bind(this)
   }
 
+  onDisplayModal() {
+    this.setState({modal: !this.state.modal})
+  }
 
-  async onDisplayModal() {   
+  async onProductClick() {
+
+    const scrollContainer = document.querySelector(".allproducts");
+    scrollContainer.setAttribute("style", "overflow-x: clip");
+
     this.setState({modal: !this.state.modal})
     for(const obj in this.props.prodsAvailable) {
       if (this.props.prodsAvailable[obj].length !== 0) {
@@ -121,7 +143,7 @@ class Product extends React.Component {
       <div className="fullModalContent">
         <Modal produitModal={this.props.prod} produitAvailability={this.props.prodsAvailable} modal={this.state.modal} displayModal={this.onDisplayModal} />
         <li key={this.props.prod.id} className="prod">
-          <div className="linkToProduct" onClick={this.onDisplayModal}>
+          <div className="linkToProduct" onClick={ this.onProductClick}>
               <img src={this.props.prod.imgSrc} alt={this.props.prod.title}/>
               <div className="product-info">
                   <h3>{this.props.prod.title}</h3>
@@ -181,11 +203,16 @@ class Historique extends React.Component {
       }
     }
 
-    const scrollContainer = document.querySelector(".historique");
+    const scrollContainer = document.querySelector(".allproducts");
     scrollContainer.addEventListener("wheel", (evt) => {
-        evt.preventDefault();
+      evt.preventDefault();
+      if(evt.deltaY >= 0) {
         scrollContainer.scrollLeft += (evt.deltaY-60);
+      } else {
+        scrollContainer.scrollLeft += (evt.deltaY+60);
+      }
     });
+
   }
 
   getCurrentDate(){
