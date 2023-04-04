@@ -7,7 +7,7 @@ import Vision from '@hapi/vision'
 import hapiAuthJwt2 from 'hapi-auth-jwt2'
 import { userController } from './controller/userController.mjs'
 import * as dotenv from 'dotenv'
-import { joiAvailability, joiAvailabilityArray, joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
+import { joiAvailability, joiAvailabilityArray, joiDailyGuessesArray, joiErrorMessage, joiGuessAnswer, joiJWT, joiProduct, joiProductArray, joiUser, joiUserWithToken } from './joiSchema.mjs'
 import { productController } from './controller/productController.mjs'
 import JoiDate from '@joi/date'
 
@@ -279,13 +279,14 @@ const routes = [
 
     {
         method: 'GET',
-        path: '/product/daily/guess',
+        path: '/product/daily/guesses',
         options: {
             description: 'Get guesses',
-            notes: 'Get guesses of user with jwt and daily products',
+            notes: 'Get guesses of user with jwt in authorization header. Only the guesses of the daily products are returned.',
             tags: ['api'],
             response: {
                 status: {
+                    200: joiDailyGuessesArray,
                     400: joiErrorMessage,
                 }
             }
