@@ -34,6 +34,13 @@ class GameInterface extends React.Component {
 
     async componentDidMount() {
         this.produits = await DAOProduct.getDailyProducts(sessionStorage.getItem("jwt"))
+
+        if (this.produits.length === 0 || this.produits === undefined || sessionStorage.getItem("jwt") === null) {
+            sessionStorage.clear()
+            sessionStorage.setItem("error", "Une erreur est survenue, merci de réeesayer ultérieurement")
+            window.location.reload()
+            return
+        }
         
         this.setState({
             produits:[this.produits],

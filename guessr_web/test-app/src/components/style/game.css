@@ -10,7 +10,7 @@
     background-color: #242424;
     color: white;
     text-align: center;
-    font-size: 2rem;
+    font-size: 3.2vh;
 }
 
 .game .navbar h2 {
@@ -41,8 +41,15 @@
     transition: 0.3s;
 }
 
+.game .navbar nav {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 .game .navbar ul {
-    margin-top: 20rem;
     list-style: none;
     padding: 0;
 }

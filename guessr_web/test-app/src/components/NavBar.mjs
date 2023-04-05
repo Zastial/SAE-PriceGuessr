@@ -24,15 +24,15 @@ class Navbar extends React.Component {
                     <h2 onClick={() => {window.location = '/'}}>PriceGuessr</h2>
                     <nav>
                         <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/historique">Historique</Link>
-                        </li>
-                        <li>
-                            <Link to="/compte">Compte</Link>
-                        </li>
+                            <li>
+                                <Link to="/">Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/historique">Historique</Link>
+                            </li>
+                            <li>
+                                <Link to="/compte">Compte</Link>
+                            </li>
                         </ul>
                     </nav>
                 </div>

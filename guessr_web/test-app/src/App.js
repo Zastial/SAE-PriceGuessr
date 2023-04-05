@@ -13,17 +13,22 @@ import GameInterface from './components/page/GameInterface';
 import Historique from './components/page/Historique';
 import Compte from './components/page/Compte';
 import NotFound from './components/NotFound';
+import { Store } from 'react-notifications-component';
 
 
-function sessionAvailable() { 
-  return sessionStorage.getItem("jwt");
+function sessionAvailable() {
+  return sessionStorage.getItem("jwt") !== null;
+}
+
+function error() {
+  return sessionStorage.getItem("error") !== null;
 }
 
 function App() {
 
   return (
     <Routes>
-      <Route path="/" element={ sessionAvailable() ? <Game/> : <Login/>}>
+      <Route path="/" element={ error() ? <Login/> : (sessionAvailable() ? <Game/> : <Login/>)}>
         <Route path="/" element={<GameInterface/>}/>
         <Route path="/historique" element={<Historique/>}/>
         <Route path="/compte" element={<Compte/>}/> 

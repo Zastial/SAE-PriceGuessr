@@ -25,7 +25,25 @@ class Login extends React.Component {
 
         this.seePaswd = this.seePaswd.bind(this);
         this.login = this.login.bind(this);
+    }
 
+    componentDidMount() {
+        if (sessionStorage.getItem("error") !== null) {
+            Store.addNotification({
+                title: "Erreur",
+                message: `${sessionStorage.getItem("error")}`,
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+            })
+            sessionStorage.clear()
+        }
     }
 
     seePaswd() {
