@@ -134,6 +134,8 @@ class GameInterface extends React.Component {
     async doUpdate(price) {
         const guess_price = await DAOProduct.guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
 
+        console.log(this.state.produitCourant.price)
+
         this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
         sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
 
@@ -188,9 +190,6 @@ class GameInterface extends React.Component {
             });
             this.indexIMG = 2;
 
-            const value = sessionStorage.getItem["correctGuess"]
-            value[this.produitCourant.id] = true
-            sessionStorage.setItem["correctGuess"] = value
             document.getElementById("inputGuessPrice").disabled = true;
             document.getElementById("buttonGuessPrice").disabled = true;
             document.getElementById("buttonGuessPrice").style.backgroundColor = "grey";
