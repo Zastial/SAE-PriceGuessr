@@ -86,8 +86,8 @@ export const DAOProduct = {
         })
     },
 
-     modifyUser(token, password) {
-        axios.put(`http://127.0.0.1:3000/user`, {
+     async modifyUser(token, password) {
+        await axios.put(`http://127.0.0.1:3000/user`, {
             password : password
         },
         {

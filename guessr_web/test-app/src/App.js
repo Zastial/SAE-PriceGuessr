@@ -13,7 +13,6 @@ import GameInterface from './components/page/GameInterface';
 import Historique from './components/page/Historique';
 import Compte from './components/page/Compte';
 import NotFound from './components/NotFound';
-import { Store } from 'react-notifications-component';
 
 
 function sessionAvailable() {

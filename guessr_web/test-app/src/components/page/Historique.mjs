@@ -46,7 +46,7 @@ class Modal extends React.Component {
           <a href={`https://www.google.com/maps/search/?api=1&query=${tab[mag].latitude}%2C${tab[mag].longitude}`} target="blank">
             {tab[mag].name}
           </a>
-          <p> {(tab[mag].stock === 0) ? "Aucun produit disponible dans ce magasin" : `${tab[mag].stock} produits disponibles`}</p>
+          <p> {(tab[mag].stock === 0) ? "Aucun produit disponible dans ce magasin" : `${tab[mag].stock} pièces disponibles`}</p>
         </li>)
     }
     return (

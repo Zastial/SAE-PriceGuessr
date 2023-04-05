@@ -9,7 +9,7 @@ import thumbup from "../img/thumbup.png";
 import thumbdown from "../img/thumbdown.png";
 import check from "../img/check.png";
 import notCheck from "../img/notcheck.png";
-import nothing from "../img/nothing.png"
+import blank from "../img/blank.png"
 
 class GameInterface extends React.Component {
 
@@ -25,7 +25,7 @@ class GameInterface extends React.Component {
         }
         this.produits = []
         this.guessChance={}
-        this.guessPriceCorrect=[thumbup, thumbdown, check, notCheck, nothing]
+        this.guessPriceCorrect=[thumbup, thumbdown, check, notCheck, blank]
         this.indexIMG = 4
         this.doUpdate = this.doUpdate.bind(this)
         this.before = this.before.bind(this)
@@ -33,6 +33,7 @@ class GameInterface extends React.Component {
     }
 
     async componentDidMount() {
+
         this.produits = await DAOProduct.getDailyProducts(sessionStorage.getItem("jwt"))
 
         if (this.produits.length === 0 || this.produits === undefined || sessionStorage.getItem("jwt") === null) {
@@ -64,13 +65,13 @@ class GameInterface extends React.Component {
     before() {
         if(this.state.indexProduit === 0) {
             this.setState({
-                indexProduit : 9,
-                produitCourant: this.produits[9],
+                indexProduit : this.produits.length-1,
+                produitCourant: this.produits[this.produits.length-1],
                 isPVisible: false,
                 count : 0
             })
 
-            if (this.guessChance[this.produits[9].id] < 5) {
+            if (this.guessChance[this.produits[this.produits.length-1].id] < 5) {
                 this.setState({
                     isPVisible: true
                 })
