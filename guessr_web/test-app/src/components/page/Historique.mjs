@@ -12,7 +12,10 @@ class Modal extends React.Component {
     }
     this.test = []
     this.onDisplayModal = this.onDisplayModal.bind(this)
-    this.blockScroll = this.blockScroll.bind(this)
+    this.date = new Date()
+    this.date = this.date.getDay()+2
+    this.productDate = new Date(this.props.produitModal.date)
+    this.productDate = this.productDate.getDay()+2
   }
 
   async componentDidMount() {
@@ -29,19 +32,7 @@ class Modal extends React.Component {
       productAvailability : pA
     })
     this.test = pA
-  }
 
-  blockScroll() {
-    console.log("here")
-    const scrollContainer2 = document.querySelector(".allproducts .villes");
-    scrollContainer2.addEventListener("wheel", (evt) => {
-      evt.preventDefault();
-      if(evt.deltaY >= 0) {
-        scrollContainer2.scrollTop += (evt.deltaY-80);
-      } else {
-        scrollContainer2.scrollTop += (evt.deltaY+80);
-      }
-    });
   }
 
   onDisplayModal() {
@@ -54,7 +45,7 @@ class Modal extends React.Component {
     const tabMagName = []
     for (const mag in tab) {
       tabMagName.push(
-        <li>
+        <li key={mag}>
           <a href={`https://www.google.com/maps/search/?api=1&query=${tab[mag].latitude}%2C${tab[mag].longitude}`} target="blank">
             {tab[mag].name}
           </a>
@@ -79,14 +70,14 @@ class Modal extends React.Component {
             <div className="modal-content">
               <div className="productInfo">
                 <p>{this.state.product.title}</p>
-                <p>{this.state.product.price} €</p>
+                <p>{(this.date === this.productDate) ? "???" : this.state.product.price} €</p>
                 <div className="image">
                   <img src={this.state.product.imgSrc} alt={this.state.product.title}/>
                 </div>
               </div>
-              <div className="magList" onScroll={this.blockScroll}>
+              <div className="magList">
                 <h2>Disponibilités :</h2>
-                <div className="villes" onScroll={this.blockScroll}>
+                <div className="villes">
                   {this.eachMag(this.state.productAvailability)}
                 </div>
               </div>
@@ -115,39 +106,28 @@ class Product extends React.Component {
       modal:false,
       prodAvailable : []
     }
+    this.date = new Date()
+    this.date = this.date.getDay()+2
+    this.productDate = new Date(this.props.prod.date)
+    this.productDate = this.productDate.getDay()+2
     this.onDisplayModal = this.onDisplayModal.bind(this)
-    this.onProductClick = this.onProductClick.bind(this)
   }
 
   onDisplayModal() {
     this.setState({modal: !this.state.modal})
   }
 
-  async onProductClick() {
-
-    const scrollContainer = document.querySelector(".allproducts");
-    scrollContainer.setAttribute("style", "overflow-x: clip");
-
-    this.setState({modal: !this.state.modal})
-    for(const obj in this.props.prodsAvailable) {
-      if (this.props.prodsAvailable[obj].length !== 0) {
-        this.setState({
-          prodAvailable : this.props.prodsAvailable[obj]
-        })
-      }
-    }
-  }
-
   render() {
+
     return (
       <div className="fullModalContent">
         <Modal produitModal={this.props.prod} produitAvailability={this.props.prodsAvailable} modal={this.state.modal} displayModal={this.onDisplayModal} />
-        <li key={this.props.prod.id} className="prod">
-          <div className="linkToProduct" onClick={ this.onProductClick}>
+        <li className="prod">
+          <div className="linkToProduct" onClick={this.onDisplayModal}>
               <img src={this.props.prod.imgSrc} alt={this.props.prod.title}/>
               <div className="product-info">
                   <h3>{this.props.prod.title}</h3>
-                  <h3>{this.props.prod.price} €</h3>
+                  <h3>{(this.date === this.productDate) ? "???" : this.props.prod.price} €</h3>
               </div>
           </div>
         </li>
@@ -161,14 +141,14 @@ class ProductList extends React.Component {
   render() {
     let products = []
     for (let i = 0; i < this.props.products.length; i++) {
-      products.push(<Product prod={this.props.products[i]} prodsAvailable={this.props.prodsAvailable}/>)
+      products.push(<Product key={i} prod={this.props.products[i]} prodsAvailable={this.props.prodsAvailable}/>)
     }
-
+    products = products.reverse()
     const productsColumn = []
     for (let i = 0; i < products.length; i+4) {
       let productsTwo = []
       productsTwo.push(products.splice(0,4))
-      productsColumn.push(<ProductColumn prod={productsTwo}/>)
+      productsColumn.push(<ProductColumn key={i+products.length} prod={productsTwo}/>)
       productsTwo = []
     }
 
@@ -212,7 +192,6 @@ class Historique extends React.Component {
         scrollContainer.scrollLeft += (evt.deltaY+60);
       }
     });
-
   }
 
   getCurrentDate(){

@@ -10,6 +10,7 @@
     background-color: #242424;
     color: white;
     text-align: center;
+    font-size: 2rem;
 }
 
 .game .nav-content {
@@ -37,7 +38,7 @@
 }
 
 .game .navbar ul {
-    margin-top: 30vh;
+    margin-top: 20rem;
     list-style: none;
     padding: 0;
 }

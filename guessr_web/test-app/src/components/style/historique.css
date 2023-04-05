@@ -8,6 +8,8 @@
 
 .historique .allproducts {
     overflow-x: hidden;
+    height: 100%;
+    margin-right: 3rem;
 }
 
 .historique .allproducts .content-columns {
@@ -15,13 +17,12 @@
 }
 
 .historique .allproducts .content-columns li {
-    margin-left: -2rem;
     margin-bottom: 2rem;
-    margin-right: 4rem;
 }
 
 .historique .allproducts .prod {
     width: 30rem;
+    min-height: 10.3rem;
     list-style: none;
     list-style-position:inside;
     border: 1px solid black;
@@ -35,7 +36,8 @@
 }
 
 .historique .allproducts .prod img {
-    width: 10rem;
+    min-width: 10vh;
+    max-width: 20vh;
 }
 
 
@@ -88,12 +90,13 @@
 }
 
 .historique .image {
-    width: 100%;
+    max-width: 70rem;
     text-align: center;
 }
 
 .historique .image img {
-    width: 80%;
+    max-width: 80%;
+    max-height: 38rem;
     margin: -1rem 0 0 0;
 }
 

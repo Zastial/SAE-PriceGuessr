@@ -20,7 +20,8 @@ class GameInterface extends React.Component {
             count:0,
             produits:[],
             produitCourant:[],
-            isPVisible:false
+            isPVisible:false,
+            isLower : false,
         }
         this.produits = []
         this.guessChance={}
@@ -127,8 +128,10 @@ class GameInterface extends React.Component {
         this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
         sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
 
+        const isLower = (guess_price['correctPriceIsLess']) ? true : false  
         this.setState({
-            isPVisible:true
+            isPVisible:true,
+            isLower : isLower
         })
 
         this.indexIMG = (guess_price['correctPriceisLess']) ? 0 : 1
@@ -138,7 +141,7 @@ class GameInterface extends React.Component {
             Store.removeAllNotifications()
             Store.addNotification({
                 title: "Nombre de guess insuffisant",
-                message: "Vous n'avez plus de guess disponible. Changez de produit ou revenez demain !",
+                message: `Vous n'avez plus de guess disponible. \n Le prix de ce produit était ${this.state.produitCourant.price} !`,
                 type: "warning",
                 insert: "top",
                 container: "bottom-right",
@@ -211,6 +214,7 @@ class GameInterface extends React.Component {
                 </div>
                 <Button id="buttonGuessPrice" name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>
                 <p>Produit n°{this.state.indexProduit + 1}/10</p>
+                <p>{(this.state.isPVisible) ? ((this.state.isLower) ? "Le prix est inférieur" : "Le prix est supérieur") : ""}</p>
             </div>
         );
     }
