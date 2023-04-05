@@ -51,7 +51,7 @@ class GameInterface extends React.Component {
             this.setState({
                 isPVisible:true 
             })
-        }
+        }      
     }
 
     before() {
@@ -59,7 +59,8 @@ class GameInterface extends React.Component {
             this.setState({
                 indexProduit : 9,
                 produitCourant: this.produits[9],
-                isPVisible: false
+                isPVisible: false,
+                count : 0
             })
 
             if (this.guessChance[this.produits[9].id] < 5) {
@@ -71,7 +72,8 @@ class GameInterface extends React.Component {
             this.setState({
                 indexProduit : this.state.indexProduit - 1,
                 produitCourant:this.produits[this.state.indexProduit-1],
-                isPVisible: false
+                isPVisible: false,
+                count : 0
             })
 
             if (this.guessChance[this.produits[this.state.indexProduit-1].id] < 5) {
@@ -92,7 +94,8 @@ class GameInterface extends React.Component {
             this.setState({
                 indexProduit : 0,
                 produitCourant:this.produits[0],
-                isPVisible: false
+                isPVisible: false,
+                count : 0
             })
 
             if (this.guessChance[this.produits[0].id] < 5) {
@@ -104,7 +107,8 @@ class GameInterface extends React.Component {
             this.setState({
                 indexProduit: this.state.indexProduit + 1,
                 produitCourant: this.produits[this.state.indexProduit+1],
-                isPVisible: false
+                isPVisible: false,
+                count : 0
             })
 
             if (this.guessChance[this.produits[this.state.indexProduit+1].id] < 5) {
@@ -120,10 +124,7 @@ class GameInterface extends React.Component {
     }
 
     async doUpdate(price) {
-        console.log(`prix :${this.state.produitCourant.price}`)
-        console.log(`prix rentré :${price}`)
         const guess_price = await DAOProduct.guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
-        console.log(guess_price)
 
         this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
         sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
@@ -187,7 +188,6 @@ class GameInterface extends React.Component {
             document.getElementById("buttonGuessPrice").style.backgroundColor = "grey";
             return
         }
-
     }
 
     render() {
@@ -204,7 +204,7 @@ class GameInterface extends React.Component {
                         <Button name=">" doUpdate={this.after} /> 
                     </div>
                     <div className='guess-board'>
-                        <p className={(this.state.isPVisible) ? "block" : "none" }> {this.guessChance[this.state.produitCourant.id]} chances restantes </p>
+                        <p style={(this.state.isPVisible) ? {"visibility" : "visible"} : {"visibility" : "hidden"}}> {this.guessChance[this.state.produitCourant.id]} chances restantes </p>
                     </div>
                     <div className="the-guess">
                         <input id="inputGuessPrice" type="number" min="0" value={this.state.count} onChange={e => {this.setState({count : "" + Number(e.target.value)});}}/>
@@ -214,7 +214,7 @@ class GameInterface extends React.Component {
                 </div>
                 <Button id="buttonGuessPrice" name="Valider" doUpdate={e=> {this.doUpdate(this.state.count)}}/>
                 <p>Produit n°{this.state.indexProduit + 1}/10</p>
-                <p>{(this.state.isPVisible) ? ((this.state.isLower) ? "Le prix est inférieur" : "Le prix est supérieur") : ""}</p>
+                <p style={(this.state.isPVisible) ? {"visibility" : "visible"} : {"visibility" : "hidden"}}>{(this.state.isLower) ? "Le prix est inférieur" : "Le prix est supérieur"}</p>
             </div>
         );
     }

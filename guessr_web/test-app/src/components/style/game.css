@@ -13,6 +13,10 @@
     font-size: 2rem;
 }
 
+.game .navbar h2 {
+    cursor: pointer;
+}
+
 .game .nav-content {
     height: 80%;
     padding-top: 3rem;
@@ -96,14 +100,6 @@
 
 .game .gameInterface .game-guess .guess-board {
     margin: 1rem;
-}
-
-.game .gameInterface .game-guess .guess-board .block {
-    visibility: visible;
-}
-
-.game .gameInterface .game-guess .guess-board .none {
-    visibility: hidden
 }
 
 .game .gameInterface .game-guess .the-guess {

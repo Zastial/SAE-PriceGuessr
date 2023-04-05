@@ -21,7 +21,7 @@ class Navbar extends React.Component {
         return (
             <div className="navbar">
                 <div className="nav-content">
-                    <h2>PriceGuessr</h2>
+                    <h2 onClick={() => {window.location = '/'}}>PriceGuessr</h2>
                     <nav>
                         <ul>
                         <li>
