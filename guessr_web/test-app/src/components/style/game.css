@@ -19,7 +19,7 @@
 
 .game .nav-content {
     height: 80%;
-    padding-top: 3rem;
+    padding-top: 10%;
 }
 
 .game .navbar button {
@@ -91,7 +91,7 @@
 .game .gameInterface .game-guess .guess-info{
     display: flex;
     height: 60vh;
-    width: 80vw;
+    max-width: 80vw;
     justify-content: center;
 }
 
@@ -112,7 +112,6 @@
 .game .gameInterface .game-guess .the-guess {
     display: flex;
     justify-content: center;
-    padding-bottom: 2rem;
 }
 
 .game .gameInterface .game-guess .the-guess > input, img {
