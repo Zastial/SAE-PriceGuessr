@@ -6,7 +6,7 @@ path = "./ikea_cache.json"
 with open(path, "w") as f:
     ret = []
     constants = ikea_api.Constants(country="fr", language="fr")
-    ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=100))['searchResultPage']['products']['main']['items']
+    ikeaProducts = ikea_api.run(ikea_api.Search(constants).search("",limit=40_000))['searchResultPage']['products']['main']['items']
     for p in ikeaProducts:
         product = {}
         product['id'] = p['product']['id']

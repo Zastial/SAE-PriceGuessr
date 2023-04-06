@@ -158,8 +158,6 @@ class GameInterface extends React.Component {
     async doUpdate(price) {
         const guess_price = await DAOProduct.guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
 
-        console.log(this.state.produitCourant.price)
-
         this.guessChance[this.state.produitCourant.id] = guess_price['guessRemaining']
         sessionStorage.setItem("guessChance", JSON.stringify(this.guessChance))
 
