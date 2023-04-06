@@ -89,22 +89,24 @@ class Compte extends React.Component {
     if(this.state.password !== '') {
       this.setState({
         textModal: "Êtes-vous sûr de vouloir modifier votre mot de passe ?",
-        modal: !this.state.modal
+        modal: !this.state.modal,
+        ok : false
       })
     } else {
       Store.removeAllNotifications()
       Store.addNotification({
-          title: "Le mot de passe ne doit pas être vide",
-          message: "Merci de rentrer un mot de passe non vide!",
-          type: "warning",
-          insert: "top",
-          container: "bottom-right",
-          animationIn: ["animate__animated", "animate__fadeIn"],
-          animationOut: ["animate__animated", "animate__fadeOut"],
-          dismiss: {
-            duration: 6000,
-            onScreen: true
-          }})
+        title: "Le mot de passe ne doit pas être vide",
+        message: "Merci de rentrer un mot de passe non vide!",
+        type: "warning",
+        insert: "top",
+        container: "bottom-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 6000,
+          onScreen: true
+        }
+      })
     }
   }
 
