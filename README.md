@@ -47,7 +47,7 @@ Les clients reposent sur des micro-services:
 
 Pour cloner ce projet directement avec l'application Android:
 ```
-git clone --recurse-submodules https://gitlab.univ-nantes.fr/sea4-eq_03_01/eq_03_01-App.git
+git clone --recurse-submodules https://gitlab.univ-nantes.fr/pub/but/but2/sae4-real-01/eq_init_03_01_aji-emerik_carol-alexandre_michenaud-mathis_painter-louis.git
 ```
 Ou, si le projet était déjà cloné de manière normale, pour obtenir l'application Android, exécuter `git submodule update --init --recursive` dans le dossier du git.
 
