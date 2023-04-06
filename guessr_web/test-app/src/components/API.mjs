@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+/**
+ * Chaque méthode utilise la bibliothèque Axios pour effectuer des requêtes HTTP à l'API du serveur, en fournissant un jeton d'authentification dans l'en-tête
+ * de chaque requête. Les méthodes comprennent des opérations telles que la récupération de produits, la récupération de produits par identifiant,
+ * la suppression d'un utilisateur, la modification du mot de passe d'un utilisateur, etc.
+ */
 export const DAOProduct = {
 
     async getProducts(token) {

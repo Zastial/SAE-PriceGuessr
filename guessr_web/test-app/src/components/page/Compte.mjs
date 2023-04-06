@@ -40,12 +40,22 @@ class Compte extends React.Component {
     }
   }
 
+  /**
+   * Cette fonction permet de changer l'état (ouverture/fermeture) d'une modal dans le composant.
+   */
   displayModal() {
     this.setState({
         modal: !this.state.modal
     })
   }
 
+  /**
+   * Cette fonction est une méthode asynchrone qui modifie le mot de passe de l'utilisateur.
+   * Elle utilise l'API DAOProduct pour envoyer une requête à un serveur, avec le jeton de sécurité JWT stocké en session,
+   * et le nouveau mot de passe saisi par l'utilisateur.
+   * Ensuite, elle stocke le nouveau jeton de sécurité renvoyé par le serveur dans la session.
+   * Elle affiche une notification de confirmation de modification de mot de passe et ferme la boîte de dialogue de modification de mot de passe.
+   */
   async okModify() {
     const newuser = await DAOProduct.modifyUser(sessionStorage.getItem("jwt"), this.state.password)
     sessionStorage.setItem("jwt", newuser.token)
@@ -69,6 +79,12 @@ class Compte extends React.Component {
     })   
   }
 
+  /**
+   * La méthode changePassword permet de changer le mot de passe de l'utilisateur.
+   * Elle commence par vérifier si le champ de saisie du mot de passe n'est pas vide.
+   * Si c'est le cas, elle affiche une notification pour demander à l'utilisateur de saisir un mot de passe non vide.
+   * Sinon, elle affiche une fenêtre modale pour demander la confirmation de la modification du mot de passe.
+   */
   changePassword() {
     if(this.state.password !== '') {
       this.setState({
@@ -92,6 +108,9 @@ class Compte extends React.Component {
     }
   }
 
+  /**
+   * Cette fonction modifie l'état du composant pour afficher une boîte de dialogue modale demandant à l'utilisateur s'il est sûr de vouloir supprimer son compte.
+   */
   deleteAccount() {
     this.setState({
       textModal: "Êtes-vous sûr de vouloir supprimer votre compte ?",
@@ -100,6 +119,9 @@ class Compte extends React.Component {
     })
   }
 
+  /**
+   * Cette fonction supprime l'utilisateur actuel en appelant la fonction deleteUser de l'objet DAOProduct avec le JWT stocké dans sessionStorage.
+   */
   async okDelete() {
     await DAOProduct.deleteUser(sessionStorage.getItem("jwt"))
     sessionStorage.clear()

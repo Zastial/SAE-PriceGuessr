@@ -24,11 +24,26 @@ class SignUp extends React.Component {
         this.login = this.login.bind(this);
     }
 
+    /** 
+     * La fonction seePaswd utilise l'état local (state) pour permettre de basculer entre l'affichage en clair ou masqué
+     * du mot de passe dans un champ de formulaire. 
+    */
     seePaswd() {
         this.setState({isRevealPwd: !this.state.isRevealPwd})
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
+    /**
+     * La fonction login() est une méthode asynchrone qui vérifie si les champs d'entrée du formulaire de connexion ont été remplis correctement.
+     * Si les champs sont correctement remplis, elle envoie une demande de connexion à l'API et redirige l'utilisateur vers la page d'accueil.
+     * Si une erreur se produit, elle affiche une notification à l'utilisateur.
+     *
+     * Si tous les champs sont remplis correctement, la fonction envoie une requête POST à l'URL http://127.0.0.1:3000/user/register en utilisant Axios,
+     * une bibliothèque JavaScript pour les requêtes HTTP.
+     *
+     * Si l'envoi de la demande est réussi, la page est redirigée vers la page d'accueil.
+     * Si une erreur de réponse est renvoyée par le serveur, la méthode Store.addNotification() est appelée pour afficher une notification à l'utilisateur.
+     */
     async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
@@ -93,7 +108,6 @@ class SignUp extends React.Component {
     }
 
     render() {
-
         return (
         <div className="app-login">
             <div className="img">
@@ -130,7 +144,12 @@ class SignUp extends React.Component {
                 
                     <div className="accounts">
                         <div className="butSignUp" onClick={this.login}>S'inscrire</div>
-                        <Link to="/" variant = "body2">
+                        {/**
+                         *   Le composant Link permet à l'utilisateur de naviguer entre différentes pages en cliquant sur les liens.
+                         *  Le composant Link crée des liens qui s'actualisent automatiquement lorsque l'utilisateur clique dessus,
+                         * sans que la page entière ne soit rechargée. Cela permet une expérience utilisateur plus fluide et rapide. 
+                        */}
+                        <Link to="/" variant = "body2"> 
                             Déjà un compte ? Connectez-vous 
                         </Link>                        
                     </div>

@@ -10,6 +10,9 @@ class Navbar extends React.Component {
         this.doUpdate = this.doUpdate.bind(this)
     }   
 
+    /**
+     * La fonction "doUpdate" permet de réinitialiser la session et de renvoyer l'utilisateur à la page d'accueil.
+     */
     doUpdate() {
         sessionStorage.clear()
         window.location.reload()

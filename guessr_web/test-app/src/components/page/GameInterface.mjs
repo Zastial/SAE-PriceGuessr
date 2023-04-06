@@ -32,6 +32,13 @@ class GameInterface extends React.Component {
         this.after = this.after.bind(this)
     }
 
+    /**
+     * Récupération des produits du jour à partir d'une API avec une requête asynchrone
+     * Si aucun produit n'est retourné ou si le jeton d'authentification n'est pas stocké en session, une erreur est stockée en session et la page est rechargée
+     * Mise à jour de l'état du composant avec les produits récupérés et le premier produit devient le produit courant
+     * Si la chance de deviner les produits n'a jamais été initialisée en session, elle est initialisée avec une valeur de 5 pour chaque produit
+     * Sinon, la chance de deviner les produits est récupérée à partir de la session et l'état du composant est mis à jour pour montrer que la partie est visible.
+    */
     async componentDidMount() {
 
         this.produits = await DAOProduct.getDailyProducts(sessionStorage.getItem("jwt"))
@@ -62,6 +69,11 @@ class GameInterface extends React.Component {
         }      
     }
 
+    /**
+     * La fonction before sert à afficher le produit précédent dans une liste de produits.
+     * Si le produit actuel est le premier, le produit précédent sera le dernier de la liste, sinon ce sera le produit immédiatement précédent.
+     * Elle réinitialise également un compteur et un état visuel associé au produit, et elle active un champ de saisie et un bouton.
+    */
     before() {
         if(this.state.indexProduit === 0) {
             this.setState({
@@ -97,6 +109,10 @@ class GameInterface extends React.Component {
         document.getElementById("buttonGuessPrice").style.backgroundColor = "black";
     }
 
+    /**
+     * La fonction after sert à afficher le produit suivant dans une liste de produits.
+     * Si le produit actuel est le dernier, le produit suivant sera le premier de la liste, sinon ce sera le produit immédiatement suivant.
+    */
     after() {
         if(this.state.indexProduit === 9) {
             this.setState({
@@ -131,6 +147,14 @@ class GameInterface extends React.Component {
         document.getElementById("buttonGuessPrice").style.backgroundColor = "black";
     }
 
+    /**
+     * Cette fonction doUpdate effectue la mise à jour du jeu après que le joueur ait fait une tentative de deviner le prix du produit actuel.
+     * Tout d'abord, elle utilise l'API DAOProduct.guessThePrice pour faire une estimation du prix du produit actuel
+     * en utilisant la valeur de price passée en paramètre, et elle stocke le nombre de tentatives restantes dans guessChance et dans la session en cours.
+     * Ensuite, elle détermine si la réponse du joueur est trop haute ou trop basse par rapport au prix réel, et elle met à jour isLower en conséquence.
+     * Enfin, elle affiche une notification appropriée pour le joueur en fonction de la réponse
+     * et désactive le bouton de devinette si le joueur n'a plus de tentatives restantes ou s'il a trouvé la réponse correcte.
+     */
     async doUpdate(price) {
         const guess_price = await DAOProduct.guessThePrice(sessionStorage.getItem("jwt"), this.state.produitCourant.id, price)
 
