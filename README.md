@@ -25,6 +25,9 @@ Hapi-auth-jwt2 sert à authentifier les utilisateurs avec des Json Web Token (JW
 requête. Une vérification se fait ensuite au niveau du serveur. Cela permet de vérifier l’identité de la personne et qu’elle n’essaie pas de passer pour 
 quelqu’un d’autre. La structure du token permet de vérifier que son contenu n’a pas été modifié.
 
+Voici un schéma de son fonctionnement:
+![]('./img/jwt.png')
+
 Deux sources de données sont utilisées:
 - Un script Python qui permet de récupérer et traiter nos données depuis Ikea, avec le module ikea-api
 - Une api Javascript, qui fonctionne avec Ingka pour obtenir la disponibilité des produits dans les magasins Ikea du monde entier.
