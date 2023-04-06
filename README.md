@@ -28,6 +28,9 @@ quelqu’un d’autre. La structure du token permet de vérifier que son contenu
 Voici un schéma de son fonctionnement:
 ![](./img/jwt.png)
 
+Ainsi qu'une description plus détaillée:
+![](./img/Diagramme jwt.png)
+
 Deux sources de données sont utilisées:
 - Un script Python qui permet de récupérer et traiter nos données depuis Ikea, avec le module ikea-api
 - Une api Javascript, qui fonctionne avec Ingka pour obtenir la disponibilité des produits dans les magasins Ikea du monde entier.
