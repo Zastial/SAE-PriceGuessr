@@ -25,6 +25,8 @@ Hapi-auth-jwt2 sert à authentifier les utilisateurs avec des Json Web Token (JW
 requête. Une vérification se fait ensuite au niveau du serveur. Cela permet de vérifier l’identité de la personne et qu’elle n’essaie pas de passer pour 
 quelqu’un d’autre. La structure du token permet de vérifier que son contenu n’a pas été modifié.
 
+Il convient de noter que le token est renvoyé après l'authentification de l'utilisateur avec la route `/user/auth`. 
+
 Voici un schéma de son fonctionnement:
 ![](./img/jwt.png)
 
@@ -104,3 +106,28 @@ Sur cette page, accessible à tout moment en appuyant sur le bouton de page prin
 Le bouton du milieu permet d'accéder à l'historique des produits; Le prix pour les produits du jour ne s'affichent que si l'utilisateur les a deviné. Sinon, il doit attendre le landemain.
 
 Enfin, le troisième bouton, à gauche, mène à la page de compte, qui permet à l'utilisateur de changer son mot de passe ou supprimer son compte.
+
+## Tests de l'API
+
+### Informations
+
+Afin de tester notre API, nous avons utilisé chai (pour les assertions de test), mocha (pour créer les cas de test) et nyc (pour le coverage). Nous avons également ajouté les plugins chai-http et chai-as-promised, qui permettent respectivement de tester les routes HTTP et d’effectuer des assertions sur des Promise (promesses) javascript.
+De plus, une base de données de test est initialisée en même temps que les tests afin de pouvoir les contrôler plus précisément.
+
+Dans la première partie de ce rapport, nous allons donc présenter chaque méthode testée à l’aide d’un graphe de flot de contrôle, en explicitant les chemins couverts et la méthode de test pour chaque chemin de manière simplifiée.
+Puis, dans une deuxième partie, nous élaborerons sur l’aide que les tests nous ont apportée lors du développement de l’API, notamment en terme de repérage de bug et de vérification des retours afin qu’ils correspondent aux attentes des clients Android et React.
+
+Tous ces tests ont été rédigés avec le standard Given/When/Then, où:
+- Le contexte est défini dans un bloc describe avec une phrase qui commence par “Given”
+- Le cas est décrit avec une phrase qui commence par un participe présent
+- Le résultat attendu est décrit avec une phrase qui commence par “Then”
+
+[Ce blog](https://markus.oberlehner.net/blog/naming-your-unit-tests-it-should-vs-given-when-then/) détaille ce standard en plus de détail.
+
+### Utilisation
+
+Pour exécuter les tests avec le coverage, se placer dans le dossier /api et executéer la commande suivante :
+
+`npm test`
+
+Le serveur continue de tourner après exécution de la commande et accepte les requêtes HTTP manuelles. Pour en sortir, il faut faire Ctrl + C et obtenir le coverage. 
