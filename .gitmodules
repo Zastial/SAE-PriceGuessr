@@ -1,0 +1,3 @@
+[submodule "eq_03_01-App"]
+	path = eq_03_01-App
+	url = https://gitlab.univ-nantes.fr/sea4-eq_03_01/eq_03_01-App.git
