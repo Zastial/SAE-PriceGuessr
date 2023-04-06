@@ -1,5 +1,4 @@
 api/node_modules
-api/.env
 api/.nyc_output
 api/coverage
 api/prisma/sae.db
