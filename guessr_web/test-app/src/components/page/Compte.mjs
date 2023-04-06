@@ -58,6 +58,7 @@ class Compte extends React.Component {
    */
   async okModify() {
     const newuser = await DAOProduct.modifyUser(sessionStorage.getItem("jwt"), this.state.password)
+    console.log(newuser)
     sessionStorage.setItem("jwt", newuser.token)
 
     this.setState({
