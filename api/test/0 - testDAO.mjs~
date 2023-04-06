@@ -201,7 +201,7 @@ describe('Given UserDAO with a test user', () => {
     
     it('Getting all users', async () => {
         const users = await uDAO.findAll();
-        assert.isArray(users, 'Then an array should be returned');
+        assert.isArray(users);
     });
 
     it('Getting a user by login', async () => {
