@@ -82,7 +82,6 @@ class SignUp extends React.Component {
                 password: this.state.password
             }).catch(function (error) {
                 if (error.response) {
-                    console.log(error.response.status)
                     ok = false
                 }
             } );

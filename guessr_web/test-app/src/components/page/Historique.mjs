@@ -30,9 +30,15 @@ class Modal extends React.Component {
     try {
       pA = await DAOProduct.getProductAvailability(sessionStorage.getItem("jwt"), this.props.produitModal.id)
     } catch(error) {
-      for (const i in this.props.produitModal.length) {
-        pA.push(i)
-      }
+      pA = [
+        {
+          "buCode": "error",
+          "stock": 0,
+          "name": "error",
+          "longitude": 47.2232382,
+          "latitude": -1.5444345
+        }
+      ] 
     }
     this.setState({
       product : this.props.produitModal,

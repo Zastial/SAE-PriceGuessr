@@ -88,7 +88,7 @@ class Login extends React.Component {
                 login: this.state.username,
                 password: this.state.password
             }).catch(function (error) {
-                if (error.response.status === 400) {
+                if (error.response) {
                     ok = false
                 }   
             } );

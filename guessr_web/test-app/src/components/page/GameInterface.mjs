@@ -77,13 +77,13 @@ class GameInterface extends React.Component {
     before() {
         if(this.state.indexProduit === 0) {
             this.setState({
-                indexProduit : this.produits.length-1,
-                produitCourant: this.produits[this.produits.length-1],
+                indexProduit : 9,
+                produitCourant: this.produits[9],
                 isPVisible: false,
                 count : 0
             })
 
-            if (this.guessChance[this.produits[this.produits.length-1].id] < 5) {
+            if (this.guessChance[this.produits[9].id] < 5) {
                 this.setState({
                     isPVisible: true
                 })
