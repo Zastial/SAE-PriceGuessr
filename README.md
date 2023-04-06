@@ -2,6 +2,12 @@
 
 ## Description du projet
 
+**Participants:**
+- Emerik AJI
+- Mathis MICHENAUD
+- Alexandre CAROL
+- Louis PAINTER
+
 La SAE S4 s’est déroulée pendant les semaines S12 à S14. L’objectif est de construire une application reposant sur des micro-services, disposant d’un client 
 Android natif et d’un client Web. Les données utilisées doivent provenir de plusieurs sources externes, à savoir des API ou fichiers CSV.
 
