@@ -27,6 +27,11 @@ class Login extends React.Component {
         this.login = this.login.bind(this);
     }
 
+    /**
+     * La fonction componentDidMount est une méthode du cycle de vie de React qui est appelée automatiquement après le montage d'un composant dans le DOM.
+     * Dans ce cas, la fonction vérifie si une erreur est stockée dans la session et affiche une notification d'erreur en conséquence
+     * à l'aide de la bibliothèque react-notifications-component. Si une erreur est présente, elle est ensuite effacée de la session.
+     */
     componentDidMount() {
         if (sessionStorage.getItem("error") !== null) {
             Store.addNotification({
@@ -46,11 +51,24 @@ class Login extends React.Component {
         }
     }
 
+    /** 
+     * La fonction seePaswd utilise l'état local (state) pour permettre de basculer entre l'affichage en clair ou masqué
+     * du mot de passe dans un champ de formulaire. 
+    */
     seePaswd() {
         this.setState({isRevealPwd: !this.state.isRevealPwd})
         this.setState({passwordType: this.state.isRevealPwd ? "password" : "text"})
     }
 
+    /**
+     * La méthode "login" est asynchrone et s'occupe de vérifier les informations de connexion saisies par l'utilisateur.
+     * Si les champs sont correctements remplis, la méthode envoie une requête POST à l'API pour tenter de s'authentifier avec les informations saisies.
+     * 
+     * Si l'authentification réussit, le jeton d'authentification et le nom d'utilisateur sont stockés dans sessionStorage.
+     * La page est ensuite rechargée et l'état de la variable jwt est mis à jour.
+     * 
+     * Si l'authentification échoue, une notification d'erreur est affichée à l'utilisateur pour l'informer que les informations de connexion sont incorrectes.
+     */
     async login() {
         if (!this.state.username.replace(/\s+/, '').length) {
             document.getElementById('username').style.borderBlockColor = "red";
