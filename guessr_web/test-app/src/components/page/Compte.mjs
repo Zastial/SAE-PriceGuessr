@@ -57,9 +57,7 @@ class Compte extends React.Component {
    * Elle affiche une notification de confirmation de modification de mot de passe et ferme la boîte de dialogue de modification de mot de passe.
    */
   async okModify() {
-    const newuser = await DAOProduct.modifyUser(sessionStorage.getItem("jwt"), this.state.password)
-    console.log(newuser)
-    sessionStorage.setItem("jwt", newuser.token)
+    await DAOProduct.modifyUser(sessionStorage.getItem("jwt"), this.state.password)
 
     this.setState({
       modal: !this.state.modal
