@@ -29,7 +29,7 @@ Voici un schéma de son fonctionnement:
 ![](./img/jwt.png)
 
 Ainsi qu'une description plus détaillée:
-![](./img/Diagramme jwt.png)
+![](./img/Diagramme_jwt.png)
 
 Deux sources de données sont utilisées:
 - Un script Python qui permet de récupérer et traiter nos données depuis Ikea, avec le module ikea-api
