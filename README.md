@@ -1,4 +1,4 @@
-# ProductGuessr
+# PriceGuessr
 
 ## Description du projet
 
