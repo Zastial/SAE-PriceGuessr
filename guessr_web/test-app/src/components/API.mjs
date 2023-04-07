@@ -101,7 +101,8 @@ export const DAOProduct = {
             }
         })
         .then(res => {
-        console.log(res.data);
+        const products = res.data;
+        return products
         })
     },
 

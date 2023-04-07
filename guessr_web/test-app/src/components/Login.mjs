@@ -83,17 +83,17 @@ class Login extends React.Component {
 
         if (this.state.password.replace(/\s+/, '').length && this.state.username.replace(/\s+/, '').length) {
 
-            let ok = true
+            let authValid = true
             const response = await axios.post('http://127.0.0.1:3000/user/auth', {
                 login: this.state.username,
                 password: this.state.password
             }).catch(function (error) {
                 if (error.response) {
-                    ok = false
+                    authValid = false
                 }   
             } );
 
-            if (ok) {
+            if (authValid) {
                 sessionStorage.setItem("jwt", response.data['token']);
                 sessionStorage.setItem("login", this.state.username);
 

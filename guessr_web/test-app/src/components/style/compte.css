@@ -95,8 +95,8 @@
 
 .compte .delete button {
     position:absolute;
-    bottom: 10rem;
-    margin-left: 10rem;
+    bottom: 10vh;
+    margin-left: 10vw;
 
     color: black;
     font-size: 15px;
