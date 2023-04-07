@@ -6,12 +6,12 @@ Pour cloner ce projet directement avec l'application Android:
 ```
 git clone --recurse-submodules https://gitlab.univ-nantes.fr/pub/but/but2/sae4-real-01/eq_init_03_01_aji-emerik_carol-alexandre_michenaud-mathis_painter-louis.git
 ```
-Ou, si le projet était déjà cloné de manière normale, pour obtenir l'application Android, exécuter `git submodule update --init --recursive` dans le dossier du git.
+Ou, si le projet était déjà cloné de manière normale, pour obtenir l'application Android, exécuter `git submodule update --init --recursive --remote --merge` dans le dossier du git.
 
 Pour mettre à jour le projet à la dernière version:
 ```
 git pull
-git submodule update --recursive
+git submodule update --recursive --remote --merge
 ```
 Il faut installer les dépendances des projets javascript, dans api/ avec `npm install`; Pour utiliser le script python, il faut également installer le module nécessaire avec `pip install ikea-api`.
 
