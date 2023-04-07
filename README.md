@@ -56,7 +56,7 @@ Pour mettre à jour le projet à la dernière version:
 git pull
 git submodule update --recursive
 ```
-Il faut installer les dépendances des projets javascript, dans api/ et guessr_web/ avec `npm install`; Pour utiliser le script python, il faut également installer le module nécessaire avec `pip install ikea-api`.
+Il faut installer les dépendances des projets javascript, dans api/ et guessr_web/test-app/ avec `npm install`; Pour utiliser le script python, il faut également installer le module nécessaire avec `pip install ikea-api`.
 
 ## Utilisation
 
@@ -79,7 +79,7 @@ Sinon, utiliser `USE_IUT_PROXY = false`.
 
 Pour démarrer le serveur, utiliser la commande `npm start` dans le dossier api/
 
-Puis, pour démarrer le site, utiliser la commande `npm start` dans le dossier guessr_web/.
+Puis, pour démarrer le site, utiliser la commande `npm start` dans le dossier guessr_web/test-app/
 
 L'application peut être démarrée depuis Android Studio, à partir du dossier projet `eq_03_01-App`. Les dépendances devraient être automatiquement prises en charge par Gradle.
 
