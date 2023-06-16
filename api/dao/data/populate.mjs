@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 export const populate = async () => {
     for (var i = 0; i < 10; i++) {
         let product = data[Math.floor(Math.random() * data.length)]
-
         try {
             await prisma.product.create({
                 data: {

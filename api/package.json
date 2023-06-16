@@ -15,7 +15,7 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.1",
     "@joi/date": "^2.1.0",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.15.0",
     "bcryptjs": "^2.4.3",
     "c8": "^7.13.0",
     "chai": "^4.3.7",
@@ -35,6 +35,6 @@
     "nyc": "^15.1.0"
   },
   "devDependencies": {
-    "prisma": "^4.11.0"
+    "prisma": "^4.15.0"
   }
 }
